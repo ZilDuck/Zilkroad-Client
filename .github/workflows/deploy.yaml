@@ -15,8 +15,8 @@ on:
         description: ECR tag
         default:     latest
 env:
-  app: zilkroad
-  service: client
+  APP: zilkroad
+  SERVICE: client
   
 jobs:
   deploy:
