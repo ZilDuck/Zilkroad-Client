@@ -1,0 +1,29 @@
+[
+  {
+    "id": 4,
+    "name": "Not Long Left Mint",
+    "description": "This is the best collection because it's first.",
+    "mintCount": 460,
+    "mintedTotal": 459,
+    "mintPrice": 500,
+    "mintTime": "02/04/2022, 11:00AM GMT"
+  },
+  {
+    "id": 5,
+    "name": "Ending Soon Mint",
+    "description": "This is the best collection because it's first.",
+    "mintCount": 400,
+    "mintedTotal": 5,
+    "mintPrice": 430,
+    "mintTime": "05/03/2022, 1:00PM GMT"
+  },
+  {
+    "id": 6,
+    "name": "Last Dance Ducks",
+    "description": "This is the best collection because it's first.",
+    "mintCount": 120,
+    "mintedTotal": 32,
+    "mintPrice": 2059,
+    "mintTime": "06/02/2022, 04:00AM GMT"
+  }
+]

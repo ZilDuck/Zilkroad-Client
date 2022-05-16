@@ -1,0 +1,26 @@
+[
+  {
+    "id": 1,
+    "name": "The First Collection",
+    "description": "This is the best collection because it's first.",
+    "verified": true,
+    "floor": 1150,
+    "volume": 12405
+  },
+  {
+    "id": 2,
+    "name": "The Second Collection",
+    "description": "Second is alright!",
+    "verified": true,
+    "floor": 312,
+    "volume": 456434
+  },
+  {
+    "id": 3,
+    "name": "The Third Collection",
+    "description": "Third times the charm.",
+    "verified": false,
+    "floor": 234,
+    "volume": 456346
+  }
+]

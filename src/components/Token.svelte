@@ -1,0 +1,59 @@
+<script lang="ts">
+  export let tokenType: string
+  export let value: number
+
+  const tokenTypeUpper = tokenType.toUpperCase()
+
+  let validFilename = false
+
+  function numberWithCommas(number) {
+    const formattedNumber = new Intl.NumberFormat('en-GB', {
+      style: 'currency',
+      currency: 'USD'
+    }).format(number)
+    return number
+  }
+
+  // function numberWithCommas(x) {
+  //   return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+  // }
+
+  switch (tokenTypeUpper) {
+    case 'GZIL':
+      validFilename = true
+      break
+    case 'WZIL':
+      validFilename = true
+      break
+    case 'XSGD':
+      validFilename = true
+      break
+    case 'ZWBTC':
+      validFilename = true
+      break
+    case 'ZWETH':
+      validFilename = true
+      break
+    case 'ZWUSDT':
+      validFilename = true
+      break
+    case 'ZIL':
+      validFilename = true
+      break
+    default:
+  }
+</script>
+
+<p class="flex items-center">
+  {#if validFilename}
+    <img
+      src='/images/tokens/{tokenTypeUpper}.png'
+      alt=''
+      class="mr-[10px] w-4 h-4 max-w-4"
+    />
+  {/if}
+  {#if value}
+    {numberWithCommas(value)}
+    <span class="lg:hidden"> {tokenType}</span>
+  {/if}
+</p>

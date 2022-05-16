@@ -1,0 +1,20 @@
+[
+  {
+    "id": 1,
+    "name": "The First Collection",
+    "description": "This is the best collection because it's first.",
+    "verified": true
+  },
+  {
+    "id": 2,
+    "name": "The Second Collection",
+    "description": "Second is alright!",
+    "verified": true
+  },
+  {
+    "id": 3,
+    "name": "The Third Collection",
+    "description": "Third times the charm.",
+    "verified": false
+  }
+]

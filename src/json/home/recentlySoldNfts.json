@@ -1,0 +1,50 @@
+[
+  {
+    "token_id": 9,
+    "name": "Recently Sold 1",
+    "collection_name": "The First Collection",
+    "collection_id": 1,
+    "price": 4,
+    "currency": "ETH"
+  },
+  {
+    "token_id": 10,
+    "name": "Recently Sold 2",
+    "collection_name": "The First Collection",
+    "collection_id": 1,
+    "price": 0.00002401,
+    "currency": "BTC"
+  },
+  {
+    "token_id": 11,
+    "name": "Recently Sold NFT 3",
+    "collection_name": "The Second Collection",
+    "collection_id": 2,
+    "price": 49343245,
+    "currency": "DOGE"
+  },
+  {
+    "token_id": 12,
+    "name": "Recently Sold 4",
+    "collection_name": "The First Collection",
+    "collection_id": 1,
+    "price": 4934324508697,
+    "currency": "SHIB"
+  },
+  {
+    "token_id": 13,
+    "name": "Recently Sold 5",
+    "collection_name": "The First Collection",
+    "collection_id": 1,
+    "price": 0.00002401,
+    "currency": "BTC"
+  },
+  {
+    "token_id": 14,
+    "name": "Recently Sold NFT 6",
+    "collection_name": "The Second Collection",
+    "collection_id": 2,
+    "price": 49343245,
+    "currency": "DOGE"
+  }
+]

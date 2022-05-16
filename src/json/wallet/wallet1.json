@@ -1,0 +1,36 @@
+{
+  "nftCount": 12,
+  "listedNftCount": 5,
+  "totalPurchases": 2,
+  "totalSales": 3,
+  "royalties": "$12,350.00",
+  "activity" : [
+    {
+      "event": "buy",
+      "date" : "1 Oct, 14:32",
+      "tokenID" : "69",
+      "contract": "0x123...abc",
+      "price": 0.05,
+      "royalty": 0.01,
+      "output": 0.04
+    },
+    {
+      "event": "sell",
+      "date" : "1 Oct, 14:32",
+      "tokenID" : "69",
+      "contract": "0x123...abc",
+      "price": 0.05,
+      "royalty": 0.01,
+      "output": 0.04
+    },
+    {
+      "event": "delist",
+      "date" : "1 Oct, 14:32",
+      "tokenID" : "69",
+      "contract": "0x123...abc",
+      "price": 0.05,
+      "royalty": 0.01,
+      "output": 0.04
+    }
+  ]
+}

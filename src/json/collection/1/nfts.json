@@ -1,0 +1,26 @@
+[
+  {
+    "token_id": 1,
+    "name": "Featured NFT 1",
+    "collection_name": "The First Collection",
+    "collection_id": 1,
+    "price": 4,
+    "currency": "ETH"
+  },
+  {
+    "token_id": 2,
+    "name": "Featured NFT 2",
+    "collection_name": "The First Collection",
+    "collection_id": 1,
+    "price": 0.00002401,
+    "currency": "BTC"
+  },
+  {
+    "token_id": 4,
+    "name": "Featured NFT 4",
+    "collection_name": "The First Collection",
+    "collection_id": 1,
+    "price": 4934324508697,
+    "currency": "SHIB"
+  }
+]

@@ -1,0 +1,29 @@
+[
+  {
+    "id": 2,
+    "name": "New Mintable Collection",
+    "description": "This is the best collection because it's first.",
+    "mintCount": 4000,
+    "mintedTotal": 1252,
+    "mintPrice": 500,
+    "mintTime": "02/04/2022, 11:00AM GMT"
+  },
+  {
+    "id": 3,
+    "name": "Mint These Mint",
+    "description": "This is the best collection because it's first.",
+    "mintCount": 20,
+    "mintedTotal": 3,
+    "mintPrice": 40000,
+    "mintTime": "05/03/2022, 1:00PM GMT"
+  },
+  {
+    "id": 4,
+    "name": "Crocodile Dundee Ducks",
+    "description": "This is the best collection because it's first.",
+    "mintCount": 600000,
+    "mintedTotal": 540000,
+    "mintPrice": 20,
+    "mintTime": "06/02/2022, 04:00AM GMT"
+  }
+]

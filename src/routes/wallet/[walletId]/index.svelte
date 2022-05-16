@@ -1,0 +1,176 @@
+<script context="module">
+  export async function load({ params, fetch }) {
+    const { walletId } = params
+    const [walletMeta, listedNfts, ownedNfts] = await Promise.all([
+      fetch(`/wallet/${walletId}.json`)
+        .then((r) => r.json())
+        .catch((error) => console.log(error)),
+      fetch(`/wallet/${walletId}/listedNfts.json`)
+        .then((r) => r.json())
+        .catch((error) => console.log(error)),
+      fetch(`/wallet/${walletId}/nfts.json`)
+        .then((r) => r.json())
+        .catch((error) => console.log(error))
+    ])
+
+    return {
+      props: {
+        walletMeta,
+        zkListedNfts: listedNfts.nfts,
+        zkListedNftsPagination: listedNfts.pagination,
+        nfts: ownedNfts.nfts,
+        pagination: ownedNfts.pagination
+      }
+    }
+  }
+</script>
+
+<script>
+  import Header from '$components/Header.svelte'
+  import ScrollableSection from '$components/ScrollableSection.svelte'
+  import Pagination from '$components/Pagination.svelte'
+  import UserActivityTable from '$components/UserActivityTable.svelte'
+  import wallet from '$store/wallet'
+  import Detail from '$components/Detail.svelte'
+  import NftCardList from '../../../lib/NftCardList/index.svelte'
+  import Zil from '$icons/Zil.svelte'
+  import SideModal from '$components/SideModal.svelte'
+  import { page } from '$app/stores'
+  import ShapeImage from '$components/ShapeImage.svelte'
+
+  let currentOwnedPage = 1
+  let currentListingsPage = 1
+
+  export let walletMeta
+  export let nfts
+  export let zkListedNfts
+  export let pagination
+  export let zkListedNftsPagination
+  export let walletId = walletMeta.user_address_b32 ?? '...'
+
+  export let ownedNfts = nfts ?? []
+  export let listedNfts = zkListedNfts ?? []
+
+  export let nftCount = 0
+  export let listedNftCount = 0
+  export let totalPurchases = 0
+  export let totalSales = 0
+  export let royalties = 0
+  export let walletActivity = []
+
+  $: isOwnedByConnectedWallet = $wallet.bech32 == walletId
+  $: pronoun = isOwnedByConnectedWallet ? `Your` : `Wallet's`
+
+  let showModal = false
+
+  function toggleModal() {
+    showModal = !showModal
+  }
+
+  export let currentPage = $page.url.searchParams.get('page') ?? 1
+
+  async function handleOwnedPageChange(event) {
+    const page = event.detail.currentPage
+    let walletNfts = await fetch(`/wallet/${walletId}/nfts.json?page=${page}`)
+      .catch((error) => {
+        console.log(error)
+      })
+      .then((r) => r.json())
+    ownedNfts = walletNfts.nfts
+    currentPage = page
+  }
+
+  async function handleListedPageChange(event) {
+    const page = event.detail.currentPage
+    let walletListedNfts = await fetch(`/wallet/${walletId}/listedNfts.json?page=${page}`)
+      .catch((error) => {
+        console.log(error)
+      })
+      .then((r) => r.json())
+    listedNfts = walletListedNfts.nfts
+    currentPage = page
+  }
+</script>
+
+<ShapeImage />
+
+<main class="space-y-32 mx-5">
+  <div class="flex flex-col max-w-screen-xl mx-auto text-white mt-40 mb-[120px]">
+    <div class="max-w-[100%] p-5 bg-zilkroad-gray-dark rounded-md self-start">
+      <h1 class="flex text-4xl font-semibold h-14 border-b-[1px] border-zilkroad-gray-border">
+        <span class="md:hidden">Your wallet</span>
+        <span class="hidden md:!block max-w-xs overflow-hidden text-ellipsis">{walletId}</span>'s Wallet
+      </h1>
+      <div class="flex space-x-5 pt-5 md:space-x-5">
+        <Detail description="Total NFTs" value={nftCount} border="right" />
+        <Detail description="Your Floor Price" value="1000 Zil" border="right" />
+        <Detail description="NFTs Listed" value={listedNftCount} border="right" />
+        <Detail description="Total Purchases" value={totalPurchases} border="right" />
+        <Detail description="Total Sales" value={totalSales} border="right" />
+        <Detail description="Total Sales" value={royalties} border="right" />
+      </div>
+    </div>
+  </div>
+
+  <!-- <button on:click={toggleModal}>Toggle</button> -->
+  <SideModal bind:show={showModal}>
+    <h4 class="text-[20px] font-[600] mb-5">Item name</h4>
+    <p class="mb-5 text-zilkroad-text-normal">
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sem elementum lorem felis tincidunt.
+    </p>
+    <img src="/static/images/nft-image.png" alt="NFT image you're selling" class="w-full pb-5" />
+    <div class="text-white h-16 flex items-center bg-zilkroad-gray-dark p-5 mb-5 rounded-lg w-full">
+      <input type="text" placeholder="0" />
+      <Zil /><span class="ml-5">Convert Zil</span>
+    </div>
+    <p class="flex justify-between items-center w-full text-[20px] text-zilkroad-text-normal mb-5">
+      Royalties<span class="text-white">122.00 XSGD - 10%</span>
+    </p>
+    <p class="flex justify-between items-center w-full text-[20px] text-zilkroad-text-normal mb-5">
+      Total after royalties<span class="text-white">1098.00 XSGD</span>
+    </p>
+    <p class="mb-10 text-zilkroad-text-normal">
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sem elementum lorem felis tincidunt.
+    </p>
+    <button class="text-white h-12 flex justify-center items-center bg-zilkroad-gray-dark p-5 rounded-lg w-full mb-5"
+      >Cancel</button
+    >
+    <button class="text-zilkroad-text-light h-12 flex justify-center items-center bg-white p-5 rounded-lg w-full"
+      >Submit</button
+    >
+  </SideModal>
+
+  {#if listedNfts.length !== 0}
+    <div class="flex flex-col max-w-screen-xl mx-auto">
+      <h2 class="text-2xl font-medium">{pronoun} listed NFTs</h2>
+      <ScrollableSection className="mt-10 grid-cols-3 md:grid-cols-4">
+        <NftCardList nfts={listedNfts} />
+      </ScrollableSection>
+      {#if listedNfts.length !== 0}
+        <Pagination
+          bind:currentPage={zkListedNftsPagination.page}
+          numPages={zkListedNftsPagination.total_pages}
+          className="mx-auto"
+          on:pageChange={handleListedPageChange}
+        />
+      {/if}
+    </div>
+  {/if}
+
+  <div class="flex flex-col max-w-screen-xl mx-auto space-y-10 text-white">
+    <h2 class="text-2xl font-medium">{pronoun} NFTs</h2>
+    <ScrollableSection className="mt-10 grid-cols-3 md:grid-cols-4">
+      <NftCardList nfts={ownedNfts} />
+    </ScrollableSection>
+    <Pagination
+      bind:currentPage={pagination.page}
+      numPages={pagination.total_pages}
+      className="mx-auto"
+      on:pageChange={handleOwnedPageChange}
+    />
+  </div>
+
+  <div class="">
+    <UserActivityTable bind:data={walletActivity} />
+  </div>
+</main>

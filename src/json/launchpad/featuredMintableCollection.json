@@ -1,0 +1,9 @@
+{
+  "id": 1,
+  "name": "The Featured Collection",
+  "description": "This is the best collection because it's first.",
+  "mintCount": 800,
+  "mintedTotal": 43,
+  "mintPrice": 1500,
+  "mintTime": "01/01/2022, 10:00AM GMT"
+}

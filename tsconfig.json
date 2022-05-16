@@ -1,0 +1,54 @@
+{
+  "compilerOptions": {
+    "moduleResolution": "node",
+    "module": "es2020",
+    "lib": ["es2020", "DOM"],
+    "target": "es2020",
+    /**
+			svelte-preprocess cannot figure out whether you have a value or a type, so tell TypeScript
+			to enforce using \`import type\` instead of \`import\` for Types.
+			*/
+    "importsNotUsedAsValues": "error",
+    "isolatedModules": true,
+    "resolveJsonModule": true,
+    /**
+			To have warnings/errors of the Svelte compiler at the correct position,
+			enable source maps by default.
+			*/
+    "sourceMap": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "baseUrl": "../../../Downloads/zilkroad-nuke",
+    "allowJs": true,
+    "checkJs": true,
+    "paths": {
+      "$lib": ["src/lib"],
+      "$lib/*": ["src/lib/*"],
+      "$variables": ["src/variables.ts"],
+      "$components": ["src/components"],
+      "$components/*": ["src/components/*"],
+      "$icons": ["src/components/icons"],
+      "$icons/*": ["src/components/icons/*"],
+      "$nav": ["src/components/nav"],
+      "$nav/*": ["src/components/nav/*"],
+      "$grid": ["src/components/grid"],
+      "$grid/*": ["src/components/grid/*"],
+      "$typography": ["src/components/typography"],
+      "$typography/*": ["src/components/typography/*"],      
+      "$footer": ["src/components/footer"],
+      "$footer/*": ["src/components/footer/*"],
+      "$helpers": ["src/helpers"],
+      "$helpers/*": ["src/helpers/*"],
+      "$zilpay": ["src/zilpay"],
+      "$zilpay/*": ["src/zilpay/*"],
+      "$store": ["src/store"],
+      "$store/*": ["src/store/*"],
+      "$apis": ["src/apis"],
+      "$apis/*": ["src/apis/*"]
+    }
+  },
+  "include": ["src/**/*.d.ts", "src/**/*.ts", "src/**/*.svelte"],
+  "exclude": [
+    "svelte.config.js", "tailwind.config.cjs"]
+}
