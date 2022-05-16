@@ -32,10 +32,6 @@ jobs:
 
       - name: Setup Helm Chart
         run: |
-          ls /home/runner/work/${{ github.event.repository.name }}
-          ls /home/runner/work/${{ github.event.repository.name }}/automation
-          ls /home/runner/work/${{ github.event.repository.name }}/automation/deployments
-          ls /home/runner/work/${{ github.event.repository.name }}/automation/deployments/${{ env.APP }}
           mv /home/runner/work/${{ github.event.repository.name }}/automation/deployments/${{ env.APP }} .
 
       - name: Deploy to Kubernetes
