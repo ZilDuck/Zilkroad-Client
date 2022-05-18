@@ -9,7 +9,7 @@
     <p class="p-4 lg:w-2/12">USD Total</p>
     {#each currencies as currency}
       <p class="p-4 lg:w-2/12">
-        <img alt="{currency.name} Token Logo" class="inline w-4" src="/static/images/tokens/{currency.name}.png" />
+        <img alt="{currency.name} Token Logo" class="inline w-4" src="/images/tokens/{currency.name}.png" />
         {currency.name}
       </p>
     {/each}
@@ -29,7 +29,7 @@
         <div class="bg-gray-900 px-4 lg:hidden"><hr class="border-gray-700"/></div>
         {#each currencies as currency}
           <p class="overflow-x-hidden lg:w-2/12 overflow-ellipsis p-4 bg-gray-900 whitespace-pre hover:overflow-x-visible">
-            <img alt="{currency.name} Token Logo" class="inline w-4" src="/static/images/tokens/{currency.name}.png" />
+            <img alt="{currency.name} Token Logo" class="inline w-4" src="/images/tokens/{currency.name}.png" />
             {wallet.usdTotal*currency.rate}
             <span class="lg:hidden"> {currency.name}</span>
           </p>

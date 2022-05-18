@@ -27,7 +27,7 @@
     <h6 class="font-medium">Options</h6>
     <div class="wallet-options-header-user flex">
       <img
-        src="/static/images/user-avatar.png"
+        src="/images/user-avatar.png"
         alt="Wallet avatar"
         class="mr-[10px]"
       />
