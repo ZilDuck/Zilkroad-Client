@@ -5,4 +5,5 @@ node_modules
 /package
 dist
 .env
+.env.local
 .idea
