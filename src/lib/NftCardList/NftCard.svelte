@@ -1,5 +1,5 @@
 <script>
-  import { slide, fly } from 'svelte/transition'
+  import { slide } from 'svelte/transition'
   import { goto } from '$app/navigation'
   import { cdnBaseUrl } from '../cdn'
   import wallet from '$store/wallet'
