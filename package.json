@@ -44,6 +44,7 @@
     "big.js": "^6.1.1",
     "cookie": "^0.4.1",
     "lightweight-charts": "^3.7.0",
-    "svelte-lightweight-charts": "^1.1.1"
+    "svelte-lightweight-charts": "^1.1.1",
+    "svelte-select": "^4.4.7"
   }
 }

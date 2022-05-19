@@ -20,6 +20,7 @@
 </script>
 
 <script>
+  import Select from 'svelte-select'
   import NftCardList from '$lib/NftCardList/index.svelte'
   import Header from '$components/Header.svelte'
   import ShapeImage from '$components/ShapeImage.svelte'
@@ -30,6 +31,28 @@
   export let recentlySoldNfts = []
   export let featuredCollections = []
   export let wallets = []
+
+  let collections = [
+    { value: 'ducks', label: 'Ducks' },
+    { value: 'beanTerra', label: 'Beanterra' },
+    { value: 'bears', label: 'Bears' }
+  ]
+
+  let items = [
+    { value: 'ascending', label: 'Sort by asc' },
+    { value: 'descending', label: 'Sort by desc' }
+  ]
+
+  let value = items[1]
+
+  function handleSelect(event) {
+    console.log('selected item', event.detail)
+  }
+
+  function handleOrder(event) {
+    console.log('selected item', event.detail)
+    value = event.detail
+  }
 </script>
 
 <ShapeImage />
@@ -43,13 +66,69 @@
   <p class="text-xl font-light text-zilkroad-gray-light md:text-white">View nfts available on the marketplace now.</p>
 </div>
 
+<div class=" mx-5">
+  <div class="mx-auto max-w-screen-xl mt-20">
+    <div class="flex justify-between items-center w-full">
+      <h3 class="text-xl font-medium md:col-span-2 lg:col-span-3 xl:col-span-4">
+        Showing <span class="text-zilkroad-teal">22</span> items
+      </h3>
+      <div class="flex">
+        <div class="select-field min-w-[300px] mr-5">
+          <Select
+            items={collections}
+            placeholder="Filter by collection"
+            containerClasses="bg-zilkroad-gray-dark"
+            on:select={handleSelect}
+          />
+        </div>
+        <div class="select-field min-w-[300px]">
+          <Select
+            {items}
+            {value}
+            isClearable={false}
+            isSearchable={false}
+            containerClasses="bg-zilkroad-gray-dark"
+            on:select={handleOrder}
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <section
   class="flex flex-col items-start max-w-screen-xl px-5 mt-10 space-y-10 xl:mx-auto xl:px-0 md:mt-20 md:grid md:grid-cols-2 md:space-y-0 md:gap-6 lg:grid-cols-3 xl:grid-cols-4"
 >
-  <h3 class="text-xl font-medium md:col-span-2 lg:col-span-3 xl:col-span-4 md:mb-5">
-    Showing <span class="text-zilkroad-teal">22</span> items
-  </h3>
   <ScrollableSection className="md:grid-cols-4">
     <NftCardList nfts={featuredNfts} />
   </ScrollableSection>
 </section>
+
+<style type="text/scss">
+  .select-field {
+    --border: 1px solid #656565;
+    --borderRadius: 8px;
+    --background: #000;
+    --height: 48px;
+
+    --inputColor: #fff;
+    --inputFontSize: 16px;
+
+    --listBackground: #000;
+    --listBorder: 1px solid #656565;
+    --listBorderRadius: 8px;
+    --listEmptyPadding: 12px;
+
+    --itemColor: #fff;
+    --itemHoverBG: #1a1a1a;
+    --itemHoverColor: #fff;
+    --itemIsActiveColor: #fff;
+
+    --placeholderColor: #cbcbcb;
+
+    --multiItemActiveColor: #fff;
+    --itemIsActiveColor: #fff;
+
+    background: url('data:image/gif;base64,PHN2ZyB3aWR0aD0iNyIgaGVpZ2h0PSI1IiB2aWV3Qm94PSIwIDAgNyA1IiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8cGF0aCBkPSJNMy41IDVMMC40Njg5MTEgMC41TDYuNTMxMDkgMC41TDMuNSA1WiIgZmlsbD0iI0M0QzRDNCIvPgo8L3N2Zz4K');
+  }
+</style>

@@ -120,7 +120,7 @@
     </p>
     <img src="/static/images/nft-image.png" alt="NFT image you're selling" class="w-full pb-5" />
     <div class="text-white h-16 flex items-center bg-zilkroad-gray-dark p-5 mb-5 rounded-lg w-full">
-      <input type="text" placeholder="0" />
+      <input type="text" placeholder="0"/>
       <Zil /><span class="ml-5">Convert Zil</span>
     </div>
     <p class="flex justify-between items-center w-full text-[20px] text-zilkroad-text-normal mb-5">

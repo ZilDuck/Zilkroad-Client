@@ -1,5 +1,7 @@
 <script>
   import { slide, fly } from 'svelte/transition'
+  import Select from 'svelte-select'
+
   import { goto } from '$app/navigation'
   import { cdnBaseUrl } from '../cdn'
   import wallet from '$store/wallet'
@@ -76,6 +78,23 @@
     image.target.src = nftPlaceholder
   }
   
+  let collections = [
+    { value: 'ZIL', label: 'ZIL' },
+    { value: 'XSGD', label: 'XSGD' },
+    { value: 'zWBTC', label: 'zWBTC' },
+    { value: 'WZIL', label: 'WZIL' },
+    { value: 'zWUSDT', label: 'zWUSDT' },
+    { value: 'zWETH', label: 'zWETH' },
+    { value: 'GZIL', label: 'GZIL' },
+  ]
+
+  let value = collections[1]
+
+
+  function handleOrder(event) {
+    console.log('selected item', event.detail)
+    value = event.detail
+  }
 </script>
 
 <article class='group flex flex-col w-full relative'>
@@ -173,10 +192,18 @@
     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sem elementum lorem felis tincidunt.
   </p>
   <img src='/static/images/nft-image.png' alt="NFT image you're selling" class='w-full pb-5' />
-  <div class='text-white h-16 flex items-center bg-zilkroad-gray-dark p-5 mb-5 rounded-lg w-full'>
-    <input class='text-black' type='text' placeholder={sellPrice} bind:value={sellPrice} />
-    <Zil />
-    <span class='ml-5'>Convert Zil</span>
+  <div class='text-white bg-zilkroad-gray-dark p-5 mb-5 rounded-lg w-full flex max-w-full flex-wrap flex-row justify-between items-center h-auto
+  '>
+    <input class='bg-transparent text-white text-xl flex-grow mr-5 p-[10px]' type='text' placeholder={sellPrice} bind:value={sellPrice} />
+    <div class="select-field w-40">
+      <Select items={collections}
+      {value}
+      isClearable={false}
+      isSearchable={false}
+      containerClasses="bg-zilkroad-gray-dark"
+      on:select={handleOrder}
+    />
+    </div>
   </div>
   <p class='flex justify-between items-center w-full text-[20px] text-zilkroad-text-normal mb-5'>
     Royalties<span class='text-white'>122.00 XSGD - 10%</span>
@@ -203,3 +230,32 @@
   </button
   >
 </SideModal>
+
+<style type="text/scss">
+  .select-field {
+    --border: 0px;
+    --borderRadius: 8px;
+    --background: #000;
+    --height: 48px;
+
+    --inputColor: #fff;
+    --inputFontSize: 16px;
+
+    --listBackground: #000;
+    --listBorder: 1px solid #656565;
+    --listBorderRadius: 8px;
+    --listEmptyPadding: 12px;
+
+    --itemColor: #fff;
+    --itemHoverBG: #1a1a1a;
+    --itemHoverColor: #fff;
+    --itemIsActiveColor: #fff;
+
+    --placeholderColor: #cbcbcb;
+
+    --multiItemActiveColor: #fff;
+    --itemIsActiveColor: #fff;
+
+    background: url('data:image/gif;base64,PHN2ZyB3aWR0aD0iNyIgaGVpZ2h0PSI1IiB2aWV3Qm94PSIwIDAgNyA1IiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8cGF0aCBkPSJNMy41IDVMMC40Njg5MTEgMC41TDYuNTMxMDkgMC41TDMuNSA1WiIgZmlsbD0iI0M0QzRDNCIvPgo8L3N2Zz4K');
+  }
+</style>
