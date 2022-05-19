@@ -42,6 +42,8 @@
   import { fade } from 'svelte/transition'
   import ShapeImage from '$components/ShapeImage.svelte'
   import NftActivityTable from '$components/NftActivityTable.svelte'
+  import SideModal from "../../../../components/SideModal.svelte";
+  import SellSidebar from "../../../../components/SellSidebar.svelte";
 
   export let nft
   export let collection
@@ -81,6 +83,23 @@
 
   function delist() {
     marketplace.delistNft(orderId)
+  }
+
+  let open = false
+  let sidebarOpen = false
+  let isLoading = false
+
+  function openListModal() {
+    open = false
+    sidebarOpen = true
+    const body = document.getElementsByTagName('body')[0]
+    body.classList.add('lock')
+  }
+
+  function closeListModal() {
+    open = false
+    sidebarOpen = false
+    isLoading = false
   }
 </script>
 
@@ -126,11 +145,7 @@
       {#if userWalletIsOwner}
         {#if !nft.listing}
           <div in:fade class="flex items-center space-x-2">
-            <div>
-              <label class="text-amber-50" for="sellPrice">Sell Price</label>
-              <input id="sellPrice" bind:value={sellPrice} />
-            </div>
-            <Button on:click={list} className="w-full mt-14 lg:mt-5 lg:w-auto ">List</Button>
+            <Button on:click={openListModal} className="w-full mt-14 lg:mt-5 lg:w-auto ">List</Button>
           </div>
         {/if}
         {#if nft.listing}
@@ -171,4 +186,7 @@
   <ScrollableSection className="px-0 lg:col-span-2 lg:grid-cols-4 lg:row-start-4 mt-10">
     <NftCardList {nfts} />
   </ScrollableSection>
+  <SideModal bind:show={sidebarOpen}>
+   <SellSidebar sellPrice={sellPrice} closeListModal={closeListModal} list={list} isLoading={isLoading} />
+  </SideModal>
 </main>

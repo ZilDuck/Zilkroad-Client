@@ -1,112 +1,102 @@
-<script lang="ts">
-  import Big from 'big.js';
+<script>
+  import Select from 'svelte-select'
+  import { fly } from 'svelte/transition'
+  import Zil from "./icons/Zil.svelte";
+  import SvgLoader from "./SvgLoader.svelte";
 
-  import { createEventDispatcher } from 'svelte'
-  import { fly, slide } from 'svelte/transition'
-  import Button from './Button.svelte'
-  import Cross from './icons/Cross.svelte'
-  import SmallDown from './icons/SmallDown.svelte'
-  import { getFungibles } from '@zilduck/zilkroad-fungibles'
-import wallet from '$store/wallet';
+  export let isLoading = false
+  export let sellPrice = 0
+  export let closeListModal
+  export let list
 
-  export let nft: Metadata
-  let price = ''
-  let isDropdownOpen = false
+  let collections = [
+    { value: 'ZIL', label: 'ZIL' },
+    { value: 'XSGD', label: 'XSGD' },
+    { value: 'zWBTC', label: 'zWBTC' },
+    { value: 'WZIL', label: 'WZIL' },
+    { value: 'zWUSDT', label: 'zWUSDT' },
+    { value: 'zWETH', label: 'zWETH' },
+    { value: 'GZIL', label: 'GZIL' },
+  ]
 
-  export let className = ''
-  const dispatch = createEventDispatcher<{
-    close: undefined
-    sell: Metadata & { price: Big; fungible: Fungible }
-  }>()
+  let value = collections[1]
 
-  const fungibles = getFungibles('https://dev-api.zilliqa.com')
 
-  $: name = nft.token.name ?? nft.contract.symbol + ' ' + nft.token.id
-
-  let selectedFungible = Object.values(fungibles)[0]
-
-  function toggleDropdown() {
-    isDropdownOpen = !isDropdownOpen
-  }
-
-  function emitSell() {
-    const priceWithDecimals = Big(price).times(10 ** +selectedFungible.decimals)
-    dispatch('sell', { ...nft, price: priceWithDecimals, fungible: selectedFungible })
+  function handleOrder(event) {
+    console.log('selected item', event.detail)
+    value = event.detail
   }
 </script>
 
-<aside
-  transition:fly={{ x: 576 }}
-  class="w-screen min-h-screen fixed bg-black top-0 lg:max-w-xl left-0 bottom-0 right-0 z-10 px-4 py-10 overflow-y-scroll lg:left-auto lg:top-auto lg:px-10 lg:overflow-y-auto {className}"
->
-  <div class="flex items-center justify-between">
-    <h1 class="text-4xl font-medium">Sell your NFT</h1>
-    <button
-      on:click={() => dispatch('close')}
-      class="w-8 h-8 flex items-center justify-center bg-zilkroad-gray-darker rounded-lg"
-      ><Cross /></button
-    >
-  </div>
-  <h2 class="text-2xl font-medium mt-5 lg:mt-10">{name}</h2>
-  <img
-    class="rounded-lg w-full h-auto bg-zilkroad-gray-dark mt-10 lg:mt-5 mb-10 lg:mb-14"
-    width="100"
-    height="100"
-    src="https://test-api.zilkroad.io/nfts/images/{nft.contract.address}/{nft
-      .token.id}?network=https://dev-api.zilliqa.com"
-    alt=""
+<h4 class='text-[20px] font-[600] mb-5'>Item name</h4>
+<p class='mb-5 text-zilkroad-text-normal'>
+  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sem elementum lorem felis tincidunt.
+</p>
+<img src='/images/nft-image.png' alt="NFT image you're selling" class='w-full pb-5' />
+<div class='text-white bg-zilkroad-gray-dark p-5 mb-5 rounded-lg w-full flex max-w-full flex-wrap flex-row justify-between items-center h-auto
+'>
+  <input class='bg-transparent text-white text-xl flex-grow mr-5 p-[10px]' type='text' placeholder={sellPrice} bind:value={sellPrice} />
+  <div class="select-field w-40">
+    <Select items={collections}
+    {value}
+    isClearable={false}
+    isSearchable={false}
+    containerClasses="bg-zilkroad-gray-dark"
+    on:select={handleOrder}
   />
-  <label for="price" class="text-white">Price</label>
-  <div
-    class="flex bg-zilkroad-gray-dark rounded-lg mt-3 py-5"
-    class:rounded-br-none={isDropdownOpen}
-  >
-    <input
-      type="number"
-      class="bg-transparent px-8 grow text-xl border-r border-zilkroad-gray-medium active:ring-0 text-zilkroad-gray-light"
-      min="0"
-      bind:value={price}
-    />
-
-    <div class="relative pl-6 pr-10 cursor-pointer" on:click={toggleDropdown}>
-      <span class="flex items-center justify-center space-x-2">
-        <img
-          src={selectedFungible.image}
-          class="w-5 h-5"
-          alt="{selectedFungible.name} icon"
-        />
-        <p>{selectedFungible.symbol}</p>
-        <SmallDown />
-      </span>
-
-      {#if isDropdownOpen}
-        <ul
-          transition:slide
-          class="absolute p-4 bg-zilkroad-gray-darker w-full -ml-6 mt-5 rounded-b-lg space-y-2"
-        >
-          {#each Object.values(fungibles).filter((fungible) => fungible.address !== selectedFungible.address) as fungible}
-            <li class="text-white flex items-center" on:click={() => selectedFungible = fungible}>
-              <img
-                src={fungible.image}
-                alt="{fungible.name} icon"
-                class="w-5 h-5 mr-2"
-              />{fungible.symbol}
-            </li>
-          {/each}
-        </ul>
-      {/if}
-    </div>
   </div>
+</div>
+<p class='flex justify-between items-center w-full text-[20px] text-zilkroad-text-normal mb-5'>
+  Royalties<span class='text-white'>122.00 XSGD - 10%</span>
+</p>
+<p class='flex justify-between items-center w-full text-[20px] text-zilkroad-text-normal mb-5'>
+  Total after royalties<span class='text-white'>1098.00 XSGD</span>
+</p>
+<p class='mb-10 text-zilkroad-text-normal'>
+  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sem elementum lorem felis tincidunt.
+</p>
+<button class='text-white h-12 flex justify-center items-center bg-zilkroad-gray-dark p-5 rounded-lg w-full mb-5'
+        on:click={closeListModal}
+>Cancel
+</button
+>
+<button class='text-zilkroad-text-light h-12 flex justify-center items-center bg-white rounded-lg w-full'
+        on:click={list} disabled={isLoading}
+>Submit
+  {#if isLoading}
+      <span in:fly={{ y: -10 }}>
+        <SvgLoader></SvgLoader>
+      </span>
+  {/if}
+</button
+>
 
-  <p class="text-zilkroad-gray-light font-light mt-5">
-    If your nft sells, you will be transfered the funds on the modal button
-    click 'I ack this is how orders are fulfilled.
-  </p>
 
-  <Button
-    dark={true}
-    className="w-full mt-10"
-    textColor="text-zilkroad-gray-light">Cancel</Button
-  >
-  <Button className="w-full mt-5" on:click={emitSell}>Confirm listing</Button>
-</aside>
+<style type="text/scss">
+  .select-field {
+    --border: 0px;
+    --borderRadius: 8px;
+    --background: #000;
+    --height: 48px;
+
+    --inputColor: #fff;
+    --inputFontSize: 16px;
+
+    --listBackground: #000;
+    --listBorder: 1px solid #656565;
+    --listBorderRadius: 8px;
+    --listEmptyPadding: 12px;
+
+    --itemColor: #fff;
+    --itemHoverBG: #1a1a1a;
+    --itemHoverColor: #fff;
+    --itemIsActiveColor: #fff;
+
+    --placeholderColor: #cbcbcb;
+
+    --multiItemActiveColor: #fff;
+    --itemIsActiveColor: #fff;
+
+    background: url('data:image/gif;base64,PHN2ZyB3aWR0aD0iNyIgaGVpZ2h0PSI1IiB2aWV3Qm94PSIwIDAgNyA1IiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8cGF0aCBkPSJNMy41IDVMMC40Njg5MTEgMC41TDYuNTMxMDkgMC41TDMuNSA1WiIgZmlsbD0iI0M0QzRDNCIvPgo8L3N2Zz4K');
+  }
+</style>
