@@ -40,7 +40,7 @@
       color: 'rgba(255, 255, 255, 1)',
       lineWidth: 1
     })
-    lineSeries.setData(generateRandomData(200))
+    lineSeries.setData(generateRandomData(60))
 
   })
 
@@ -49,10 +49,10 @@
     let value = 400
     let date = new Date()
 
-    date.setDate(date.getDate() - numberOfRows)
+    date.setDate(date.getDate() - numberOfRows - 1200)
 
     for (let i = 0; i < numberOfRows; i++) {
-      date.setDate(date.getDate() + 1)
+      date.setDate(date.getDate() + 20)
       let newDate = date.toDateString()
       value = value + (Math.random() < 0.5 ? Math.random() - 1 : Math.random())
       data.push({
