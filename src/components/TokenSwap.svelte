@@ -15,7 +15,7 @@
       <p class="text-4xl text-white">Zil</p>
     </div> -->
     <p class="mb-5 text-center">
-      WZIL is a fungible token which represents the native ZIL coin. Use the
+      WZIL is a fungible token which represents native ZIL. Use the
       swap below to switch between ZIL->WZIL and WZIL->ZIL.
     </p>
     <button
@@ -24,7 +24,7 @@
       <span class="min-w-[40px] text-left mr-5">From</span>
       <Token tokenType="Wzil" />
       <div
-        class="inline-flex ml-[10px] after:content-['Wzil'] after:absolute after:right-5 after:text-white"
+        class="inline-flex ml-[10px] after:content-['WZIL'] after:absolute after:right-5 after:text-white"
       >
         <input
           type="number"
@@ -40,7 +40,7 @@
       <span class="min-w-[40px] text-left mr-5">To</span>
       <Token tokenType="Zil" />
       <div
-        class="inline-flex ml-[10px]  after:content-['Zil'] after:absolute after:right-5 after:text-white"
+        class="inline-flex ml-[10px]  after:content-['ZIL'] after:absolute after:right-5 after:text-white"
       >
         <input
           type="number"
