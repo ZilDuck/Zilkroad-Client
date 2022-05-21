@@ -1,30 +1,47 @@
 <script lang="ts">
   import Token from '$components/Token.svelte'
+  import Swap from '$icons/Swap.svelte'
+
+  const zil = {
+    name: 'ZIL',
+    key: 'Zil',
+  }
+
+  const wzil = {
+    name: 'WZIL',
+    key: 'Wzil',
+  }
+
+  let currentTokenType = zil;
+  let swapTokenType = wzil;
+
+  function handleSwap() {
+    if (currentTokenType === zil && swapTokenType === wzil) {
+      currentTokenType = wzil
+      swapTokenType = zil
+    } else {
+      currentTokenType = zil;
+      swapTokenType = wzil;
+    }
+
+    console.log('currentTokenType', currentTokenType, 'swapTokenType', swapTokenType)
+  }
+  
 </script>
 
 <div class="token-swap-container w-full">
   <div class="w-full flex flex-col">
-    <!-- <div class="max-w-full">
-      <label for="token-swap-amount">Zil</label>
-      <input
-        type="number"
-        value="0"
-        id="token-swap-amount"
-        class="flex text-4xl w-full max-w-full bg-transparent text-white justify-center text-center"
-      />
-      <p class="text-4xl text-white">Zil</p>
-    </div> -->
     <p class="mb-5 text-center">
       WZIL is a fungible token which represents native ZIL. Use the
       swap below to switch between ZIL->WZIL and WZIL->ZIL.
     </p>
-    <button
+    <div
       class="flex h-16 rounded-t-lg bg-transparent border-solid border-zilkroad-gray-border items-center p-5 border-[1px] relative"
     >
       <span class="min-w-[40px] text-left mr-5">From</span>
-      <Token tokenType="Wzil" />
+      <Token bind:tokenType={currentTokenType.key} />
       <div
-        class="inline-flex ml-[10px] after:content-['WZIL'] after:absolute after:right-5 after:text-white"
+        class="current-token inline-flex ml-[10px] relative flex-grow"
       >
         <input
           type="number"
@@ -32,15 +49,17 @@
           id="token-swap-amount"
           class="bg-transparent text-white focus:outline-0"
         />
+        <p class="absolute right-0">{currentTokenType.name}</p>
       </div>
-    </button>
-    <button
+      <button on:click={handleSwap} class="absolute top-full mt-[-8px] z-[1]"><Swap /></button>
+    </div>
+    <div
       class="flex h-16 rounded-b-lg bg-transparent border-solid border-zilkroad-gray-border items-center p-5 border-[1px] relative"
     >
       <span class="min-w-[40px] text-left mr-5">To</span>
-      <Token tokenType="Zil" />
+      <Token bind:tokenType={swapTokenType.key} />
       <div
-        class="inline-flex ml-[10px]  after:content-['ZIL'] after:absolute after:right-5 after:text-white"
+        class="swap-token inline-flex ml-[10px] relative flex-grow"
       >
         <input
           type="number"
@@ -48,8 +67,9 @@
           id="token-swap-amount"
           class="bg-transparent text-white focus:outline-0"
         />
+        <p class="absolute right-0">{swapTokenType.name}</p>
       </div>
-    </button>
+    </div>
     <button
       class="bg-white h-16 flex items-center text-zilkroad-text-light p-5 rounded-lg w-full justify-center mt-5"
       >Confirm swap</button
