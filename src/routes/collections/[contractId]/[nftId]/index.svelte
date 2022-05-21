@@ -129,9 +129,11 @@
       <div class="flex items-center mt-5 space-x-2 ">
         <div class="w-10 h-10 rounded-full bg-zilkroad-gray-light" />
         <h3 class="break-all text-white">
-          Owned by
-          <mark class="bg-transparent border-b border-b-zilkroad-gray-light text-white">{nft.owner_address_b32}</mark>
-          {userWalletIsOwner ? 'You' : ''}
+          {#if userWalletIsOwner}
+          Owned by you
+          {:else}
+          Owned by <mark class="bg-transparent border-b border-b-zilkroad-gray-light text-white">{nft.owner_address_b32}</mark>}
+          {/if}
         </h3>
       </div>
 
@@ -145,7 +147,7 @@
       {#if userWalletIsOwner}
         {#if !nft.listing}
           <div in:fade class="flex items-center space-x-2">
-            <Button on:click={openListModal} className="w-full mt-14 lg:mt-5 lg:w-auto ">List</Button>
+            <Button on:click={openListModal} className="w-full mt-14 lg:mt-5 lg:w-auto ">Sell this NFT</Button>
           </div>
         {/if}
         {#if nft.listing}

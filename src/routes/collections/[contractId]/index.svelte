@@ -51,9 +51,9 @@
 </script>
 
 <ShapeImage />
-<Header>
+<div class="flex flex-col h-full mt-40 space-y-5 md:items-center">
   <div
-    class="max-w-screen-xl mx-5 mt-5 xl:mx-auto lg:mt-24 xl:mt-32 xl:px-0 lg:grid lg:grid-cols-2 lg:grid-flow-col-dense"
+    class="max-w-screen-xl mx-5 xl:mx-auto xl:px-0 lg:grid lg:grid-cols-2 lg:grid-flow-col-dense"
   >
     {#if collection.verified ?? collection.is_verified}
       <img
@@ -64,7 +64,7 @@
         height='300'
       />
     {/if}
-    <section class="lg:mr-32 lg:col-start-1">
+    <section class="mr-5 lg:col-start-1">
       <div class="flex mt-10 lg:mt-0">
         <h3 class="mr-5 break-all text-zilkroad-teal">
           <!-- TODO: Change to bech32 -->
@@ -84,7 +84,8 @@
         {collection.description ?? collection.contract_symbol ?? 'No description'}
       </p>
 
-      <div
+      <div>
+        <div
         class='grid grid-flow-col auto-cols-max gap-5 mt-5 rounded-lg bg-zilkroad-gray-dark p-5'
       >
         <Detail description='Items listed'
@@ -102,22 +103,20 @@
         />
         <Detail description='Royalty' value='{collection.royalty_bps}' />
       </div>
+      </div>
     </section>
   </div>
-</Header>
+</div>
 
 <main
   class='max-w-screen-xl mx-auto'
 >
-  <h2 class='mt-10 text-xl md:col-span-2 lg:col-span-3 xl:col-span-4'>
+  <h2 class='mt-10 mb-10 text-xl md:col-span-2 lg:col-span-3 xl:col-span-4'>
     Showing <span
     class='text-zilkroad-teal'>{pagination.size < pagination.total_elements ? pagination.size : pagination.total_elements}</span>
     of <span
     class='text-zilkroad-teal'>{pagination.total_elements}</span> items
   </h2>
-  <Pagination numPages={pagination.total_pages} currentPage={currentPage}
-              className='mx-auto'
-              on:pageChange={handlePageChange} />
   <div
     class='flex flex-col mx-5 mt-5 space-y-12 xl:mx-auto md:grid md:grid-cols-2 md:space-y-0 md:gap-6 lg:grid-cols-3 xl:grid-cols-4'>
     <NftCardList {nfts} />

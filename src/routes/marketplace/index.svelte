@@ -56,7 +56,6 @@
 </script>
 
 <ShapeImage />
-<Header className="bg-liquid-metal bg-cover bg-center" light={true} />
 <div class="flex flex-col h-full mt-20 space-y-5 md:items-center md:mt-40">
   <h1
     class="text-4xl sm:text-5xl leading-relaxed md:text-[80px] font-medium max-w-3xl md:text-center md:leading-[1.25]"
