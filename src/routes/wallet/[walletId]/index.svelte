@@ -1,6 +1,22 @@
 <script context="module">
+  import { isBech32, toBech32Address, isAddress } from '../../../zilpay/util'
+  
   export async function load({ params, fetch }) {
     const { walletId } = params
+    
+    //404 invalid addresses
+    if (isAddress(walletId) === false && isBech32(walletId) === false) {
+      return { status: 404 }
+    }
+    
+    //Redirect base16 (0x) addresses
+    if (isBech32(walletId) === false ) {
+      return {
+        status: 302,
+        redirect: toBech32Address(walletId)
+      }
+    }
+    
     const [walletMeta, listedNfts, ownedNfts] = await Promise.all([
       fetch(`/wallet/${walletId}.json`)
         .then((r) => r.json())
@@ -26,7 +42,6 @@
 </script>
 
 <script>
-  import Header from '$components/Header.svelte'
   import ScrollableSection from '$components/ScrollableSection.svelte'
   import Pagination from '$components/Pagination.svelte'
   import UserActivityTable from '$components/UserActivityTable.svelte'
@@ -58,7 +73,7 @@
   export let royalties = 0
   export let walletActivity = []
 
-  $: isOwnedByConnectedWallet = $wallet.bech32 == walletId
+  $: isOwnedByConnectedWallet = $wallet.bech32 === walletId
   $: pronoun = isOwnedByConnectedWallet ? `Your` : `Wallet's`
 
   let showModal = false
