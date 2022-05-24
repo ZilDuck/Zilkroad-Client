@@ -6,7 +6,10 @@
     
     //404 invalid addresses
     if (isAddress(walletId) === false && isBech32(walletId) === false) {
-      return { status: 404 }
+      return { 
+        status: 404 ,
+        error: new Error(`Not Found`)
+      }
     }
     
     //Redirect base16 (0x) addresses
