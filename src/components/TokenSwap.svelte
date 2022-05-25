@@ -1,79 +1,96 @@
 <script lang="ts">
   import Token from '$components/Token.svelte'
   import Swap from '$icons/Swap.svelte'
+  import { unwrapZil, wrapZil } from '../zilpay/wzil'
+
+  let convertAmount
+  let zilToWZil = true
 
   const zil = {
     name: 'ZIL',
-    key: 'Zil',
+    key: 'Zil'
   }
 
   const wzil = {
     name: 'WZIL',
-    key: 'Wzil',
+    key: 'Wzil'
   }
 
-  let currentTokenType = zil;
-  let swapTokenType = wzil;
+  let currentTokenType = zil
+  let swapTokenType = wzil
 
   function handleSwap() {
     if (currentTokenType === zil && swapTokenType === wzil) {
+      zilToWZil = false
       currentTokenType = wzil
       swapTokenType = zil
     } else {
-      currentTokenType = zil;
-      swapTokenType = wzil;
+      zilToWZil = true
+      currentTokenType = zil
+      swapTokenType = wzil
     }
-
-    console.log('currentTokenType', currentTokenType, 'swapTokenType', swapTokenType)
   }
-  
+
+  function convert() {
+    console.log('convert triggered')
+    console.log('Convert Amount: ' + convertAmount)
+    console.log('Direction: ' + zilToWZil ? 'ZIL to WZIL' : 'WZIL to ZIL')
+    try {
+      let convertTransactions = zilToWZil ? wrapZil(convertAmount) : unwrapZil(convertAmount)
+      console.log(convertTransactions)
+    } catch (error) {
+      console.log(error)
+    }
+  }
 </script>
 
 <div class="token-swap-container w-full">
-  <div class="w-full flex flex-col">
+  <div class="w-full">
     <p class="mb-5 text-center">
-      WZIL is a fungible token which represents native ZIL. Use the
-      swap below to switch between ZIL->WZIL and WZIL->ZIL.
+      WZIL is a fungible token which represents native ZIL. Use the swap below to switch between ZIL->WZIL and
+      WZIL->ZIL.
     </p>
-    <div
-      class="flex h-16 rounded-t-lg bg-transparent border-solid border-zilkroad-gray-border items-center p-5 border-[1px] relative"
-    >
-      <span class="min-w-[40px] text-left mr-5">From</span>
-      <Token bind:tokenType={currentTokenType.key} />
+    <div class="relative">
+      <button on:click={handleSwap} class="absolute top-full -mt-[72px] ml-5"><Swap /></button>
       <div
-        class="current-token inline-flex ml-[10px] relative flex-grow"
+        class="h-16 rounded-t-lg bg-transparent border-solid border-zilkroad-gray-border items-center p-5 border-[1px]"
       >
-        <input
-          type="number"
-          value="0"
-          id="token-swap-amount"
-          class="bg-transparent text-white focus:outline-0"
-        />
-        <p class="absolute right-0">{currentTokenType.name}</p>
+        <div class="flex space-x-2">
+          <p class="min-w-[40px]">From</p>
+          <Token bind:tokenType={currentTokenType.key} />
+          <input
+            type="number"
+            bind:value={convertAmount}
+            placeholder="0"
+            class="bg-transparent text-white focus:outline-0 w-full"
+            min="0"
+          />
+          <p>{currentTokenType.name}</p>
+        </div>
       </div>
-      <button on:click={handleSwap} class="absolute top-full mt-[-8px] z-[1]"><Swap /></button>
-    </div>
-    <div
-      class="flex h-16 rounded-b-lg bg-transparent border-solid border-zilkroad-gray-border items-center p-5 border-[1px] relative"
-    >
-      <span class="min-w-[40px] text-left mr-5">To</span>
-      <Token bind:tokenType={swapTokenType.key} />
       <div
-        class="swap-token inline-flex ml-[10px] relative flex-grow"
+        class="h-16 rounded-b-lg bg-transparent border-solid border-zilkroad-gray-border items-center p-5 border-[1px]"
       >
-        <input
-          type="number"
-          value="0"
-          id="token-swap-amount"
-          class="bg-transparent text-white focus:outline-0"
-        />
-        <p class="absolute right-0">{swapTokenType.name}</p>
+        <div class="flex space-x-2">
+          <p class="min-w-[40px]">To</p>
+          <Token bind:tokenType={swapTokenType.key} />
+          <input
+            type="number"
+            bind:value={convertAmount}
+            placeholder="0"
+            class="bg-transparent text-white focus:outline-0 w-full "
+            min="0"
+          />
+          <p>{swapTokenType.name}</p>
+        </div>
       </div>
     </div>
+
     <button
+      on:click={convert}
       class="bg-white h-16 flex items-center text-zilkroad-text-light p-5 rounded-lg w-full justify-center mt-5"
-      >Confirm swap</button
-    >
+      >Confirm swap
+    </button>
   </div>
 </div>
 
