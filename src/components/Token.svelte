@@ -1,6 +1,6 @@
 <script lang="ts">
   export let tokenType: string
-  export let value: number
+  export let value = 0
 
   let validFilename = false
 
@@ -46,8 +46,6 @@
       class="mr-[10px] w-4 h-4 max-w-4"
     />
   {/if}
-  {#if value}
     {numberWithCommas(value)}
     <span class="lg:hidden"> {tokenType}</span>
-  {/if}
 </p>
