@@ -59,11 +59,11 @@
     class="wallet-options-currencies py-5 border-b-[1px] border-zilkroad-gray-border grid grid-cols-2 gap-5"
   >
     <Token tokenType="XSGD" value={1200} />
-    <Token tokenType="zWUSDT" value={1200} />
-    <Token tokenType="zWBTC" value={1200} />
-    <Token tokenType="zWETH" value={1200} />
-    <Token tokenType="WZIL" value={1200} />
-    <Token tokenType="GZIL" value={1200} />
+    <Token tokenType="zWUSDT" value={0} />
+    <Token tokenType="zWBTC"  />
+    <Token tokenType="zWETH" value={$wallet.balances.zweth} />
+    <Token tokenType="WZIL" value={$wallet.balances.wzil} />
+    <Token tokenType="GZIL" value={$wallet.balances.gzil} />
   </div>
   <div class="wallet-options-convert-button pt-5">
     {#if showTokenSwap}
