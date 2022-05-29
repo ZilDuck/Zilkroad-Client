@@ -11,7 +11,7 @@ import { createEventDispatcher } from "svelte"
   on:click={() => dispatch('click')}
   class:bg-white={!dark}
   class:bg-zilkroad-gray-dark={dark}
-  class="py-[14px] md:px-5 flex items-center justify-center rounded-lg {textColor} leading-[19.36px] {className}"
+  class="px-5 h-12 inline-flex items-center justify-center rounded-lg {textColor} {className}"
 >
   <slot />
 </button>

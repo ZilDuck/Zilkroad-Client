@@ -12,9 +12,11 @@ export const wrapZil = async (amount: number) => {
 
 export const unwrapZil = async (amount: number) => {
   const { call } = contract(wZilAddress)
-  return await call('Burn', [{
-    vname: 'amount',
-    value: amount,
-    type: 'Uint128'
-  }]).catch((error) => console.log(error))
+  return await call('Burn', [
+    {
+      vname: 'amount',
+      value: amount,
+      type: 'Uint128'
+    }
+  ]).catch((error) => console.log(error))
 }

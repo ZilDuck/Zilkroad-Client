@@ -7,6 +7,11 @@
       fetch(`/collections.json?type=featured`).then((r) => r.json()),
       fetch(`/wallets.json`).then((r) => r.json())
     ])
+    console.log( featuredNfts,
+        recentlyListedNfts,
+        recentlySoldNfts,
+        featuredCollections,
+        wallets)
     return {
       props: {
         featuredNfts,
@@ -39,9 +44,9 @@
 
 <ShapeImage />
 <Header className="bg-liquid-metal bg-cover bg-center" light={true} />
-<div class="flex flex-col h-full mt-20 space-y-5 md:items-center md:mt-40">
+<div class="flex flex-col h-full mt-20 space-y-5 md:items-center md:mt-40 mx-5">
   <h1
-    class="text-4xl sm:text-5xl leading-relaxed md:text-[80px] font-medium max-w-3xl md:text-center md:leading-[1.25]"
+    class="text-center text-5xl leading-[1.25] md:text-[80px] font-medium max-w-3xl md:text-center md:leading-[1.25]"
   >
     A marketplace for free NFT trading
   </h1>
@@ -56,14 +61,7 @@
     <NftCardList nfts={featuredNfts} />
   </ScrollableSection>
 
-  <CallToActionSection className="mx-5 md:mx-auto max-w-screen-xl" />
-
-  <div class="mx-auto max-w-screen-xl">
-    <h2 class="text-2xl font-medium">Featured Collections</h2>
-    <ScrollableSection className="mt-10 grid-cols-3">
-      <CollectionCardList collections={featuredCollections} />
-    </ScrollableSection>
-  </div>
+  <CallToActionSection className="md:mx-auto max-w-screen-xl" />
 
   <div class="mx-auto max-w-screen-xl">
     <h2 class="text-2xl font-medium">Popular NFTs</h2>
@@ -89,7 +87,7 @@
   </div>
 
   <CallToActionSection
-    className="mx-5 md:mx-auto max-w-screen-xl"
+    className="md:mx-auto max-w-screen-xl"
     title="View NFT launches"
     description="View new NFT launches at the launchpad and mint new NFTs that are exclusive to Zilkroad. Get minting some new NFTs with our curated partners."
     buttonText="Go to the launchpad"
