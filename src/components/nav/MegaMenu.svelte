@@ -15,7 +15,7 @@
           <Collections /><span class="ml-2">Collections</span>
         </div>
         <p class="text-[14px] leading-[1.5] text-zilkroad-gray-lighter">
-          View what’s going on with the most popular wallets.
+          View all of the NFT collections on Zilkroad.
         </p>
       </a>
 
@@ -33,7 +33,7 @@
           <Launchpad /><span class="ml-2">Launchpad</span>
         </div>
         <p class="text-[14px] leading-[1.5] text-zilkroad-gray-lighter">
-          View what’s going on with the most popular wallets.
+          See all the new projects minting on Zilkroad.
         </p>
       </a>
 
@@ -42,7 +42,7 @@
           <Docs /><span class="ml-2">Docs</span>
         </div>
         <p class="text-[14px] leading-[1.5] text-zilkroad-gray-lighter">
-          View what’s going on with the most popular wallets.
+          Find out more information on using Zilkroad.
         </p>
       </a>
     </div>
