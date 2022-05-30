@@ -2,6 +2,7 @@
   import { slide } from 'svelte/transition'
   import { goto } from '$app/navigation'
   import { cdnBaseUrl } from '../cdn'
+  import { clickOutside } from '$lib/listeners.js'
   import wallet from '$store/wallet'
   import marketplace from '$store/marketplace'
   import Checkmark from '../../components/icons/Checkmark.svelte'
@@ -11,7 +12,7 @@
   import Cross from '../../components/icons/Cross.svelte'
   import Elipsis from '../../components/icons/Elipsis.svelte'
   import SideModal from '../../components/SideModal.svelte'
-  import SellSidebar from "../../components/SellSidebar.svelte";
+  import SellSidebar from '../../components/SellSidebar.svelte'
 
   export let nft
 
@@ -35,6 +36,10 @@
     open = !open
   }
 
+  function closeOptions() {
+    open = false
+  }
+
   function openListModal() {
     open = false
     sidebarOpen = true
@@ -51,7 +56,9 @@
   function list() {
     open = false
     isLoading = true
-    marketplace.listNft(nft.contract_address_b16, String(nft.token_id), sellFungible, String(sellPrice)).finally(() => isLoading = false)
+    marketplace
+      .listNft(nft.contract_address_b16, String(nft.token_id), sellFungible, String(sellPrice))
+      .finally(() => (isLoading = false))
   }
 
   function delist() {
@@ -74,20 +81,19 @@
   const handleImageError = (image) => {
     image.target.src = nftPlaceholder
   }
-
 </script>
 
-<article class='group flex flex-col w-full relative'>
-  <a href='/collections/{nft.contract_address_b16}/{nft.token_id}' class='mb-1'>
-    <div class='object-cover w-full h-auto rounded-lg bg-zilkroad-gray-darker'>
+<article class="group flex flex-col w-full relative" use:clickOutside on:click_outside={closeOptions}>
+  <a href="/collections/{nft.contract_address_b16}/{nft.token_id}" class="mb-1">
+    <div class="object-cover w-full h-auto rounded-lg bg-zilkroad-gray-darker">
       <img
         src={imageSrc}
-        alt='Nft'
-        class='object-cover w-full h-auto rounded-lg bg-zilkroad-gray-darker'
+        alt="Nft"
+        class="object-cover w-full h-auto rounded-lg bg-zilkroad-gray-darker"
         on:error={handleImageError}
-        width='400px'
-        height='400px'
-        loading='eager'
+        width="400px"
+        height="400px"
+        loading="eager"
       />
     </div>
     <div class="flex items-start mt-5">
@@ -167,5 +173,5 @@
 </article>
 
 <SideModal bind:show={sidebarOpen}>
-  <SellSidebar sellPrice={sellPrice} closeListModal={closeListModal} list={list} isLoading={isLoading} />
+  <SellSidebar {sellPrice} {closeListModal} {list} {isLoading} />
 </SideModal>

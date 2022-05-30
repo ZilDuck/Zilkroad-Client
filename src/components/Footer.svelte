@@ -9,19 +9,19 @@
 <CoolLine top={true} bottom={true} {className}>
   <footer class="py-20 ml-10 grid max-w-screen-xl md:mx-auto md:grid-cols-4">
     <div>
-      <h2>Company</h2>
+      <h2>Zilkroad</h2>
       <ul>
-        <li><a href={'/'}>About us</a></li>
-        <li><a href={'/'}>Meet the team</a></li>
-        <li><a href={'/'}>Careers</a></li>
+        <li><a href={'/'}>Marketplace</a></li>
+        <li><a href={'/'}>Collections</a></li>
+        <li><a href={'/'}>Wallet activity</a></li>
+        <li><a href={'/'}>Launchpad</a></li>
+        <li><a href={'/'}>Docs</a></li>
       </ul>
     </div>
     <div>
-      <h2>Marketplace</h2>
+      <h2>Company</h2>
       <ul>
-        <li><a href={'/'}>Recently sold</a></li>
-        <li><a href={'/'}>Popular NFTs</a></li>
-        <li><a href={'/'}>Careers</a></li>
+        <li><a href={'/'}>About us</a></li>
       </ul>
     </div>
     <div>

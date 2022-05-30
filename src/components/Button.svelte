@@ -1,9 +1,9 @@
 <script lang="ts">
-import { createEventDispatcher } from "svelte"
-
+  import { createEventDispatcher } from 'svelte'
   export let className = ''
   export let textColor = 'text-zilkroad-gray-medium'
   export let dark = false
+
   const dispatch = createEventDispatcher<{ click: undefined }>()
 </script>
 

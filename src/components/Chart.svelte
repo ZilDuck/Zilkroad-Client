@@ -40,9 +40,7 @@
       color: 'rgba(255, 255, 255, 1)',
       lineWidth: 1
     })
-    console.log('Generate random data', generateRandomData(60))
     lineSeries.setData(generateRandomData(60))
-
   })
 
   function generateRandomData(numberOfRows) {
@@ -65,9 +63,8 @@
   }
 
   function resizeChart() {
-    chart.resize(chartElement.clientWidth,chartElement.clientHeight,true)
+    chart.resize(chartElement.clientWidth, chartElement.clientHeight, true)
   }
-
 </script>
 
 <svelte:window on:resize={resizeChart} />

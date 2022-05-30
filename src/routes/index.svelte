@@ -7,11 +7,6 @@
       fetch(`/collections.json?type=featured`).then((r) => r.json()),
       fetch(`/wallets.json`).then((r) => r.json())
     ])
-    console.log( featuredNfts,
-        recentlyListedNfts,
-        recentlySoldNfts,
-        featuredCollections,
-        wallets)
     return {
       props: {
         featuredNfts,
