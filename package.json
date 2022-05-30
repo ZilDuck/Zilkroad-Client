@@ -41,6 +41,7 @@
   },
   "type": "module",
   "dependencies": {
+    "@metamask/jazzicon": "^2.0.0",
     "big.js": "^6.1.1",
     "cookie": "^0.4.1",
     "lightweight-charts": "^3.7.0",

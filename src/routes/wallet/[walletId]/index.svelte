@@ -55,6 +55,7 @@
   import SideModal from '$components/SideModal.svelte'
   import { page } from '$app/stores'
   import ShapeImage from '$components/ShapeImage.svelte'
+  import Glyphicon from '$components/Glyphicon.svelte'
 
   let currentOwnedPage = 1
   let currentListingsPage = 1
@@ -117,11 +118,8 @@
     <div class="max-w-[100%] p-5 bg-zilkroad-gray-dark rounded-md self-start">
       <h1 class="flex text-4xl font-semibold h-14 border-b-[1px] border-zilkroad-gray-border">
         <span class="md:hidden">Your wallet</span>
-        <img
-          src="/images/user-avatar.png"
-          alt="Wallet avatar"
-          class="w-10 h-10 rounded-full"
-        />
+        <!-- <Glyphicon /> -->
+        <h1>Faggot</h1>
         <span class="hidden md:!block max-w-s overflow-hidden text-ellipsis">{walletId}</span>
       </h1>
       <div class="flex space-x-5 pt-5 md:space-x-5">
