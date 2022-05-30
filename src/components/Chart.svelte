@@ -40,6 +40,7 @@
       color: 'rgba(255, 255, 255, 1)',
       lineWidth: 1
     })
+    console.log('Generate random data', generateRandomData(60))
     lineSeries.setData(generateRandomData(60))
 
   })
@@ -71,7 +72,7 @@
 
 <svelte:window on:resize={resizeChart} />
 
-<div class="p-8 bg-gray-900">
+<div class="p-8 bg-gray-900 rounded-lg">
   <div class="chart w-full h-80" bind:this={chartElement} />
 </div>
 

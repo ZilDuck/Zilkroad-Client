@@ -21,7 +21,7 @@
 
 <div class="relative">
   <button
-    class="flex items-center justify-center h-12 bg-white rounded-lg text-zilkroad-gray-dark pl-[20px] pr-[20px] relative"
+    class="flex items-center justify-center h-12 bg-white rounded-lg text-zilkroad-gray-dark pl-[20px] pr-[20px] ml-5 relative"
     on:click={handleWallet}
   >
     {truncatedWallet || 'Connect wallet'}

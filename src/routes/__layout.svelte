@@ -22,7 +22,7 @@
 </svelte:head>
 
 <div class="w-full">
-  <div class="bg-black">
+  <div class="">
     <CoolLine bottom={false} {light}>
       <Navbar {light} />
       <MobileNav on:toggle={() => (displayMenu = !displayMenu)} />

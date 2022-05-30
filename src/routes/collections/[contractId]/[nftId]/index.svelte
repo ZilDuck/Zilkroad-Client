@@ -17,6 +17,9 @@
     // console.table(collectionNfts)
     let nfts = collectionNfts.nfts
     let pagination = JSON.parse(collectionNfts.pagination)
+
+    console.log('nft', nft);
+    
     return {
       props: {
         collection,
@@ -101,6 +104,12 @@
     sidebarOpen = false
     isLoading = false
   }
+
+  let nftPlaceholder = '/images/nft-image.png'
+
+  const handleImageError = (image) => {
+    image.target.src = nftPlaceholder
+  }
 </script>
 
 <Header />
@@ -166,7 +175,7 @@
       </div>
     </div>
     <div class="nft-container lg:col-start-2 sticky top-[40px] self-auto">
-      <img class="w-full h-auto rounded-lg bg-zilkroad-gray-dark" alt={name} src={imageSrc.toLowerCase()} />
+      <img class="w-full h-auto rounded-lg bg-zilkroad-gray-dark" alt={name} src={imageSrc.toLowerCase()} on:error={handleImageError}/>
       {#if nft.token_metadata}
         <ul class="flex flex-wrap gap-5 mt-10 lg:col-start-2">
           {#each nft.token_metadata.attributes as attribute}

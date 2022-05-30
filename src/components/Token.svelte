@@ -2,8 +2,6 @@
   export let tokenType: string
   export let value: number
 
-  const tokenTypeUpper = tokenType.toUpperCase()
-
   let validFilename = false
 
   function numberWithCommas(number) {
@@ -14,11 +12,7 @@
     return number
   }
 
-  // function numberWithCommas(x) {
-  //   return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-  // }
-
-  switch (tokenTypeUpper) {
+  switch (tokenType.toUpperCase()) {
     case 'GZIL':
       validFilename = true
       break
@@ -47,7 +41,7 @@
 <p class="flex items-center">
   {#if validFilename}
     <img
-      src='/images/tokens/{tokenTypeUpper}.png'
+      src='/images/tokens/{tokenType.toUpperCase()}.png'
       alt=''
       class="mr-[10px] w-4 h-4 max-w-4"
     />
