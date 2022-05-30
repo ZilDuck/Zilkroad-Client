@@ -120,7 +120,7 @@
         <img
           src="/images/user-avatar.png"
           alt="Wallet avatar"
-          class="mr-[10px]"
+          class="w-10 h-10 rounded-full"
         />
         <span class="hidden md:!block max-w-s overflow-hidden text-ellipsis">{walletId}</span>
       </h1>
