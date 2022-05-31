@@ -69,7 +69,7 @@
   export let ownedNfts = nfts ?? []
   export let listedNfts = zkListedNfts ?? []
 
-  export let nftCount = nfts.length ?? 0
+  export let nftCount = walletMeta.nfts.total ?? 0
   export let listedNftCount = walletMeta.user_stats.listing_count ?? 0
   export let totalPurchases = walletMeta.user_stats.bought_count ?? 0
   export let totalSales = walletMeta.user_stats.sold_count ?? 0
