@@ -69,11 +69,12 @@
   export let ownedNfts = nfts ?? []
   export let listedNfts = zkListedNfts ?? []
 
-  export let nftCount = 0
-  export let listedNftCount = 0
-  export let totalPurchases = 0
-  export let totalSales = 0
-  export let royalties = 0
+  export let nftCount = nfts.length ?? 0
+  export let listedNftCount = walletMeta.user_stats.listing_count ?? 0
+  export let totalPurchases = walletMeta.user_stats.bought_count ?? 0
+  export let totalSales = walletMeta.user_stats.sold_count ?? 0
+  export let totalRoyalties = walletMeta.user_stats.royaltys_in_count ?? 0
+  export let royalties = walletMeta.user_stats.sum_royalty_usd ?? 0
   export let walletActivity = []
 
   $: isOwnedByConnectedWallet = $wallet.bech32 === walletId
@@ -121,11 +122,11 @@
       </h1>
       <div class="flex space-x-5 pt-5 md:space-x-5">
         <Detail description="Total NFTs" value={nftCount} border="right" />
-        <Detail description="Your Floor Price" value="1000 Zil" border="right" />
         <Detail description="NFTs Listed" value={listedNftCount} border="right" />
         <Detail description="Total Purchases" value={totalPurchases} border="right" />
         <Detail description="Total Sales" value={totalSales} border="right" />
-        <Detail description="Total Sales" value={royalties} border="right" />
+        <Detail description="Number of royalties" value={totalRoyalties} border="right" />
+        <Detail description="Royalty Revenue" value=${royalties} border="right" />
       </div>
     </div>
   </div>
