@@ -35,10 +35,10 @@
     return {
       props: {
         walletMeta,
-        zkListedNfts: listedNfts.nfts,
-        zkListedNftsPagination: listedNfts.pagination,
-        nfts: ownedNfts.nfts,
-        pagination: ownedNfts.pagination
+        zkListedNfts: listedNfts?.nfts,
+        zkListedNftsPagination: listedNfts?.pagination,
+        nfts: ownedNfts?.nfts,
+        pagination: ownedNfts?.pagination
       }
     }
   }
@@ -95,7 +95,7 @@
         console.log(error)
       })
       .then((r) => r.json())
-    ownedNfts = walletNfts.nfts
+    ownedNfts = walletNfts.nfts ?? []
     currentPage = page
   }
 
@@ -106,7 +106,7 @@
         console.log(error)
       })
       .then((r) => r.json())
-    listedNfts = walletListedNfts.nfts
+    listedNfts = walletListedNfts.nfts ?? []
     currentPage = page
   }
 </script>
