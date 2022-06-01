@@ -20,7 +20,7 @@
 </script>
 
 <script>
-  import Button from '$components/Button.svelte'
+  import LinkButton from '$components/LinkButton.svelte'
   import ShapeImage from '$components/ShapeImage.svelte'
   import CallToActionSection from '$components/CallToActionSection.svelte'
   import Header from '$components/Header.svelte'
@@ -40,15 +40,13 @@
 <ShapeImage />
 <Header className="bg-liquid-metal bg-cover bg-center" light={true} />
 <div class="flex flex-col h-full mt-20 space-y-5 md:items-center md:mt-40 mx-5">
-  <h1
-    class="text-center text-5xl leading-[1.25] md:text-[80px] font-medium max-w-3xl md:text-center md:leading-[1.25]"
-  >
+  <h1 class="text-center text-5xl leading-[1.25] md:text-[80px] font-medium max-w-3xl md:text-center md:leading-[1.25]">
     A marketplace for free NFT trading
   </h1>
   <p class="text-xl font-light text-zilkroad-gray-light md:text-white">
     That’s right. We’re a 0% fees trading platform.
   </p>
-  <Button>Explore collections</Button>
+  <LinkButton url="/collections">Explore collections</LinkButton>
 </div>
 
 <main class="mt-[-7.5%] xl:mt-[-144px] space-y-28 mx-5">

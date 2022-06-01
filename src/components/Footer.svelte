@@ -11,26 +11,24 @@
     <div>
       <h2>Zilkroad</h2>
       <ul>
-        <li><a href={'/'}>Marketplace</a></li>
-        <li><a href={'/'}>Collections</a></li>
-        <li><a href={'/'}>Wallet activity</a></li>
-        <li><a href={'/'}>Launchpad</a></li>
-        <li><a href={'/'}>Docs</a></li>
+        <li><a href={'/marketplace'}>Marketplace</a></li>
+        <li><a href={'/collections'}>Collections</a></li>
+        <li><a href={'/wallet-activity'}>Wallet activity</a></li>
+        <li><a href={'/launchpad'}>Launchpad</a></li>
+        <li><a href={'https://docs-testnet.zilkroad.io/docs/introduction/introduction#introduction'}>Docs</a></li>
       </ul>
     </div>
     <div>
       <h2>Company</h2>
       <ul>
-        <li><a href={'/'}>About us</a></li>
+        <li><a href={'/about-us'}>About us</a></li>
       </ul>
     </div>
     <div>
       <h2>Other</h2>
       <ul>
-        <li><a href={'/'}>Privacy policy</a></li>
-        <li><a href={'/'}>Terms and conditions</a></li>
-        <li><a href={'/'}>Cookie policy</a></li>
-        <li><a href={'/'}>Business info</a></li>
+        <li><a href={'/privacy-policy'}>Privacy policy</a></li>
+        <li><a href={'/terms-and-conditions'}>Terms and conditions</a></li>
       </ul>
     </div>
     <div>
@@ -38,7 +36,6 @@
       <ul class="flex flex-row space-x-5 !space-y-0">
         <li><Discord /></li>
         <li><Twitter /></li>
-        <li><Telegram /></li>
       </ul>
     </div>
   </footer>

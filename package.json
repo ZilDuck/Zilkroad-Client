@@ -1,5 +1,5 @@
 {
-  "name": "zilkroad",
+  "name": "Zilkroad",
   "version": "0.0.1",
   "scripts": {
     "start": "PORT=8080 node dist/index.js",
