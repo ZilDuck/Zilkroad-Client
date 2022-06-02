@@ -4,7 +4,9 @@
   export let nfts;
 </script>
 
-{#each nfts as nft}
-  <NftCard {nft} user={$session.user} />
-{/each}
+{#if nfts.length }
+  {#each nfts as nft}
+    <NftCard {nft} user={$session.user} />
+  {/each}
+{/if}
 
