@@ -173,5 +173,5 @@
 </article>
 
 <SideModal bind:show={sidebarOpen}>
-  <SellSidebar {sellPrice} {closeListModal} {list} {isLoading} />
+  <SellSidebar bind:sellPrice={sellPrice} {closeListModal} {list} {isLoading} />
 </SideModal>
