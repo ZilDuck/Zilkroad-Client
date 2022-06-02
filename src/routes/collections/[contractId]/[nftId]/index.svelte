@@ -198,6 +198,6 @@
     <NftCardList {nfts} />
   </ScrollableSection>
   <SideModal bind:show={sidebarOpen}>
-   <SellSidebar sellPrice={sellPrice} closeListModal={closeListModal} list={list} isLoading={isLoading} />
+    <SellSidebar bind:sellPrice={sellPrice} closeListModal={closeListModal} list={list} isLoading={isLoading} />
   </SideModal>
 </main>
