@@ -1,18 +1,23 @@
 <script>
+  import SearchResultList from '../lib/SearchResultList/index.svelte'
+  import SearchResult from '../lib/SearchResultList/SearchResult.svelte'
+
   export let light = false
   export let className = ''
-  
+
   let query = ''
-  let results = ''
-  
+  let results = []
+
   async function search() {
-    let search = await fetch(`/search/${query}/search.json`).catch(error => {
-      console.log(error)
-    }).then((r) => r.json())
-    results = JSON.stringify(search)
+    let search = await fetch(`/search/${query}/search.json`)
+      .catch((error) => {
+        console.log(error)
+      })
+      .then((r) => r.json())
+    results[0] = search
   }
-  
 </script>
+
 <div class="relative">
   <input
     type="text"
@@ -21,9 +26,8 @@
     bind:value={query}
   />
   <button class="text-zilkroad-teal" on:click={search}>Search</button>
-
-  <pre class="absolute top-16 w-52 p-4 bg-amber-50 text-zilkroad-gray-dark text-xs">{results}</pre>
-
+  {#if results}
+    {@debug results}
+    <SearchResultList searchResults={results} />
+  {/if}
 </div>
-
-
