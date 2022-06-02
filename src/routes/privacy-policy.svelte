@@ -137,6 +137,6 @@
   }
 
   .generic ul {
-    @apply mb-5;
+    @apply mb-5 list-disc list-inside;
   }
 </style>
