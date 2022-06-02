@@ -2,12 +2,15 @@
   import SearchResultList from '../lib/SearchResultList/index.svelte'
   import SearchResult from '../lib/SearchResultList/SearchResult.svelte'
   import debounce from '$lib/debounce.js'
+  import { clickOutside } from '$lib/listeners.js'
+  import { fade } from 'svelte/transition'
 
   export let light = false
   export let className = ''
 
   let value = ''
   let results = []
+  let showSearchResults
 
   async function search() {
     let search = await fetch(`/search/${value}/search.json`)
@@ -16,19 +19,38 @@
       })
       .then((r) => r.json())
     results[0] = search
+
+    if (results) {
+      showSearchResults = true
+    }
+  }
+
+  function hideSearchResults(event) {
+    showSearchResults = false
+  }
+
+  function reOpenSearch() {
+    showSearchResults = true
   }
 </script>
 
-<div class="relative">
-  <input
-    type="text"
-    class="w-full md:w-60 h-12 rounded-lg p-4 bg-zilkroad-gray-dark text-white {className}"
-    placeholder="Search"
-    bind:value
-    use:debounce={{ value, func: search, duration: 500 }}
-  />
-  <button class="text-zilkroad-teal" on:click={search}>Search</button>
-  {#if results}
-    <SearchResultList searchResults={results} />
-  {/if}
+<div class="relative md:w-[400px] md:max-w-full h-12" on:click={reOpenSearch}>
+  <div
+    class="absolute bg-zilkroad-gray-dark rounded-lg w-full h-auto border {showSearchResults
+      ? 'border-zilkroad-gray-border'
+      : 'border-zilkroad-gray-dark'}"
+  >
+    <input
+      type="text"
+      class="w-full rounded-lg p-4 h-12 bg-transparent text-white {className}"
+      placeholder="Search"
+      bind:value
+      use:debounce={{ value, func: search, duration: 500 }}
+    />
+    {#if showSearchResults}
+      <div use:clickOutside on:click_outside={hideSearchResults} transition:fade={{ duration: 200 }}>
+        <SearchResultList searchResults={results} />
+      </div>
+    {/if}
+  </div>
 </div>
