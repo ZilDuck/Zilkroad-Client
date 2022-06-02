@@ -55,6 +55,14 @@
   export let metadata: NftMetadata
   export let owner: string
 
+
+  const max_royalty_bps = 10000
+  export let currentPrice = nft.listing?.fungible_amount ?? 0
+  export let tokenSymbol = nft.listing?.fungible_symbol ?? ""
+  export let sales = nft.sales_count ?? 0
+  export let volume = nft.sales_volume ?? 0
+  export let royalty_percentage = collection.royalty_bps ? (max_royalty_bps / collection.royalty_bps) : 0
+
   const nftDescription = nft.desc ? nft.desc : `This is an NFT for ${nft.collection_name}.`
 
   $: correctPrice = listing
@@ -129,10 +137,12 @@
       </p>
 
       <div class="grid grid-flow-col auto-cols-max gap-5 mt-5 rounded-lg bg-zilkroad-gray-dark p-5">
-        <Detail description="Current price" value="1,200 XSGD" border="right" />
-        <Detail description="Sales" value="5" border="right" />
-        <Detail description="Volume" value="10000 ZIL" border="right" />
-        <Detail description="Royalty" value="5%" />
+        {#if currentPrice !== 0}
+          <Detail description="Current price" value="{currentPrice} {tokenSymbol}" border="right" />
+        {/if}
+        <Detail description="Sales" value={sales} border="right" />
+        <Detail description="Volume" value=${volume} border="right" />
+        <Detail description="Royalty" value={royalty_percentage}% />
       </div>
 
       <div class="flex items-center mt-5 space-x-2 ">
