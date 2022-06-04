@@ -68,6 +68,7 @@
         </tr>
       </thead>
       <tbody>
+        {#if rows.length > 0}
         {#each rows as row}
           <tr>
             {#each Object.values(row) as cell}
@@ -75,6 +76,11 @@
             {/each}
           </tr>
         {/each}
+        {:else}
+        <tr>
+          <td colspan={headers.length}>You have no activity recorded on Zilkroad</td>
+        </tr>
+        {/if}
       </tbody>
     </table>
   </div>
