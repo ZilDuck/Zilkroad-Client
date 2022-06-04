@@ -100,7 +100,6 @@
   }
 
   async function handleListedPageChange(event) {
-    console.log("Pagination: ", zkListedNftsPagination.page);
     const page = event.detail.currentPage
     let walletListedNfts = await fetch(`/wallet/${walletId}/listedNfts.json?page=${page}`)
       .catch((error) => {
@@ -109,16 +108,6 @@
       .then((r) => r.json())
     listedNfts = walletListedNfts.nfts ?? []
     currentPage = page
-  }
-
-  function isMobile() {
-    /* I've tried a few approaches, and none seem to work (throw <blah> is undefined):
-        - I tried navigator.userAgent.match([array of devices])
-        - window.innerWidth <= n
-      Both gave me the undefined, but also tailwind has a number of breakpoints
-      Also we currently still list 4 even if in mobile view?
-    */
-    return true;
   }
 </script>
 
@@ -176,7 +165,7 @@
       <ScrollableSection className="mt-10 grid-cols-3 md:grid-cols-4">
         <NftCardList nfts={listedNfts} />
       </ScrollableSection>
-      {#if zkListedNftsPagination.page >= 1 && ((listedNfts.length > 2 && isMobile()) || listedNfts.length > 4)}
+      {#if listedNfts.length !== 0}
         <Pagination
           bind:currentPage={zkListedNftsPagination.page}
           numPages={zkListedNftsPagination.total_pages}

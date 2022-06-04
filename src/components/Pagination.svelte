@@ -96,7 +96,7 @@
           currentPage !== numPages ? currentPage++ : currentPage
           pageChange(currentPage)
         }}
-        class='cursor-pointer relative flex items-center justify-center h-8 p-0 mx-1 text-xs font-semibold leading-tight text-white rounded-lg w-14 md:w-16 first:ml-0 hover:bg-gray-800'
+        class='cursor-pointer relative flex items-center justify-center h-8 p-0 mx-1 text-xs font-semibold leading-tight rounded-lg w-14 md:w-16 first:ml-0 hover:bg-gray-800'
       >
         Next &gt;
       </p>
