@@ -32,7 +32,7 @@
         Event: row.activity,
         Date: formattedDate,
         'NFT Token ID': row.token_id,
-        'NFT Contract': `<a class="underline" href="#">${row.contract}</a>`,
+        'NFT Contract': `<a class="underline" href="/collections/${row.contract}">${row.contract}</a>`,
         Price: `<div class="flex items-center">
                 <img
                   src="/images/tokens/${row.price_symbol.toUpperCase()}.png"
