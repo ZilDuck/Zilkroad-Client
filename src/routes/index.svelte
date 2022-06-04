@@ -11,7 +11,7 @@
       props: {
         featuredNfts,
         recentlyListedNfts: recentlyListedNfts.nfts,
-        recentlySoldNfts,
+        recentlySoldNfts: recentlySoldNfts.nfts,
         featuredCollections,
         wallets
       }
