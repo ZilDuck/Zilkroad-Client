@@ -147,14 +147,15 @@ export declare global {
   type Network = 'mainnet' | 'testnet' | 'private'
 
   export type UserActivity = {
-    activity: 'bought' | 'sold' | 'delisted';
+    activity: 'List' | 'De-list' | 'Buy' | 'Sell';
     fungible: Fungible;
     unixtime: string;
     block: string;
-    tokenId: string;
+    token_id: string;
     contract: string;
     price: string;
-    royaltyAmount: null | string;
+    price_symbol: string;
+    royalty_amount: null | string;
     royaltyAmountUsd: null | string;
     priceAfterTax: null | string;
     priceAfterTaxUsd: null | string;
