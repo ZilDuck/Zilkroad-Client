@@ -1,19 +1,15 @@
 <script context="module">
   export async function load({ url, fetch }) {
-    const [featuredNfts, recentlyListedNfts, recentlySoldNfts, featuredCollections, wallets] = await Promise.all([
-      fetch(`/nfts.json?type=featured`).then((r) => r.json()),
-      fetch(`/nfts.json?type=recentlyListed`).then((r) => r.json()),
-      fetch(`/nfts.json?type=recentlySold`).then((r) => r.json()),
-      fetch(`/collections.json?type=featured`).then((r) => r.json()),
-      fetch(`/wallets.json`).then((r) => r.json())
-    ])
+    const page = url.searchParams.get('page') ?? 1
+    const filter = url.searchParams.get('filter') ?? ''
+    const order = url.searchParams.get('order') ?? 'ASC'
+
+    const marketplace = await fetch(`/marketplace/marketplace.json?page=${page}&filter=${filter}&order=${order}`).then((r) => r.json())
+    
     return {
       props: {
-        featuredNfts,
-        recentlyListedNfts,
-        recentlySoldNfts,
-        featuredCollections,
-        wallets
+        nfts: marketplace?.nfts,
+        collections: marketplace?.collections
       }
     }
   }
@@ -22,21 +18,11 @@
 <script>
   import Select from 'svelte-select'
   import NftCardList from '$lib/NftCardList/index.svelte'
-  import Header from '$components/Header.svelte'
   import ShapeImage from '$components/ShapeImage.svelte'
   import ScrollableSection from '$components/ScrollableSection.svelte'
 
-  export let featuredNfts = []
-  export let recentlyListedNfts = []
-  export let recentlySoldNfts = []
-  export let featuredCollections = []
-  export let wallets = []
-
-  let collections = [
-    { value: 'ducks', label: 'Ducks' },
-    { value: 'beanTerra', label: 'Beanterra' },
-    { value: 'bears', label: 'Bears' }
-  ]
+  export let nfts = []
+  export let collections = []
 
   let items = [
     { value: 'ascending', label: 'Sort by asc' },
@@ -99,11 +85,11 @@
   class="flex flex-col items-start max-w-screen-xl px-5 mt-10 space-y-10 xl:mx-auto xl:px-0 md:mt-20 md:grid md:grid-cols-2 md:space-y-0 md:gap-6 lg:grid-cols-3 xl:grid-cols-4"
 >
   <ScrollableSection className="md:grid-cols-4">
-    <NftCardList nfts={featuredNfts} />
+    <NftCardList nfts={nfts} />
   </ScrollableSection>
 </section>
 
-<style type="text/scss">
+<style>
   .select-field {
     --border: 1px solid #656565;
     --borderRadius: 8px;
@@ -126,7 +112,6 @@
     --placeholderColor: #cbcbcb;
 
     --multiItemActiveColor: #fff;
-    --itemIsActiveColor: #fff;
 
     background: url('data:image/gif;base64,PHN2ZyB3aWR0aD0iNyIgaGVpZ2h0PSI1IiB2aWV3Qm94PSIwIDAgNyA1IiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8cGF0aCBkPSJNMy41IDVMMC40Njg5MTEgMC41TDYuNTMxMDkgMC41TDMuNSA1WiIgZmlsbD0iI0M0QzRDNCIvPgo8L3N2Zz4K');
   }
