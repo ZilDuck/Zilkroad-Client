@@ -9,36 +9,46 @@
       const months = ['Jan', 'Feb', 'Mar', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
       const date = new Date(Number(row.unixtime))
       const formattedDate =
-        date.getDate() + ' ' + months[date.getMonth()] + ', ' + date.getHours() + ':' + date.getMinutes()
+        date.getDate() + ' ' + months[date.getMonth()] + ', ' + ('0' + date.getHours()).slice(-2) + ':' + ('0' + date.getMinutes()).slice(-2)
 
+      const output = Number(row.price) - Number(row.royalty_amount) ?? 0
+      const isSale = row.activity == "Buy" || row.activity == "Sell"
+      let royaltySection
+      if ( isSale ) {
+        royaltySection = `<div class="flex items-center">
+                <img
+                  src="/images/tokens/${row.price_symbol.toUpperCase()}.png"
+                  class="h-6 w-6 p-0.5"
+                  alt="..."
+                />
+                <span class="ml-2">${row.royalty_amount ?? 0}</span>
+              </div>`
+      } else {
+        royaltySection = `<div class="flex items-center">
+                <span class="ml-2">-</span>
+              </div>`
+      }
       rows.push({
         Event: row.activity,
         Date: formattedDate,
-        'NFT Token ID': row.tokenId,
+        'NFT Token ID': row.token_id,
         'NFT Contract': `<a class="underline" href="#">${row.contract}</a>`,
         Price: `<div class="flex items-center">
                 <img
-                  src="https://cryptologos.cc/logos/zilliqa-zil-logo.svg?v=014"
-                  class="h-6 w-6 p-0.5 bg-white rounded-full border"
+                  src="/images/tokens/${row.price_symbol.toUpperCase()}.png"
+                  class="h-6 w-6 p-0.5"
                   alt="..."
                 />
                 <span class="ml-2">${row.price}</span>
               </div>`,
-        'NFT Royalty': `<div class="flex items-center">
-                <img
-                  src="https://cryptologos.cc/logos/zilliqa-zil-logo.svg?v=014"
-                  class="h-6 w-6 p-0.5 bg-white rounded-full border"
-                  alt="..."
-                />
-                <span class="ml-2">${row.royaltyAmount ?? 0}</span>
-              </div>`,
+        'NFT Royalty': royaltySection,
         Output: `<div class="flex items-center">
                 <img
-                  src="https://cryptologos.cc/logos/zilliqa-zil-logo.svg?v=014"
-                  class="h-6 w-6 p-0.5 bg-white rounded-full border"
+                  src="/images/tokens/${row.price_symbol.toUpperCase()}.png"
+                  class="h-6 w-6 p-0.5"
                   alt="..."
                 />
-                <span class="ml-2">${row.royaltyAmount ?? 0}</span>
+                <span class="ml-2">${output}</span>
               </div>`
       })
     })

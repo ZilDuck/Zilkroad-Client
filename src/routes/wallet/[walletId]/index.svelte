@@ -75,7 +75,7 @@
   export let totalSales = walletMeta.user_stats.sold_count ?? 0
   export let totalRoyalties = walletMeta.user_stats.royaltys_in_count ?? 0
   export let royalties = walletMeta.user_stats.sum_royalty_usd ?? 0
-  export let walletActivity = []
+  export let walletActivity = walletMeta.wallet_activity ?? []
 
   $: isOwnedByConnectedWallet = $wallet.bech32 === walletId
   $: pronoun = isOwnedByConnectedWallet ? `Your` : `Wallet's`
