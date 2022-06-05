@@ -5,10 +5,10 @@
     const order = url.searchParams.get('order') ?? 'ASC'
 
     const marketplace = await fetch(`/marketplace/marketplace.json?page=${page}&filter=${filter}&order=${order}`).then((r) => r.json())
-    
     return {
       props: {
         nfts: marketplace?.nfts,
+        pagination: marketplace?.pagination,
         collections: marketplace?.collections
       }
     }
@@ -20,9 +20,19 @@
   import NftCardList from '$lib/NftCardList/index.svelte'
   import ShapeImage from '$components/ShapeImage.svelte'
   import ScrollableSection from '$components/ScrollableSection.svelte'
+  import Pagination from "../../components/Pagination.svelte";
+  import {page} from "$app/stores";
 
   export let nfts = []
   export let collections = []
+
+  export let currentPage = $page.url.searchParams.get('page') ?? 1
+  export let pagination = {
+    size: 16,
+    page: 1,
+    total_pages: 0,
+    total_elements: 0
+  }
 
   let items = [
     { value: 'ascending', label: 'Sort by asc' },
@@ -39,6 +49,16 @@
     console.log('selected item', event.detail)
     value = event.detail
   }
+
+  async function handlePageChange(event) {
+    const page = event.detail.currentPage
+    let collectionNfts = await fetch(`/marketplace/marketplace.json?page=${page}`).catch(error => {
+      console.log(error)
+    }).then((r) => r.json())
+    nfts = collectionNfts.nfts
+    currentPage = page
+  }
+  
 </script>
 
 <ShapeImage />
@@ -55,7 +75,10 @@
   <div class="mx-auto max-w-screen-xl mt-20">
     <div class="flex justify-between items-center w-full">
       <h3 class="text-xl font-medium md:col-span-2 lg:col-span-3 xl:col-span-4">
-        Showing <span class="text-zilkroad-teal">22</span> items
+        Showing <span
+        class='text-zilkroad-teal'>{pagination.size < pagination.total_elements ? pagination.size : pagination.total_elements}</span>
+        of <span
+        class='text-zilkroad-teal'>{pagination.total_elements}</span> items
       </h3>
       <div class="flex">
         <div class="select-field min-w-[300px] mr-5">
@@ -81,13 +104,17 @@
   </div>
 </div>
 
-<section
-  class="flex flex-col items-start max-w-screen-xl px-5 mt-10 space-y-10 xl:mx-auto xl:px-0 md:mt-20 md:grid md:grid-cols-2 md:space-y-0 md:gap-6 lg:grid-cols-3 xl:grid-cols-4"
+<main
+  class='max-w-screen-xl mx-auto'
 >
-  <ScrollableSection className="md:grid-cols-4">
-    <NftCardList nfts={nfts} />
-  </ScrollableSection>
-</section>
+  <div
+    class='flex flex-col mx-5 mt-5 space-y-12 xl:mx-auto md:grid md:grid-cols-2 md:space-y-0 md:gap-6 lg:grid-cols-3 xl:grid-cols-4'>
+    <NftCardList {nfts} />
+  </div>
+  <Pagination numPages={pagination.total_pages} currentPage={currentPage}
+              className='mx-auto'
+              on:pageChange={handlePageChange} />
+</main>
 
 <style>
   .select-field {
