@@ -7,6 +7,7 @@ export async function get() {
   return {
     body: {
       nfts: marketplace?.nfts ?? [],
+      pagination: marketplace?.pagination,
       collections: marketplace?.collections?? [],
     }
   }
