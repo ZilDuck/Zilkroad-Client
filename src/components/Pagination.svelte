@@ -58,6 +58,7 @@
   }
 </script>
 
+{#if numPages > 1}
 <div class="inline-block px-1 md:px-10 py-2 bg-gray-900 rounded-lg {className}">
   <nav class="flex md:space-x-4">
     <div>
@@ -103,6 +104,7 @@
     </div>
   </nav>
 </div>
+{/if}
 
 <style lang="postcss">
   .active {
