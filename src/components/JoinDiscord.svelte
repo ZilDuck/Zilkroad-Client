@@ -1,5 +1,5 @@
 <script>
-  import Button from '$components/Button.svelte'
+  import LinkButton from '$components/LinkButton.svelte'
 
   export let className = ''
 </script>
@@ -11,7 +11,9 @@
       Become an active member of the community by joining our discord server. Here you’ll find all the information on
       new drops, features coming to the platform and more.
     </p>
-    <Button textColor="text-gray-zilkroad-dark" className="w-min whitespace-nowrap">Join our discord</Button>
+    <LinkButton href="https://discord.com/invite/zilduck" className="w-min whitespace-nowrap">
+      Join our discord
+    </LinkButton>
   </div>
   <div class="hidden w-full h-full md:flex images">
     <img src="/images/join-discord.png" alt="blue waves aestethic" class="col-span-2 row-span-3 " />
