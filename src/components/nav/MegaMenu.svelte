@@ -8,7 +8,7 @@
 
 <div
   transition:fade={{ duration: 200 }}
-  class="absolute top-full left-0 px-5 w-full py-10 bg-black min-h-[200px] border-t border-solid border-t-zilkroad-gray-dark"
+  class="absolute top-full left-0 px-5 w-full py-10 bg-black min-h-[200px] border-t border-b border-solid border-t-zilkroad-gray-dark border-b-zilkroad-gray-dark"
 >
   <div class="flex items-start w-full max-w-screen-xl mx-auto">
     <div class="grid grid-cols-2 grid-flow-row col-gap gap-5">
@@ -58,9 +58,9 @@
     </div>
 
     <div
-      class="rounded-lg min-h-[256px] w-full bg-[url('/static/images/cta-background.png')] flex flex-col flex-1 ml-5 p-10"
+      class="rounded-lg min-h-[256px] w-full bg-[url('/images/cta-background.jpg')] bg-cover flex flex-col flex-1 ml-5 p-10"
     >
-      <h3 class="text-white text-2xl mb-5">Advertise your collection</h3>
+      <h3 class="text-white text-2xl mb-5">Feature your collection</h3>
       <p class="w-full mb-5">
         Make your collection stand out by becoming a featured collection on Zilkroad. You will get featured banners, the
         featured tick and more by featuring your collection.

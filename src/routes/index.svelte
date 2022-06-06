@@ -54,7 +54,7 @@
     <NftCardList nfts={featuredNfts} />
   </ScrollableSection>
 
-  <CallToActionSection className="md:mx-auto max-w-screen-xl" />
+  <CallToActionSection className="md:mx-auto max-w-screen-xl" backgroundImage="/images/cta-background.jpg" />
 
   <div class="mx-auto max-w-screen-xl">
     <h2 class="text-2xl font-medium">Popular NFTs</h2>

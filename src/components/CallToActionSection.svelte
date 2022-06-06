@@ -8,7 +8,7 @@
   export let buttonText = 'Feature your collection'
   export let backgroundImage = '/images/launchpad.png'
   export let url = 'https://docs-testnet.zilkroad.io/docs/features/adverts'
-  const background = backgroundImage !== '' ? backgroundImage : '/images/launchpad.png'
+  const background = backgroundImage !== '' ? backgroundImage : 'images/launchpad.jpg'
 </script>
 
 <section

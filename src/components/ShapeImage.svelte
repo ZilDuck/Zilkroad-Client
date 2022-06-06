@@ -1,5 +1,5 @@
 <script>
-  export let imageUrl = '/images/shapes/1.png'
+  export let imageUrl = '/images/shapes/1.jpg'
 </script>
 
 <img

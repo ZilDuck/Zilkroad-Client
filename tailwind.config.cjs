@@ -43,10 +43,9 @@ const config = {
         sans: ['Inter', ...defaultTheme.fontFamily.sans]
       },
       backgroundImage: {
-        'blue-waves':
-          "url('https://cdn.discordapp.com/attachments/881284549433233428/919935609760522310/unknown.png')",
+        'blue-waves': "url('https://cdn.discordapp.com/attachments/881284549433233428/919935609760522310/unknown.png')",
         blur: "url('https://cdn.discordapp.com/attachments/881284549433233428/920055505320312862/when-in-rome.png')",
-        'liquid-metal': "url('/static/images/liquid-metal-bg.png')"
+        'liquid-metal': "url('/static/images/liquid-metal-bg.jpg')"
       }
     }
   },
