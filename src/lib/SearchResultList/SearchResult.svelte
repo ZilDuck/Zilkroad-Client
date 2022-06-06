@@ -7,6 +7,6 @@
 </script>
 
 <div class="flex items-center space-x-3 mb-5 last:mb-0">
-  <img src="/static/images/nft-image.png" alt="Search result" class="max-w-[40px] rounded-lg" />
+  <img src="/images/nft-image.png" alt="Search result" class="max-w-[40px] rounded-lg" />
   <p><a href={resultAction}>Name of search result</a></p>
 </div>

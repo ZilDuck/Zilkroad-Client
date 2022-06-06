@@ -14,7 +14,7 @@
     <Button textColor="text-gray-zilkroad-dark" className="w-min whitespace-nowrap">Join our discord</Button>
   </div>
   <div class="hidden w-full h-full md:flex images">
-    <img src="/static/images/join-discord.png" alt="blue waves aestethic" class="col-span-2 row-span-3 " />
+    <img src="/images/join-discord.png" alt="blue waves aestethic" class="col-span-2 row-span-3 " />
   </div>
 </section>
 

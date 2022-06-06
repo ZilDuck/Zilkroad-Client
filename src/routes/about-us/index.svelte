@@ -68,7 +68,7 @@
     {#each team as teamMember}
       <div class="flex flex-col">
         <img
-          src={`/static/images/team/${teamMember.duck}.png`}
+          src={`/images/team/${teamMember.duck}.png`}
           alt={teamMember.name + ' duck'}
           class="max-w-[100%] mb-5 rounded-lg"
         />
