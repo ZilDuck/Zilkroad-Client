@@ -28,7 +28,6 @@
       <h2>Other</h2>
       <ul>
         <li><a href={'/privacy-policy'}>Privacy policy</a></li>
-        <li><a href={'/terms-and-conditions'}>Terms and conditions</a></li>
       </ul>
     </div>
     <div>

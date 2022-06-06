@@ -13,7 +13,7 @@
   <div class="flex items-start w-full max-w-screen-xl mx-auto">
     <div class="grid grid-cols-2 grid-flow-row col-gap gap-5">
       <a
-        href="/wallet-activity"
+        href="/collections"
         class="w-[224px] p-5 border border-solid border-zilkroad-gray-dark rounded-lg hover:bg-zilkroad-gray-dark"
       >
         <div class="flex items-center mb-3">
