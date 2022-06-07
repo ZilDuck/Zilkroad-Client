@@ -83,6 +83,7 @@
   export let orderId = nft.listing ? nft.listing.static_order_id : 0
   export let listingPrice = nft.listing ? nft.listing.fungible_amount : 0
   export let nftActivity = nft.sales_history ?? []
+  export let graphData = nft.graph_data ?? []
 
   function buy() {
     marketplace.buyNft(buyFungible, listingPrice, orderId)
@@ -179,10 +180,12 @@
         <h2 class="text-xl font-semibold mb-5">History</h2>
         <NftActivityTable bind:data={nftActivity} />
       </div>
+      {#if graphData.length > 0}
       <div class="mt-20">
         <h2 class="text-xl font-semibold mb-5">Price history</h2>
-        <Chart />
+        <Chart bind:data={graphData} />
       </div>
+      {/if}
     </div>
     <div class="nft-container lg:col-start-2 sticky top-[40px] self-auto">
       <img class="w-full h-auto rounded-lg bg-zilkroad-gray-dark" alt={name} src={imageSrc.toLowerCase()} on:error={handleImageError}/>

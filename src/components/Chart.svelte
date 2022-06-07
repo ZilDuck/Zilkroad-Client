@@ -1,9 +1,21 @@
-<script>
+<script type="ts">
   import { onMount } from 'svelte'
   import { createChart } from 'lightweight-charts/dist/lightweight-charts.esm.production'
 
+  export let data: SaleGraphPoint[]
+  let rows = []
+
   let chartElement
   let chart
+
+  if (data) {
+    data.forEach((row) => {
+      rows.push({
+        time: new Date(Number(row.unixtime)).toDateString(),
+        value: row.price
+      })
+    })
+  }
 
   onMount(() => {
     chart = createChart(chartElement, {
@@ -40,27 +52,8 @@
       color: 'rgba(255, 255, 255, 1)',
       lineWidth: 1
     })
-    lineSeries.setData(generateRandomData(60))
+    lineSeries.setData(rows)
   })
-
-  function generateRandomData(numberOfRows) {
-    let data = []
-    let value = 400
-    let date = new Date()
-
-    date.setDate(date.getDate() - numberOfRows - 1200)
-
-    for (let i = 0; i < numberOfRows; i++) {
-      date.setDate(date.getDate() + 20)
-      let newDate = date.toDateString()
-      value = value + (Math.random() < 0.5 ? Math.random() - 1 : Math.random())
-      data.push({
-        time: newDate,
-        value: value
-      })
-    }
-    return data
-  }
 
   function resizeChart() {
     chart.resize(chartElement.clientWidth, chartElement.clientHeight, true)
