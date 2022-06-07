@@ -17,8 +17,8 @@
         'NFT Contract': `<a class="underline" href="#">${row.contract}</a>`,
         Price: `<div class="flex items-center">
                 <img
-                  src="https://cryptologos.cc/logos/zilliqa-zil-logo.svg?v=014"
-                  class="h-6 w-6 p-0.5 bg-white rounded-full border"
+                  src="/images/tokens/${row.price_symbol.toUpperCase()}.png"
+                  class="h-6 w-6 p-0.5"
                   alt="..."
                 />
                 <span class="ml-2">${row.price}</span>

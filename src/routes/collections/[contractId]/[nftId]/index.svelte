@@ -82,7 +82,7 @@
   export let fungibleSymbol = nft.listing ? nft.listing.fungible_symbol : 0
   export let orderId = nft.listing ? nft.listing.static_order_id : 0
   export let listingPrice = nft.listing ? nft.listing.fungible_amount : 0
-  export let nftActivity = []
+  export let nftActivity = nft.sales_history ?? []
 
   function buy() {
     marketplace.buyNft(buyFungible, listingPrice, orderId)
