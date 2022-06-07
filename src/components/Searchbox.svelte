@@ -1,6 +1,5 @@
 <script>
   import SearchResultList from '../lib/SearchResultList/index.svelte'
-  import SearchResult from '../lib/SearchResultList/SearchResult.svelte'
   import debounce from '$lib/debounce.js'
   import { clickOutside } from '$lib/listeners.js'
   import { fade } from 'svelte/transition'
@@ -34,7 +33,7 @@
   }
 </script>
 
-<div class="relative md:w-[400px] md:max-w-full h-12" on:click={reOpenSearch}>
+<div class="relative md:w-[400px] md:max-w-full h-12 z-10" on:click={reOpenSearch}>
   <div
     class="absolute bg-zilkroad-gray-dark rounded-lg w-full h-auto border {showSearchResults
       ? 'border-zilkroad-gray-border'
