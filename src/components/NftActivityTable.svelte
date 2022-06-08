@@ -9,7 +9,7 @@
       const months = ['Jan', 'Feb', 'Mar', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
       const date = new Date(Number(row.unixtime))
       const formattedDate =
-        date.getDate() + ' ' + months[date.getMonth()] + ', ' + date.getHours() + ':' + date.getMinutes()
+        date.getDate() + ' ' + months[date.getMonth()] + ', ' + ('0' + date.getHours()).slice(-2) + ':' + ('0' + date.getMinutes()).slice(-2)
 
       rows.push({
         Event: row.activity,
@@ -17,8 +17,8 @@
         'NFT Contract': `<a class="underline" href="#">${row.contract}</a>`,
         Price: `<div class="flex items-center">
                 <img
-                  src="https://cryptologos.cc/logos/zilliqa-zil-logo.svg?v=014"
-                  class="h-6 w-6 p-0.5 bg-white rounded-full border"
+                  src="/images/tokens/${row.price_symbol.toUpperCase()}.png"
+                  class="h-6 w-6 p-0.5"
                   alt="..."
                 />
                 <span class="ml-2">${row.price}</span>
@@ -39,6 +39,7 @@
         </tr>
       </thead>
       <tbody>
+        {#if rows.length > 0}
         {#each rows as row}
           <tr>
             {#each Object.values(row) as cell}
@@ -46,6 +47,11 @@
             {/each}
           </tr>
         {/each}
+        {:else}
+        <tr>
+          <td colspan={headers.length}>No sales history recorded on Zilkroad</td>
+        </tr>
+        {/if}
       </tbody>
     </table>
   </div>

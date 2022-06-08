@@ -109,11 +109,16 @@ export declare global {
      listing: number;
      block: number;
      unixtime: number;
-    fungible_price: number; // eslint-disable-line
+     fungible_price: number; // eslint-disable-line
      price: number;
      seller: string;
      buyer: string;
      fungible: Fungible;
+   }
+
+   type SaleGraphPoint = {
+     unixtime: number;
+     price: number;
    }
 
    type NftMetadata = {
