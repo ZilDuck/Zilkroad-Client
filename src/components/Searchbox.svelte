@@ -12,12 +12,16 @@
   let showSearchResults
 
   async function search() {
-    let search = await fetch(`/search/${value}/search.json`)
+    if(!value) {
+      showSearchResults = false
+      results.length = 0
+      return
+    }
+    results[0] = await fetch(`/search/${value}/search.json`)
       .catch((error) => {
         console.log(error)
       })
       .then((r) => r.json())
-    results[0] = search
 
     if (results) {
       showSearchResults = true
