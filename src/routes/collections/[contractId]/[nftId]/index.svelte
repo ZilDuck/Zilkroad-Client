@@ -20,7 +20,6 @@
     // console.table(collectionNfts)
     let nfts = collectionNfts.nfts
     let listedNfts = collectionListedNfts.nfts
-    console.table(listedNfts)
     let pagination = JSON.parse(collectionNfts.pagination)
 
     console.log('nft', nft);
