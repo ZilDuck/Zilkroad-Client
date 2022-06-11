@@ -18,8 +18,8 @@
     let nfts = collectionNfts.nfts
     let pagination = JSON.parse(collectionNfts.pagination)
 
-    console.log('nft', nft);
-    
+    console.log('nft', nft)
+
     return {
       props: {
         collection,
@@ -45,8 +45,8 @@
   import { fade } from 'svelte/transition'
   import ShapeImage from '$components/ShapeImage.svelte'
   import NftActivityTable from '$components/NftActivityTable.svelte'
-  import SideModal from "../../../../components/SideModal.svelte";
-  import SellSidebar from "../../../../components/SellSidebar.svelte";
+  import SideModal from '../../../../components/SideModal.svelte'
+  import SellSidebar from '../../../../components/SellSidebar.svelte'
 
   export let nft
   export let collection
@@ -55,13 +55,12 @@
   export let metadata: NftMetadata
   export let owner: string
 
-
   const max_royalty_bps = 10000
   export let currentPrice = nft.listing?.fungible_amount ?? 0
-  export let tokenSymbol = nft.listing?.fungible_symbol ?? ""
+  export let tokenSymbol = nft.listing?.fungible_symbol ?? ''
   export let sales = nft.sales_count ?? 0
   export let volume = nft.sales_volume ?? 0
-  export let royalty_percentage = collection.royalty_bps ? (max_royalty_bps / collection.royalty_bps) : 0
+  export let royalty_percentage = collection.royalty_bps ? max_royalty_bps / collection.royalty_bps : 0
 
   const nftDescription = nft.desc ? nft.desc : `This is an NFT for ${nft.collection_name}.`
 
@@ -142,17 +141,19 @@
           <Detail description="Current price" value="{currentPrice} {tokenSymbol}" border="right" />
         {/if}
         <Detail description="Sales" value={sales} border="right" />
-        <Detail description="Volume" value=${volume} border="right" />
-        <Detail description="Royalty" value={royalty_percentage}% />
+        <Detail description="Volume" value="${volume}" border="right" />
+        <Detail description="Royalty" value="{royalty_percentage}%" />
       </div>
 
       <div class="flex items-center mt-5 space-x-2 ">
         <div class="w-10 h-10 rounded-full bg-zilkroad-gray-light" />
         <h3 class="break-all text-white">
           {#if userWalletIsOwner}
-          Owned by you
+            Owned by you
           {:else}
-          Owned by <mark class="bg-transparent border-b border-b-zilkroad-gray-light text-white">{nft.owner_address_b32}</mark>}
+            Owned by <mark class="bg-transparent border-b border-b-zilkroad-gray-light text-white"
+              >{nft.owner_address_b32}</mark
+            >}
           {/if}
         </h3>
       </div>
@@ -180,25 +181,30 @@
         <h2 class="text-xl font-semibold mb-5">History</h2>
         <NftActivityTable bind:data={nftActivity} />
       </div>
-      {#if graphData.length > 0}
       <div class="mt-20">
         <h2 class="text-xl font-semibold mb-5">Price history</h2>
         <Chart bind:data={graphData} />
       </div>
-      {/if}
     </div>
-    <div class="nft-container lg:col-start-2 sticky top-[40px] self-auto">
-      <img class="w-full h-auto rounded-lg bg-zilkroad-gray-dark" alt={name} src={imageSrc.toLowerCase()} on:error={handleImageError}/>
-      {#if nft.token_metadata}
-        <ul class="flex flex-wrap gap-5 mt-10 lg:col-start-2">
-          {#each nft.token_metadata.attributes as attribute}
-            <li class="py-3 px-[10px] bg-zilkroad-gray-dark rounded-lg">
-              <span>{attribute.trait_type}: </span>
-              <span class="text-zilkroad-gray-lighter">{attribute.value}</span>
-            </li>
-          {/each}
-        </ul>
-      {/if}
+    <div class="nft-container lg:col-start-2 ">
+      <div class="sticky top-[40px] self-auto">
+        <img
+          class="w-full h-auto rounded-lg bg-zilkroad-gray-dark"
+          alt={name}
+          src={imageSrc.toLowerCase()}
+          on:error={handleImageError}
+        />
+        {#if nft.token_metadata}
+          <ul class="flex flex-wrap gap-5 mt-10 lg:col-start-2">
+            {#each nft.token_metadata.attributes as attribute}
+              <li class="py-3 px-[10px] bg-zilkroad-gray-dark rounded-lg">
+                <span>{attribute.trait_type}: </span>
+                <span class="text-zilkroad-gray-lighter">{attribute.value}</span>
+              </li>
+            {/each}
+          </ul>
+        {/if}
+      </div>
     </div>
   </div>
 
@@ -211,6 +217,6 @@
     <NftCardList {nfts} />
   </ScrollableSection>
   <SideModal bind:show={sidebarOpen}>
-    <SellSidebar bind:sellPrice={sellPrice} closeListModal={closeListModal} list={list} isLoading={isLoading} />
+    <SellSidebar bind:sellPrice {closeListModal} {list} {isLoading} />
   </SideModal>
 </main>

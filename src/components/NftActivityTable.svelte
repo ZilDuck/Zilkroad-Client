@@ -9,7 +9,13 @@
       const months = ['Jan', 'Feb', 'Mar', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
       const date = new Date(Number(row.unixtime))
       const formattedDate =
-        date.getDate() + ' ' + months[date.getMonth()] + ', ' + ('0' + date.getHours()).slice(-2) + ':' + ('0' + date.getMinutes()).slice(-2)
+        date.getDate() +
+        ' ' +
+        months[date.getMonth()] +
+        ', ' +
+        ('0' + date.getHours()).slice(-2) +
+        ':' +
+        ('0' + date.getMinutes()).slice(-2)
 
       rows.push({
         Event: row.activity,
@@ -28,9 +34,9 @@
   }
 </script>
 
-<div class="max-w-screen-xl mx-auto space-y-10 ">
+<div class="max-w-screen-xl mx-auto space-y-10">
   <div class="overflow-x-auto border-[1px] border-zilkroad-gray-dark rounded-lg">
-    <table class="items-center w-full bg-transparent border-collapse">
+    <table class={`items-center w-full bg-transparent border-collapse ${rows.length <= 0 ? 'min-h-[272px]' : ''}`}>
       <thead>
         <tr class="bg-zilkroad-gray-dark">
           {#each headers as header}
@@ -40,17 +46,26 @@
       </thead>
       <tbody>
         {#if rows.length > 0}
-        {#each rows as row}
-          <tr>
-            {#each Object.values(row) as cell}
-              <td>{@html cell}</td>
-            {/each}
-          </tr>
-        {/each}
+          {#each rows as row}
+            <tr>
+              {#each Object.values(row) as cell}
+                <td>{@html cell}</td>
+              {/each}
+            </tr>
+          {/each}
         {:else}
-        <tr>
-          <td colspan={headers.length}>No sales history recorded on Zilkroad</td>
-        </tr>
+          <tr>
+            <td colspan={headers.length} class="">
+              <div class="flex flex-col justify-center items-center pb-5">
+                <img
+                  src="/icons/Outline/General/Moon.svg"
+                  alt="No sales history"
+                  class="fill-white max-w-[24px] mb-[10px]"
+                />
+                <p class="text-[14px]">There is no sale history for this NFT yet</p>
+              </div>
+            </td>
+          </tr>
         {/if}
       </tbody>
     </table>

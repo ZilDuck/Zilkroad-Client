@@ -8,6 +8,8 @@
   let chartElement
   let chart
 
+  console.log('Data is', data.length)
+
   if (data) {
     data.forEach((row) => {
       rows.push({
@@ -20,7 +22,7 @@
   onMount(() => {
     chart = createChart(chartElement, {
       layout: {
-        backgroundColor: 'rgba(23, 23, 23, 1)',
+        backgroundColor: 'rgba(0, 0, 0, 1)',
         textColor: '#d1d4dc'
       },
       grid: {
@@ -62,8 +64,14 @@
 
 <svelte:window on:resize={resizeChart} />
 
-<div class="p-8 bg-gray-900 rounded-lg">
-  <div class="chart w-full h-80" bind:this={chartElement} />
+<div class="rounded-lg min-h-[272px] p-10 flex flex-col justify-center border border-zilkroad-gray-dark">
+  <div class="chart w-full h-full" bind:this={chartElement} />
+  {#if data.length <= 0}
+    <div class="flex flex-col justify-center items-center pb-5 h-full">
+      <img src="/icons/Outline/General/Moon.svg" alt="No sales history" class="fill-white max-w-[24px] mb-[10px]" />
+      <p class="text-[14px]">There is no sale history for this NFT yet</p>
+    </div>
+  {/if}
 </div>
 
 <style>
