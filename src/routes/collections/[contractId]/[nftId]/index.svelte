@@ -1,7 +1,7 @@
 <script context="module">
   export async function load({ params, fetch }) {
     const { contractId, nftId } = params
-    const [collection, nft, collectionNfts] = await Promise.all([
+    const [collection, nft, collectionNfts, collectionListedNfts] = await Promise.all([
       fetch(`/collections/${contractId}.json`)
         .catch((error) => console.log(error))
         .then((r) => r.json()),
@@ -10,12 +10,16 @@
         .then((r) => r.json()),
       fetch(`/collections/${contractId}/nfts.json`)
         .catch((error) => console.log(error))
+        .then((r) => r.json()),
+      fetch(`/collections/${contractId}/listedNfts.json`)
+        .catch((error) => console.log(error))
         .then((r) => r.json())
     ])
     // console.table(collection)
     // console.table(nft)
     // console.table(collectionNfts)
     let nfts = collectionNfts.nfts
+    let listedNfts = collectionListedNfts.nfts
     let pagination = JSON.parse(collectionNfts.pagination)
 
     console.log('nft', nft)
@@ -25,6 +29,7 @@
         collection,
         nft,
         nfts,
+        listedNfts,
         pagination
       }
     }
@@ -51,6 +56,7 @@
   export let nft
   export let collection
   export let nfts
+  export let listedNfts
   export let listing: SingleListing | false // i set it as string cuz undefined no work wtf
   export let metadata: NftMetadata
   export let owner: string
@@ -213,9 +219,13 @@
   <h4 class="lg:max-w-screen-xl lg:mx-auto text-2xl font-medium lg:col-span-2 lg:row-start-3 lg:mt-36">
     Other listings in {nft.contract_name}
   </h4>
+  {#if listedNfts.length > 0}
   <ScrollableSection className="px-0 lg:col-span-2 lg:grid-cols-4 lg:row-start-4 mt-10">
-    <NftCardList {nfts} />
+    <NftCardList bind:nfts={listedNfts} />
   </ScrollableSection>
+  {:else}
+  <p>No other tokens for this collection are listed</p>
+  {/if}
   <SideModal bind:show={sidebarOpen}>
     <SellSidebar bind:sellPrice {closeListModal} {list} {isLoading} />
   </SideModal>
