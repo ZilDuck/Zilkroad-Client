@@ -69,12 +69,12 @@
   export let ownedNfts = nfts ?? []
   export let listedNfts = zkListedNfts ?? []
 
-  export let nftCount = walletMeta.nfts.total ?? 0
-  export let listedNftCount = walletMeta.user_stats.listing_count ?? 0
-  export let totalPurchases = walletMeta.user_stats.bought_count ?? 0
-  export let totalSales = walletMeta.user_stats.sold_count ?? 0
-  export let totalRoyalties = walletMeta.user_stats.royaltys_in_count ?? 0
-  export let royalties = walletMeta.user_stats.sum_royalty_usd ?? 0
+  export let nftCount = walletMeta.nfts?.total ?? 0
+  export let listedNftCount = walletMeta.user_stats?.listing_count ?? 0
+  export let totalPurchases = walletMeta.user_stats?.bought_count ?? 0
+  export let totalSales = walletMeta.user_stats?.sold_count ?? 0
+  export let totalRoyalties = walletMeta.user_stats?.royaltys_in_count ?? 0
+  export let royalties = walletMeta.user_stats?.sum_royalty_usd ?? 0
   export let walletActivity = walletMeta.wallet_activity ?? []
 
   $: isOwnedByConnectedWallet = $wallet.bech32 === walletId
@@ -165,10 +165,10 @@
       <ScrollableSection className="mt-10 grid-cols-3 md:grid-cols-4">
         <NftCardList nfts={listedNfts} />
       </ScrollableSection>
-      {#if listedNfts.length !== 0}
+      {#if listedNfts.length > 0}
         <Pagination
           bind:currentPage={zkListedNftsPagination.page}
-          numPages={zkListedNftsPagination.total_pages}
+          numPages={zkListedNftsPagination?.total_pages}
           className="mx-auto"
           on:pageChange={handleListedPageChange}
         />
@@ -181,12 +181,14 @@
     <ScrollableSection className="mt-10 grid-cols-3 md:grid-cols-4">
       <NftCardList nfts={ownedNfts} />
     </ScrollableSection>
-    <Pagination
-      bind:currentPage={pagination.page}
-      numPages={pagination.total_pages}
-      className="mx-auto"
-      on:pageChange={handleOwnedPageChange}
-    />
+    {#if listedNfts.length > 0}
+      <Pagination
+        bind:currentPage={pagination.page}
+        numPages={pagination?.total_pages}
+        className="mx-auto"
+        on:pageChange={handleOwnedPageChange}
+      />
+    {/if}
   </div>
 
   <div class="">
