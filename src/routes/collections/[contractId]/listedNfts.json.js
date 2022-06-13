@@ -6,7 +6,7 @@ export async function get({ params, url: { searchParams } }) {
   const limit = searchParams.get('limit') ?? 10
   let listedNfts = []
 
-  listedNfts = await api.get(`collections/${contractId}/listedNfts?page=${page}&limit=${limit}`)
+  listedNfts = await api.get(`collections/${contractId}/listedNfts?page=${page}&limit=${limit}`).catch((error) => console.log(error))
 
   console.log("NFTS: ", listedNfts)
   return {
