@@ -130,8 +130,8 @@
 
 <ShapeImage />
 <main class="mx-5">
-  <div class="grid-flow-col-dense mx-5 mt-5 lg:max-w-screen-xl lg:mx-auto lg:grid lg:grid-cols-2 lg:mt-[120px] gap-10">
-    <div class="lg:col-start-1 max-w-[600px]">
+  <div class="flex justify-between mx-5 mt-5 lg:max-w-screen-xl lg:mx-auto lg:mt-[120px] gap-10">
+    <div class="lg:col-start-1 max-w-[600px] w-full">
       <h2 class="mt-10 text-white lg:mt-0 underline">
         <a href="/collections/{nft.contract_address_b32}/">{nft.contract_name}</a>
       </h2>
@@ -192,7 +192,7 @@
         <Chart bind:data={graphData} />
       </div>
     </div>
-    <div class="nft-container lg:col-start-2 max-w-[496px]">
+    <div class="nft-container lg:col-start-2 max-w-[496px] w-full">
       <div class="sticky top-[40px] self-auto">
         <img
           class="w-full h-auto rounded-lg bg-zilkroad-gray-dark"
@@ -216,15 +216,20 @@
 
   <div class="w-full h-[1px] bg-zilkroad-gray-darker my-20 lg:hidden" />
 
-  <h4 class="lg:max-w-screen-xl lg:mx-auto text-2xl font-medium lg:col-span-2 lg:row-start-3 lg:mt-36">
+  <h4 class="lg:max-w-screen-xl lg:mx-auto text-2xl font-medium lg:col-span-2 lg:row-start-3 lg:mt-36 mb-10">
     Other listings in {nft.contract_name}
   </h4>
   {#if listedNfts.length > 0}
-    <ScrollableSection className="px-0 lg:col-span-2 lg:grid-cols-4 lg:row-start-4 mt-10">
+    <ScrollableSection className="px-0 lg:col-span-2 lg:grid-cols-4 lg:row-start-4">
       <NftCardList bind:nfts={listedNfts} />
     </ScrollableSection>
   {:else}
-    <p>No other tokens for this collection are listed</p>
+    <div
+      class="flex flex-col justify-center items-center pb-5 h-full min-h-[272px] border border-zilkroad-gray-dark rounded-lg  lg:max-w-screen-xl lg:mx-auto"
+    >
+      <img src="/icons/Outline/General/Umbrella.svg" alt="No sales history" class="fill-white max-w-[24px] mb-[10px]" />
+      <p class="text-[14px]">Well, this is awkward. No one else is selling an NFT in this collection!</p>
+    </div>
   {/if}
   <SideModal bind:show={sidebarOpen}>
     <SellSidebar bind:sellPrice {closeListModal} {list} {isLoading} />
