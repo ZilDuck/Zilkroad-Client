@@ -16,6 +16,7 @@ async function send({ method, path, data, token }) {
 
   return fetch(`${base}/${path}`, opts)
     .then((response) => response.json())
+    .catch((error) => console.error(error)).then(() => JSON.stringify({}))
     .then((data) => {
       return data
     })
