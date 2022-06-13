@@ -131,7 +131,7 @@
 <ShapeImage />
 <main class="mx-5">
   <div class="grid-flow-col-dense mx-5 mt-5 lg:max-w-screen-xl lg:mx-auto lg:grid lg:grid-cols-2 lg:mt-[120px] gap-10">
-    <div class="lg:col-start-1 max-w-[520px]">
+    <div class="lg:col-start-1 max-w-[600px]">
       <h2 class="mt-10 text-white lg:mt-0 underline">
         <a href="/collections/{nft.contract_address_b32}/">{nft.contract_name}</a>
       </h2>
@@ -192,7 +192,7 @@
         <Chart bind:data={graphData} />
       </div>
     </div>
-    <div class="nft-container lg:col-start-2 ">
+    <div class="nft-container lg:col-start-2 max-w-[496px]">
       <div class="sticky top-[40px] self-auto">
         <img
           class="w-full h-auto rounded-lg bg-zilkroad-gray-dark"
@@ -220,11 +220,11 @@
     Other listings in {nft.contract_name}
   </h4>
   {#if listedNfts.length > 0}
-  <ScrollableSection className="px-0 lg:col-span-2 lg:grid-cols-4 lg:row-start-4 mt-10">
-    <NftCardList bind:nfts={listedNfts} />
-  </ScrollableSection>
+    <ScrollableSection className="px-0 lg:col-span-2 lg:grid-cols-4 lg:row-start-4 mt-10">
+      <NftCardList bind:nfts={listedNfts} />
+    </ScrollableSection>
   {:else}
-  <p>No other tokens for this collection are listed</p>
+    <p>No other tokens for this collection are listed</p>
   {/if}
   <SideModal bind:show={sidebarOpen}>
     <SellSidebar bind:sellPrice {closeListModal} {list} {isLoading} />
