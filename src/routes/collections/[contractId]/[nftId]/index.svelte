@@ -130,8 +130,8 @@
 
 <ShapeImage />
 <main class="mx-5">
-  <div class="flex justify-between mx-5 mt-5 lg:max-w-screen-xl lg:mx-auto lg:mt-[120px] gap-10">
-    <div class="lg:col-start-1 max-w-[600px] w-full">
+  <div class="flex flex-col md:flex-row justify-between mt-5 lg:max-w-screen-xl lg:mx-auto lg:mt-[120px] gap-10">
+    <div class="lg:col-start-1 max-w-full md:max-w-[600px] w-full">
       <h2 class="mt-10 text-white lg:mt-0 underline">
         <a href="/collections/{nft.contract_address_b32}/">{nft.contract_name}</a>
       </h2>
@@ -192,7 +192,7 @@
         <Chart bind:data={graphData} />
       </div>
     </div>
-    <div class="nft-container lg:col-start-2 max-w-[496px] w-full">
+    <div class="nft-container lg:col-start-2 max-w-full md:max-w-[496px] w-full">
       <div class="sticky top-[40px] self-auto">
         <img
           class="w-full h-auto rounded-lg bg-zilkroad-gray-dark"
