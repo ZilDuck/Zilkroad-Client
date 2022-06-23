@@ -13,6 +13,8 @@
   import Elipsis from '../../components/icons/Elipsis.svelte'
   import SideModal from '../../components/SideModal.svelte'
   import SellSidebar from '../../components/SellSidebar.svelte'
+  import {toast} from "../../store/toast";
+  import {pollTx} from "../../zilpay/poll-tx";
 
   export let nft
 
@@ -53,12 +55,18 @@
     isLoading = false
   }
 
-  function list() {
+  async function list() {
     open = false
     isLoading = true
-    marketplace
-      .listNft(nft.contract_address_b16, String(nft.token_id), sellFungible, String(sellPrice))
-      .finally(() => (isLoading = false))
+    let {listTx} = await marketplace.listNft(nft.contract_address_b16, String(nft.token_id), sellFungible, String(sellPrice))
+    if (listTx){
+      toast.add({ message: 'Transaction Pending', type: 'info' })
+      await pollTx(listTx)
+    } else {
+      toast.add({ message: 'Transaction Failed', type: 'error' })
+      return
+    }
+    toast.add({ message: 'Listing Finished', type: 'success' })
   }
 
   function delist() {
