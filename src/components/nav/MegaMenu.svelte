@@ -8,7 +8,7 @@
 
 <div
   transition:fade={{ duration: 200 }}
-  class="absolute top-full left-0 px-5 w-full py-10 bg-black min-h-[200px] border-t border-b border-solid border-t-zilkroad-gray-dark border-b-zilkroad-gray-dark"
+  class="absolute top-full left-0 px-5 w-full py-10 bg-black min-h-[200px] border-t border-b border-solid border-t-zilkroad-gray-dark border-b-zilkroad-gray-dark z-10"
 >
   <div class="flex items-start w-full max-w-screen-xl mx-auto">
     <div class="grid grid-cols-2 grid-flow-row col-gap gap-5">

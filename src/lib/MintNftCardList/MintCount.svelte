@@ -17,24 +17,17 @@
 
 <div>
   {#if hoverable && isHovering && mintPrice}
-    <Button on:click={mintNFT} className="hidden md:flex"
-      >Mint NFT for {mintPrice}</Button
-    >
+    <Button on:click={mintNFT} className="hidden md:flex">Mint NFT for {mintPrice}</Button>
   {:else}
-    <p class="text-zilkroad-text-light pb-2">
+    <p class="text-white pb-2">
       {minted}/{count}
     </p>
     <div class="bg-gray-800 block w-auto rounded-md">
-      <div
-        class="bg-gray-300 border-4 rounded-md"
-        style="width: {totalMintedPercent}%"
-      />
+      <div class="bg-gray-300 border-4 rounded-md" style="width: {totalMintedPercent}%" />
     </div>
     {#if !hoverable && mintPrice}
       <div class="pt-5 mt-5 border-t-[1px] border-gray-600">
-        <Button on:click={mintNFT} className="block w-full"
-          >Mint NFT for {mintPrice}</Button
-        >
+        <Button on:click={mintNFT} className="block w-full">Mint NFT for {mintPrice}</Button>
       </div>
     {/if}
   {/if}

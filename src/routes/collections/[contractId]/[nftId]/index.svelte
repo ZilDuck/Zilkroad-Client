@@ -1,7 +1,7 @@
 <script context="module">
   export async function load({ params, fetch }) {
     const { contractId, nftId } = params
-    const [collection, nft, collectionNfts] = await Promise.all([
+    const [collection, nft, collectionNfts, collectionListedNfts] = await Promise.all([
       fetch(`/collections/${contractId}.json`)
         .catch((error) => console.log(error))
         .then((r) => r.json()),
@@ -10,21 +10,26 @@
         .then((r) => r.json()),
       fetch(`/collections/${contractId}/nfts.json`)
         .catch((error) => console.log(error))
+        .then((r) => r.json()),
+      fetch(`/collections/${contractId}/listedNfts.json`)
+        .catch((error) => console.log(error))
         .then((r) => r.json())
     ])
     // console.table(collection)
     // console.table(nft)
     // console.table(collectionNfts)
-    let nfts = collectionNfts.nfts
-    let pagination = JSON.parse(collectionNfts.pagination)
+    let nfts = collectionNfts.nfts ?? []
+    let listedNfts = collectionListedNfts.nfts ?? []
+    let pagination = JSON.parse(collectionNfts?.pagination ?? '{}')
 
-    console.log('nft', nft);
-    
+    console.log('nft', nft)
+
     return {
       props: {
         collection,
         nft,
         nfts,
+        listedNfts,
         pagination
       }
     }
@@ -45,23 +50,23 @@
   import { fade } from 'svelte/transition'
   import ShapeImage from '$components/ShapeImage.svelte'
   import NftActivityTable from '$components/NftActivityTable.svelte'
-  import SideModal from "../../../../components/SideModal.svelte";
-  import SellSidebar from "../../../../components/SellSidebar.svelte";
+  import SideModal from '../../../../components/SideModal.svelte'
+  import SellSidebar from '../../../../components/SellSidebar.svelte'
 
   export let nft
   export let collection
   export let nfts
+  export let listedNfts
   export let listing: SingleListing | false // i set it as string cuz undefined no work wtf
   export let metadata: NftMetadata
   export let owner: string
 
-
   const max_royalty_bps = 10000
   export let currentPrice = nft.listing?.fungible_amount ?? 0
-  export let tokenSymbol = nft.listing?.fungible_symbol ?? ""
+  export let tokenSymbol = nft.listing?.fungible_symbol ?? ''
   export let sales = nft.sales_count ?? 0
   export let volume = nft.sales_volume ?? 0
-  export let royalty_percentage = collection.royalty_bps ? (max_royalty_bps / collection.royalty_bps) : 0
+  export let royalty_percentage = collection.royalty_bps ? max_royalty_bps / collection.royalty_bps : 0
 
   const nftDescription = nft.desc ? nft.desc : `This is an NFT for ${nft.collection_name}.`
 
@@ -82,7 +87,8 @@
   export let fungibleSymbol = nft.listing ? nft.listing.fungible_symbol : 0
   export let orderId = nft.listing ? nft.listing.static_order_id : 0
   export let listingPrice = nft.listing ? nft.listing.fungible_amount : 0
-  export let nftActivity = []
+  export let nftActivity = nft.sales_history ?? []
+  export let graphData = nft.graph_data ?? []
 
   function buy() {
     marketplace.buyNft(buyFungible, listingPrice, orderId)
@@ -124,8 +130,8 @@
 
 <ShapeImage />
 <main class="mx-5">
-  <div class="grid-flow-col-dense mx-5 mt-5 lg:max-w-screen-xl lg:mx-auto lg:grid lg:grid-cols-2 lg:mt-[120px] gap-10">
-    <div class="lg:col-start-1 max-w-[520px]">
+  <div class="flex flex-col md:flex-row justify-between mt-5 lg:max-w-screen-xl lg:mx-auto lg:mt-[120px] gap-10">
+    <div class="lg:col-start-1 max-w-full md:max-w-[600px] w-full">
       <h2 class="mt-10 text-white lg:mt-0 underline">
         <a href="/collections/{nft.contract_address_b32}/">{nft.contract_name}</a>
       </h2>
@@ -141,17 +147,19 @@
           <Detail description="Current price" value="{currentPrice} {tokenSymbol}" border="right" />
         {/if}
         <Detail description="Sales" value={sales} border="right" />
-        <Detail description="Volume" value=${volume} border="right" />
-        <Detail description="Royalty" value={royalty_percentage}% />
+        <Detail description="Volume" value="${volume}" border="right" />
+        <Detail description="Royalty" value="{royalty_percentage}%" />
       </div>
 
       <div class="flex items-center mt-5 space-x-2 ">
         <div class="w-10 h-10 rounded-full bg-zilkroad-gray-light" />
         <h3 class="break-all text-white">
           {#if userWalletIsOwner}
-          Owned by you
+            Owned by you
           {:else}
-          Owned by <mark class="bg-transparent border-b border-b-zilkroad-gray-light text-white">{nft.owner_address_b32}</mark>}
+            Owned by <mark class="bg-transparent border-b border-b-zilkroad-gray-light text-white"
+              >{nft.owner_address_b32}</mark
+            >}
           {/if}
         </h3>
       </div>
@@ -181,33 +189,49 @@
       </div>
       <div class="mt-20">
         <h2 class="text-xl font-semibold mb-5">Price history</h2>
-        <Chart />
+        <Chart bind:data={graphData} />
       </div>
     </div>
-    <div class="nft-container lg:col-start-2 sticky top-[40px] self-auto">
-      <img class="w-full h-auto rounded-lg bg-zilkroad-gray-dark" alt={name} src={imageSrc.toLowerCase()} on:error={handleImageError}/>
-      {#if nft.token_metadata}
-        <ul class="flex flex-wrap gap-5 mt-10 lg:col-start-2">
-          {#each nft.token_metadata.attributes as attribute}
-            <li class="py-3 px-[10px] bg-zilkroad-gray-dark rounded-lg">
-              <span>{attribute.trait_type}: </span>
-              <span class="text-zilkroad-gray-lighter">{attribute.value}</span>
-            </li>
-          {/each}
-        </ul>
-      {/if}
+    <div class="nft-container lg:col-start-2 max-w-full md:max-w-[496px] w-full">
+      <div class="sticky top-[40px] self-auto">
+        <img
+          class="w-full h-auto rounded-lg bg-zilkroad-gray-dark"
+          alt={name}
+          src={imageSrc.toLowerCase()}
+          on:error={handleImageError}
+        />
+        {#if nft.token_metadata}
+          <ul class="flex flex-wrap gap-5 mt-10 lg:col-start-2">
+            {#each nft.token_metadata.attributes as attribute}
+              <li class="py-3 px-[10px] bg-zilkroad-gray-dark rounded-lg">
+                <span>{attribute.trait_type}: </span>
+                <span class="text-zilkroad-gray-lighter">{attribute.value}</span>
+              </li>
+            {/each}
+          </ul>
+        {/if}
+      </div>
     </div>
   </div>
 
   <div class="w-full h-[1px] bg-zilkroad-gray-darker my-20 lg:hidden" />
 
-  <h4 class="lg:max-w-screen-xl lg:mx-auto text-2xl font-medium lg:col-span-2 lg:row-start-3 lg:mt-36">
+  <h4 class="lg:max-w-screen-xl lg:mx-auto text-2xl font-medium lg:col-span-2 lg:row-start-3 lg:mt-36 mb-10">
     Other listings in {nft.contract_name}
   </h4>
-  <ScrollableSection className="px-0 lg:col-span-2 lg:grid-cols-4 lg:row-start-4 mt-10">
-    <NftCardList {nfts} />
-  </ScrollableSection>
+  {#if listedNfts.length > 0}
+    <ScrollableSection className="px-0 lg:col-span-2 lg:grid-cols-4 lg:row-start-4">
+      <NftCardList bind:nfts={listedNfts} />
+    </ScrollableSection>
+  {:else}
+    <div
+      class="flex flex-col justify-center items-center pb-5 h-full min-h-[272px] border border-zilkroad-gray-dark rounded-lg  lg:max-w-screen-xl lg:mx-auto"
+    >
+      <img src="/icons/Outline/General/Umbrella.svg" alt="No sales history" class="fill-white max-w-[24px] mb-[10px]" />
+      <p class="text-[14px]">Well, this is awkward. No one else is selling an NFT in this collection!</p>
+    </div>
+  {/if}
   <SideModal bind:show={sidebarOpen}>
-    <SellSidebar bind:sellPrice={sellPrice} closeListModal={closeListModal} list={list} isLoading={isLoading} />
+    <SellSidebar bind:sellPrice {closeListModal} {list} {isLoading} />
   </SideModal>
 </main>

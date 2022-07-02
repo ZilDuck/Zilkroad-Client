@@ -6,8 +6,5 @@
 {#each searchResults as searchResult}
   <div class="py-5 mx-5 border-t border-zilkroad-gray-border">
     <SearchResult {searchResult} />
-    <SearchResult {searchResult} />
-    <SearchResult {searchResult} />
-    <SearchResult {searchResult} />
   </div>
 {/each}

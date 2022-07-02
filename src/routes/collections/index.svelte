@@ -1,15 +1,11 @@
 <script context="module">
   export async function load({ fetch }) {
-    const [featuredMintableCollection, newlyMintableCollections, endingMintableCollections] = await Promise.all([
-      fetch(`/launchpad/collection.json`).then((r) => r.json()),
-      fetch(`/launchpad/collections.json?type=new`).then((r) => r.json()),
-      fetch(`/launchpad/collections.json?type=ending`).then((r) => r.json())
+    const [collections] = await Promise.all([
+      fetch(`/collections/collections.json`).then((r) => r.json()),
     ])
     return {
       props: {
-        featuredMintableCollection,
-        newlyMintableCollections,
-        endingMintableCollections
+        collections,
       }
     }
   }
@@ -18,15 +14,10 @@
 <script>
   import CollectionSectionList from '../../lib/CollectionSectionList/index.svelte'
   import Header from '../../components/Header.svelte'
-  import FeaturedMintNftCard from '../../lib/MintNftCardList/FeaturedMintNftCard.svelte'
   import ShapeImage from '$components/ShapeImage.svelte'
-  import Button from '$components/Button.svelte'
 
-  export let featuredMintableCollection = {}
-  export let newlyMintableCollections = []
-  export let endingMintableCollections = []
+  export let collections = []
 </script>
-
 <ShapeImage />
 <Header className="bg-liquid-metal bg-cover bg-center" light={true} />
 <div class="flex flex-col h-full mt-20 space-y-5 md:items-center md:mt-40">
@@ -41,5 +32,5 @@
 </div>
 
 <main class="max-w-screen-xl mx-5 xl:mx-auto  mt-40 space-y-5">
-  <CollectionSectionList collections={newlyMintableCollections} />
+  <CollectionSectionList collections={collections} />
 </main>

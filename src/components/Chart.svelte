@@ -1,14 +1,28 @@
-<script>
+<script type="ts">
   import { onMount } from 'svelte'
   import { createChart } from 'lightweight-charts/dist/lightweight-charts.esm.production'
+
+  export let data: SaleGraphPoint[]
+  let rows = []
 
   let chartElement
   let chart
 
+  console.log('Data is', data.length)
+
+  if (data) {
+    data.forEach((row) => {
+      rows.push({
+        time: new Date(Number(row.unixtime)).toDateString(),
+        value: row.price
+      })
+    })
+  }
+
   onMount(() => {
     chart = createChart(chartElement, {
       layout: {
-        backgroundColor: 'rgba(23, 23, 23, 1)',
+        backgroundColor: 'rgba(0, 0, 0, 1)',
         textColor: '#d1d4dc'
       },
       grid: {
@@ -40,27 +54,8 @@
       color: 'rgba(255, 255, 255, 1)',
       lineWidth: 1
     })
-    lineSeries.setData(generateRandomData(60))
+    lineSeries.setData(rows)
   })
-
-  function generateRandomData(numberOfRows) {
-    let data = []
-    let value = 400
-    let date = new Date()
-
-    date.setDate(date.getDate() - numberOfRows - 1200)
-
-    for (let i = 0; i < numberOfRows; i++) {
-      date.setDate(date.getDate() + 20)
-      let newDate = date.toDateString()
-      value = value + (Math.random() < 0.5 ? Math.random() - 1 : Math.random())
-      data.push({
-        time: newDate,
-        value: value
-      })
-    }
-    return data
-  }
 
   function resizeChart() {
     chart.resize(chartElement.clientWidth, chartElement.clientHeight, true)
@@ -69,8 +64,14 @@
 
 <svelte:window on:resize={resizeChart} />
 
-<div class="p-8 bg-gray-900 rounded-lg">
-  <div class="chart w-full h-80" bind:this={chartElement} />
+<div class="rounded-lg min-h-[272px] p-10 flex flex-col justify-center border border-zilkroad-gray-dark">
+  <div class="chart w-full h-full" bind:this={chartElement} />
+  {#if data.length <= 0}
+    <div class="flex flex-col justify-center items-center pb-5 h-full">
+      <img src="/icons/Outline/General/Moon.svg" alt="No sales history" class="fill-white max-w-[24px] mb-[10px]" />
+      <p class="text-[14px]">There is no sale history for this NFT yet</p>
+    </div>
+  {/if}
 </div>
 
 <style>

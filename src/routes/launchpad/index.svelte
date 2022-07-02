@@ -44,10 +44,6 @@
 </div>
 
 <main class="max-w-screen-xl mx-5 xl:mx-auto  mt-20 space-y-5">
-  <h2 class="text-2xl pb-5">Newest mints</h2>
+  <h2 class="text-2xl font-semibold pb-5">Mintable collections</h2>
   <MintNftCardList collections={newlyMintableCollections} />
-  <!-- Lazy br for space-y -->
-  <br />
-  <h2 class="text-2xl pb-5">Last chance to mint</h2>
-  <MintNftCardList collections={endingMintableCollections} />
 </main>
