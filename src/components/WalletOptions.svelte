@@ -44,12 +44,13 @@
     </ul>
   </div>
   <div class="wallet-options-currencies py-5 border-b-[1px] border-zilkroad-gray-border grid grid-cols-2 gap-5">
-    <Token tokenType="XSGD" value={1200} />
-    <Token tokenType="zWUSDT" value={0} />
-    <Token tokenType="zWBTC"  />
-    <Token tokenType="zWETH" value={$wallet.balances.zweth} />
-    <Token tokenType="WZIL" value={$wallet.balances.wzil} />
-    <Token tokenType="GZIL" value={$wallet.balances.gzil} />
+    <Token tokenType="XSGD" value={$wallet.balances.usd_xsgd_amount} />
+    <Token tokenType="zWUSDT" value={$wallet.balances.usd_zusdt_amount} />
+    <Token tokenType="zWBTC" value={$wallet.balances.zwbtc_amount} />
+    <Token tokenType="zWETH" value={$wallet.balances.zeth_amount} />
+    <Token tokenType="WZIL" value={$wallet.balances.wzil_amount} />
+    <Token tokenType="GZIL" value={$wallet.balances.gzil_amount} />
+    <Token tokenType="DUCK" value={$wallet.balances.duck_amount} />
   </div>
   <div class="wallet-options-convert-button pt-5">
     {#if showTokenSwap}

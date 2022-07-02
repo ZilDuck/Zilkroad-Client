@@ -33,8 +33,8 @@ const createWalletStore = () => {
 
     const [getBalanceResponse, userBalancesResponse] = await Promise.all([
       blockchain.getBalance(base16) as Promise<{ result: { nonce: number, balance: string } }>,
-      fetch(`/wallet/${base16}/balances.json`).then(async response => response.json())
-    ]).catch((error) => console.log(error))
+      fetch(`/wallet/${base16}/balances.json`).then(async response => response.json()).catch((error) => console.log(error))
+    ])
 
     document.cookie = Cookie.serialize('userAddress', base16, { path: '' })
     document.cookie = Cookie.serialize('userAddress', base16, { path: '/wallet' })
@@ -44,7 +44,7 @@ const createWalletStore = () => {
       bech32,
       network,
       isConnected: true,
-      balances: userBalancesResponse,
+      balances: userBalancesResponse ?? [],
       nonce: getBalanceResponse.result.nonce
     }))
   }

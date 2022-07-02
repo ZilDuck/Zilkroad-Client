@@ -33,6 +33,9 @@
       break
     case 'ZIL':
       validFilename = true
+      break    
+    case 'DUCK':
+      validFilename = true
       break
     default:
   }
