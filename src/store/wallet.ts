@@ -2,6 +2,8 @@ import type { Writable } from 'svelte/store'
 import { browser } from '$app/env'
 import { writable } from 'svelte/store'
 import * as Cookie from 'cookie'
+import * as api from '../lib/api.js'
+
 
 type Awaited<T> = T extends PromiseLike<infer U> ? U : T
 
@@ -11,7 +13,7 @@ export type Wallet = {
   isConnected: boolean
   network?: typeof window.zilPay.wallet.net
   nonce?: number
-  balances?: Awaited<ReturnType<ReturnType<typeof zilkroad>['getUserBalances']>>
+  balances?: object
 }
 
 const createWalletStore = () => {
@@ -30,7 +32,8 @@ const createWalletStore = () => {
     const network = wallet.net
 
     const [getBalanceResponse, userBalancesResponse] = await Promise.all([
-      blockchain.getBalance(base16) as Promise<{ result: { nonce: number, balance: string } }>
+      blockchain.getBalance(base16) as Promise<{ result: { nonce: number, balance: string } }>,
+      fetch(`/wallet/${base16}/balances.json`).then(async response => response.json()).catch((error) => console.log(error))
     ])
 
     document.cookie = Cookie.serialize('userAddress', base16, { path: '' })
@@ -41,7 +44,7 @@ const createWalletStore = () => {
       bech32,
       network,
       isConnected: true,
-      balances: userBalancesResponse,
+      balances: userBalancesResponse ?? [],
       nonce: getBalanceResponse.result.nonce
     }))
   }
