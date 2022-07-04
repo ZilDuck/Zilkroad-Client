@@ -38,6 +38,11 @@
   export let currentPage = $page.url.searchParams.get('page') ?? 1
   let contractId = $page.params.contractId
 
+  const max_royalty_bps = 10000
+  export let royalty_percentage = collection.royalty_bps ? (max_royalty_bps / collection.royalty_bps) : 0
+  export let listed_tokens = collection.stats.listed_tokens
+  export let sales_volume = collection.stats.volume
+
   async function handlePageChange(event) {
     const page = event.detail.currentPage
     let collectionNfts = await fetch(`/collections/${contractId}/nfts.json?page=${page}`).catch(error => {
@@ -89,19 +94,19 @@
         class='grid grid-flow-col auto-cols-max gap-5 mt-5 rounded-lg bg-zilkroad-gray-dark p-5'
       >
         <Detail description='Items listed'
-                value='{nfts.length ?? collection.sales_history[0].sitewide_listed} / {collection.nfts_minted}'
+                value='{listed_tokens} / {collection.nfts_minted}'
                 border='right' />
-        <Detail
+        <!-- <Detail
           description='Floor price'
           value='{collection.floor} ZIL'
           border='right'
-        />
+        /> -->
         <Detail
           description='Volume'
-          value='{collection.volume} ZIL'
+          value='${sales_volume}'
           border='right'
         />
-        <Detail description='Royalty' value='{collection.royalty_bps}' />
+        <Detail description='Royalty' value='{royalty_percentage}%' />
       </div>
       </div>
     </section>
