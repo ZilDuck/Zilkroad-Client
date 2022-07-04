@@ -1,7 +1,7 @@
 <script>
   import Wallet from './icons/Wallet.svelte'
   import wallet from '$store/wallet'
-  import { goto } from '$app/navigation'
+  import { navigating } from '$app/stores'
   import WalletOptions from '$components/WalletOptions.svelte'
   import { clickOutside } from '$lib/listeners.js'
 
@@ -24,6 +24,10 @@
     if ($wallet.isConnected) {
       showWalletOptions = false
     }
+  }
+  
+  if ($navigating) {
+    showWalletOptions = false
   }
 </script>
 

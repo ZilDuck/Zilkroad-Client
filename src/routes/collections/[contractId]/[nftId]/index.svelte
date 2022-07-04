@@ -52,6 +52,8 @@
   import NftActivityTable from '$components/NftActivityTable.svelte'
   import SideModal from '../../../../components/SideModal.svelte'
   import SellSidebar from '../../../../components/SellSidebar.svelte'
+  import {toast} from "../../../../store/toast";
+  import {pollTx} from "../../../../zilpay/poll-tx";
 
   export let nft
   export let collection
@@ -94,8 +96,16 @@
     marketplace.buyNft(buyFungible, listingPrice, orderId)
   }
 
-  function list() {
-    marketplace.listNft(nft.contract_address_b16, nft.token_id, sellFungible, sellPrice)
+  async function list() {
+    let {listTx} = await marketplace.listNft(nft.contract_address_b16, nft.token_id, sellFungible, sellPrice)
+    if (listTx) {
+      toast.add({message: 'Transaction Pending', type: 'info'})
+      await pollTx(listTx)
+    } else {
+      toast.add({message: 'Transaction Failed', type: 'error'})
+      return
+    }
+    toast.add({message: 'Listing Finished', type: 'success'})
   }
 
   function delist() {
