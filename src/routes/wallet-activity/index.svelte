@@ -28,32 +28,6 @@
   export let buyerWallets = []
   export let sellerWallets = []
   export let royaltyWallets = []
-  export let currencies = [
-    {
-      name: 'XSGD',
-      rate: 0.2
-    },
-    {
-      name: 'zWBTC',
-      rate: 2.2
-    },
-    {
-      name: 'WZIL',
-      rate: 1340.2
-    },
-    {
-      name: 'zWUSDT',
-      rate: 1.0
-    },
-    {
-      name: 'zWETH',
-      rate: 0.23333
-    },
-    {
-      name: 'GZIL',
-      rate: 202.2
-    }
-  ]
 </script>
 
 <ShapeImage />
@@ -75,7 +49,7 @@
       <h2 class="flex-1">Top royalty earners</h2>
       <a class="justify-end" href="/wallet-activity/royalties">View all royalty wallets</a>
     </div>
-    <WalletActivityCardList wallets={royaltyWallets} {currencies} />
+    <WalletActivityCardList wallets={royaltyWallets} />
   </div>
 
   <div class="mx-auto max-w-screen-xl">
@@ -83,7 +57,7 @@
       <h2 class="flex-1">Top seller wallets</h2>
       <a href="/wallet-activity/sellers">View all sellers</a>
     </div>
-    <WalletActivityCardList wallets={sellerWallets} {currencies} />
+    <WalletActivityCardList wallets={sellerWallets} />
   </div>
 
   <div class="mx-auto max-w-screen-xl">
@@ -91,6 +65,6 @@
       <h2 class="flex-1">Top buyer wallets</h2>
       <a href="/wallet-activity/buyers">View all buyers</a>
     </div> 
-    <WalletActivityCardList wallets={buyerWallets} {currencies} />
+    <WalletActivityCardList wallets={buyerWallets} />
   </div>
 </main>
