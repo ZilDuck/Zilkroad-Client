@@ -28,7 +28,7 @@
     <p class="p-4 lg:w-2/12">USD Total</p>
     {#each currencies as currency}
       <p class="p-4 lg:w-2/12">
-        <img alt="{currency.name} Token Logo" class="inline w-4" src="/images/tokens/{currency.name}.png" />
+        <img alt="{currency.name} Token Logo" class="inline w-4" src="/images/tokens/{currency.name.toUpperCase()}.png" />
         {currency.name}
       </p>
     {/each}
