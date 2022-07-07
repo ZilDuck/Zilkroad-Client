@@ -26,32 +26,6 @@
   export let description
   export let supportedActivityTypes = []
   export let wallets = []
-  export let currencies = [
-    {
-      "name": "XSGD",
-      "rate": 0.2
-    }, 
-    {
-      "name": "zWBTC",
-      "rate": 2.2
-    }, 
-    {
-      "name": "WZIL",
-      "rate": 1340.2
-    }, 
-    {
-      "name": "zWUSDT",
-      "rate": 1.0
-    }, 
-    {
-      "name": "zWETH",
-      "rate": 0.23333
-    }, 
-    {
-      "name": "GZIL",
-      "rate": 202.2
-    }
-  ]
   
   if ( activityType === supportedActivityTypes[0] ) {
     title = 'NFT Royalties'
@@ -84,7 +58,7 @@
 <main class="mt-[-7.5%] xl:mt-[-144px] space-y-28">
   <div class="mx-auto max-w-screen-xl">
     <h2>{tableTitle}</h2>
-    <WalletActivityCardList wallets={wallets} currencies={currencies} />
+    <WalletActivityCardList wallets={wallets} />
   </div>
 </main>
 

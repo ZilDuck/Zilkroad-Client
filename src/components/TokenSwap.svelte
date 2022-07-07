@@ -2,6 +2,8 @@
   import Token from '$components/Token.svelte'
   import Swap from '$icons/Swap.svelte'
   import { unwrapZil, wrapZil } from '../zilpay/wzil'
+  import {pollTx} from "../zilpay/poll-tx";
+  import {toast} from "../store/toast";
 
   let convertAmount
   let zilToWZil = true
@@ -31,16 +33,16 @@
     }
   }
 
-  function convert() {
-    console.log('convert triggered')
-    console.log('Convert Amount: ' + convertAmount)
-    console.log('Direction: ' + zilToWZil ? 'ZIL to WZIL' : 'WZIL to ZIL')
-    try {
-      let convertTransactions = zilToWZil ? wrapZil(convertAmount) : unwrapZil(convertAmount)
-      console.log(convertTransactions)
-    } catch (error) {
-      console.log(error)
+  async function convert() {
+    let convertTransactions = zilToWZil ? await wrapZil(convertAmount) : await unwrapZil(convertAmount)
+    if (convertTransactions){
+      toast.add({ message: 'Transaction Pending', type: 'info' })
+      await pollTx(convertTransactions)
+    } else {
+      toast.add({ message: 'Transaction Failed', type: 'error' })
+      return
     }
+    toast.add({ message: 'Convert Finished', type: 'success' })
   }
 </script>
 

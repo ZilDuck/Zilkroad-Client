@@ -9,7 +9,7 @@
     ])
     return {
       props: {
-        featuredNfts,
+        featuredNfts: featuredNfts.nfts,
         recentlyListedNfts: recentlyListedNfts.nfts,
         recentlySoldNfts: recentlySoldNfts.nfts,
         featuredCollections,

@@ -1,5 +1,24 @@
 <script>
-  export let currencies = []
+  export let currencies = [
+    {
+      name: 'xsgd',
+    },
+    {
+      name: 'zwbtc',
+    },
+    {
+      name: 'wzil',
+    },
+    {
+      name: 'zusdt',
+    },
+    {
+      name: 'zweth',
+    },
+    {
+      name: 'gzil',
+    }
+  ]
   export let wallets = []
 </script>
 
@@ -9,7 +28,7 @@
     <p class="p-4 lg:w-2/12">USD Total</p>
     {#each currencies as currency}
       <p class="p-4 lg:w-2/12">
-        <img alt="{currency.name} Token Logo" class="inline w-4" src="/images/tokens/{currency.name}.png" />
+        <img alt="{currency.name} Token Logo" class="inline w-4" src="/images/tokens/{currency.name.toUpperCase()}.png" />
         {currency.name}
       </p>
     {/each}
@@ -24,13 +43,13 @@
         <div class="bg-gray-900 px-4 lg:hidden"><hr class="border-gray-700"/></div>
         <p class="overflow-x-hidden lg:w-2/12 overflow-ellipsis p-4 bg-gray-900">
           <span class="lg:hidden text-gray-400">Total royalties USD <br/></span>
-          ${wallet.usdTotal}~
+          ${wallet.total_usd}~
         </p>
         <div class="bg-gray-900 px-4 lg:hidden"><hr class="border-gray-700"/></div>
         {#each currencies as currency}
           <p class="overflow-x-hidden lg:w-2/12 overflow-ellipsis p-4 bg-gray-900 whitespace-pre hover:overflow-x-visible">
-            <img alt="{currency.name} Token Logo" class="inline w-4" src="/images/tokens/{currency.name}.png" />
-            {wallet.usdTotal*currency.rate}
+            <img alt="{currency.name} Token Logo" class="inline w-4" src="/images/tokens/{currency.name.toUpperCase()}.png" />
+            {wallet[currency.name]}
             <span class="lg:hidden"> {currency.name}</span>
           </p>
         {/each}
