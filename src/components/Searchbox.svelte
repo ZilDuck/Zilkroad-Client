@@ -17,7 +17,7 @@
       results.length = 0
       return
     }
-    results[0] = await fetch(`/search/${value}/search.json`)
+    results = await fetch(`/search/${value}/search.json`)
       .catch((error) => {
         console.log(error)
       })
