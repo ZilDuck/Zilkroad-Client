@@ -13,7 +13,7 @@
       name: 'zusdt',
     },
     {
-      name: 'zweth',
+      name: 'zeth',
     },
     {
       name: 'gzil',

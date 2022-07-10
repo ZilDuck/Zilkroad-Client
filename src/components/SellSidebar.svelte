@@ -15,7 +15,7 @@
     { value: 'zWBTC', label: 'zWBTC' },
     { value: 'WZIL', label: 'WZIL' },
     { value: 'zWUSDT', label: 'zWUSDT' },
-    { value: 'zWETH', label: 'zWETH' },
+    { value: 'zETH', label: 'zETH' },
     { value: 'GZIL', label: 'GZIL' }
   ]
 

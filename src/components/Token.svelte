@@ -25,7 +25,7 @@
     case 'ZWBTC':
       validFilename = true
       break
-    case 'ZWETH':
+    case 'ZETH':
       validFilename = true
       break
     case 'ZWUSDT':

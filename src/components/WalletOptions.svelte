@@ -47,7 +47,7 @@
     <Token tokenType="XSGD" value={$wallet.balances.usd_xsgd_amount} />
     <Token tokenType="zWUSDT" value={$wallet.balances.usd_zusdt_amount} />
     <Token tokenType="zWBTC" value={$wallet.balances.zwbtc_amount} />
-    <Token tokenType="zWETH" value={$wallet.balances.zeth_amount} />
+    <Token tokenType="zETH" value={$wallet.balances.zeth_amount} />
     <Token tokenType="WZIL" value={$wallet.balances.wzil_amount} />
     <Token tokenType="GZIL" value={$wallet.balances.gzil_amount} />
     <Token tokenType="DUCK" value={$wallet.balances.duck_amount} />
