@@ -10,14 +10,16 @@ export async function get() {
       nonfungible_address: id,
       nonfungible_name: name,
       nonfungible_symbol: description,
-      sales_history: [
+      primary_sales: [
         {
-          sitewide_listed: listed,
-          sitewide_sold: volume,
-          sitewide_sum_royalty_sent: royalty,
-          sitewide_unique_royalty_recipient: count
+          lifetime_sales_usd: volume,
+          lifetime_royalty_usd: royalty,
+          lifetime_quantity_sold: count
         }
-      ]
+      ],
+      stats: {
+        listed_tokens: listed
+      }
     } = collection
     return { id, name, description, listed, volume, royalty, count }
   })
