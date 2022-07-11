@@ -1,25 +1,25 @@
 <script context="module">
   import { isBech32, toBech32Address, isAddress } from '../../../zilpay/util'
-  
+
   export async function load({ params, fetch }) {
     const { walletId } = params
-    
+
     //404 invalid addresses
     if (isAddress(walletId) === false && isBech32(walletId) === false) {
-      return { 
-        status: 404 ,
+      return {
+        status: 404,
         error: new Error(`Not Found`)
       }
     }
-    
+
     //Redirect base16 (0x) addresses
-    if (isBech32(walletId) === false ) {
+    if (isBech32(walletId) === false) {
       return {
         status: 302,
         redirect: toBech32Address(walletId)
       }
     }
-    
+
     const [walletMeta, listedNfts, ownedNfts] = await Promise.all([
       fetch(`/wallet/${walletId}.json`)
         .then((r) => r.json())
@@ -126,7 +126,7 @@
         <Detail description="Total Purchases" value={totalPurchases} border="right" />
         <Detail description="Total Sales" value={totalSales} border="right" />
         <Detail description="Number of royalties" value={totalRoyalties} border="right" />
-        <Detail description="Royalty Revenue" value=${royalties} border="right" />
+        <Detail description="Royalty Revenue" value="${royalties}" border="right" />
       </div>
     </div>
   </div>
@@ -139,7 +139,7 @@
     </p>
     <img src="/images/nft-image.png" alt="NFT image you're selling" class="w-full pb-5" />
     <div class="text-white h-16 flex items-center bg-zilkroad-gray-dark p-5 mb-5 rounded-lg w-full">
-      <input type="text" placeholder="0"/>
+      <input type="text" placeholder="0" />
       <Zil /><span class="ml-5">Convert Zil</span>
     </div>
     <p class="flex justify-between items-center w-full text-[20px] text-zilkroad-text-normal mb-5">
@@ -162,9 +162,9 @@
   {#if listedNfts.length !== 0}
     <div class="flex flex-col max-w-screen-xl mx-auto">
       <h2 class="text-2xl font-medium">{pronoun} listed NFTs</h2>
-      <ScrollableSection className="mt-10 grid-cols-3 md:grid-cols-4">
+      <div class="mt-10">
         <NftCardList nfts={listedNfts} />
-      </ScrollableSection>
+      </div>
       {#if listedNfts.length > 0}
         <Pagination
           bind:currentPage={zkListedNftsPagination.page}
@@ -178,9 +178,9 @@
 
   <div class="flex flex-col max-w-screen-xl mx-auto space-y-10 text-white">
     <h2 class="text-2xl font-medium">{pronoun} NFTs</h2>
-    <ScrollableSection className="mt-10 grid-cols-3 md:grid-cols-4">
+    <div class="mt-10">
       <NftCardList nfts={ownedNfts} />
-    </ScrollableSection>
+    </div>
     {#if listedNfts.length > 0}
       <Pagination
         bind:currentPage={pagination.page}
