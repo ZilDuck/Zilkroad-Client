@@ -59,7 +59,7 @@
       >
         <div class="flex space-x-2">
           <p class="min-w-[40px]">From</p>
-          <Token bind:tokenType={currentTokenType.key} />
+          <Token bind:tokenType={currentTokenType.key} showTokenType={false} />
           <input
             type="number"
             bind:value={convertAmount}
@@ -75,7 +75,7 @@
       >
         <div class="flex space-x-2">
           <p class="min-w-[40px]">To</p>
-          <Token bind:tokenType={swapTokenType.key} />
+          <Token bind:tokenType={swapTokenType.key} showTokenType={false} />
           <input
             type="number"
             bind:value={convertAmount}
@@ -101,5 +101,9 @@
   input::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;
+  }
+
+  input[type='number'] {
+    -moz-appearance: textfield;
   }
 </style>

@@ -1,6 +1,7 @@
 <script lang="ts">
   export let tokenType: string
   export let value = 0
+  export let showTokenType = true
 
   let validFilename = false
 
@@ -33,7 +34,7 @@
       break
     case 'ZIL':
       validFilename = true
-      break    
+      break
     case 'DUCK':
       validFilename = true
       break
@@ -43,12 +44,12 @@
 
 <p class="flex items-center">
   {#if validFilename}
-    <img
-      src='/images/tokens/{tokenType.toUpperCase()}.png'
-      alt=''
-      class="mr-[10px] w-4 h-4 max-w-4"
-    />
+    <img src="/images/tokens/{tokenType.toUpperCase()}.png" alt="" class="mr-[10px] w-4 h-4 max-w-4 object-contain" />
   {/if}
+  {#if value}
     {numberWithCommas(value)}
-    <span class="lg:hidden"> {tokenType}</span>
+  {/if}
+  {#if showTokenType}
+    <span class="lg:hidden">{tokenType}</span>
+  {/if}
 </p>

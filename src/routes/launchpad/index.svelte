@@ -32,7 +32,7 @@
   class="max-w-screen-xl mx-5 mt-5 xl:mx-auto lg:mt-24 xl:mt-32 xl:px-0 lg:grid lg:grid-cols-2 lg:grid-flow-col-dense"
 >
   <img
-    class="w-full lg:h-fit rounded-lg lg:col-start-2"
+    class="w-full mb-10 lg:mb-0 lg:h-fit rounded-lg lg:col-start-2"
     src="https://i.pickadummy.com/600x400?cache={featuredMintableCollection.id}"
     alt="{featuredMintableCollection.name} hero"
     width="400"

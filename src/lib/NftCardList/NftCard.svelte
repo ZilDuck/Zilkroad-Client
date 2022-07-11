@@ -13,14 +13,14 @@
   import Elipsis from '../../components/icons/Elipsis.svelte'
   import SideModal from '../../components/SideModal.svelte'
   import SellSidebar from '../../components/SellSidebar.svelte'
-  import {toast} from "../../store/toast";
-  import {pollTx} from "../../zilpay/poll-tx";
+  import { toast } from '../../store/toast'
+  import { pollTx } from '../../zilpay/poll-tx'
 
   export let nft
 
   $: userWalletIsOwner = nft.owner_address_b32 === $wallet.bech32
 
-  $: imageSrc = `${cdnBaseUrl}${nft.contract_address_b16}/${nft.token_id}?&optimizer=image&width=400`
+  $: imageSrc = `${cdnBaseUrl}${nft.contract_address_b16}/${nft.token_id}?&optimizer=image&height=400&width=400&aspect_ratio=1:1`
   $: name = nft.name ?? nft.symbol + ' #' + nft.token_id
 
   export let sellPrice = 0 // replace with floor price as default?
@@ -58,8 +58,13 @@
   async function list() {
     open = false
     isLoading = true
-    let {listTx} = await marketplace.listNft(nft.contract_address_b16, String(nft.token_id), sellFungible, String(sellPrice))
-    if (listTx){
+    let { listTx } = await marketplace.listNft(
+      nft.contract_address_b16,
+      String(nft.token_id),
+      sellFungible,
+      String(sellPrice)
+    )
+    if (listTx) {
       toast.add({ message: 'Transaction Pending', type: 'info' })
       await pollTx(listTx)
     } else {
@@ -93,14 +98,14 @@
 
 <article class="group flex flex-col w-full relative" use:clickOutside on:click_outside={closeOptions}>
   <a href="/collections/{nft.contract_address_b16}/{nft.token_id}" class="mb-1">
-    <div class="object-cover w-full h-auto rounded-lg bg-zilkroad-gray-darker">
+    <div
+      class="object-cover overflow-hidden w-full h-auto rounded-lg bg-zilkroad-gray-dark flex items-center justify-center"
+    >
       <img
         src={imageSrc}
         alt="Nft"
-        class="object-cover w-full h-auto rounded-lg bg-zilkroad-gray-darker"
+        class="object-cover bg-zilkroad-gray-darker scale-100 hover:scale-110 transition-all"
         on:error={handleImageError}
-        width="400px"
-        height="400px"
         loading="eager"
       />
     </div>
@@ -181,5 +186,5 @@
 </article>
 
 <SideModal bind:show={sidebarOpen}>
-  <SellSidebar bind:sellPrice={sellPrice} {closeListModal} {list} {isLoading} />
+  <SellSidebar bind:sellPrice {closeListModal} {list} {isLoading} />
 </SideModal>
