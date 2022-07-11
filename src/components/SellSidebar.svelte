@@ -14,7 +14,7 @@
     { value: 'XSGD', label: 'XSGD' },
     { value: 'zWBTC', label: 'zWBTC' },
     { value: 'WZIL', label: 'WZIL' },
-    { value: 'zWUSDT', label: 'zWUSDT' },
+    { value: 'zUSDT', label: 'zUSDT' },
     { value: 'zETH', label: 'zETH' },
     { value: 'GZIL', label: 'GZIL' }
   ]

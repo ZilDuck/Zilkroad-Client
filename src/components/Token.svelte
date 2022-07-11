@@ -28,7 +28,7 @@
     case 'ZETH':
       validFilename = true
       break
-    case 'ZWUSDT':
+    case 'ZUSDT':
       validFilename = true
       break
     case 'ZIL':
