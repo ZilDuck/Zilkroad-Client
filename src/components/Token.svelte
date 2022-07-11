@@ -26,10 +26,10 @@
     case 'ZWBTC':
       validFilename = true
       break
-    case 'ZWETH':
+    case 'ZETH':
       validFilename = true
       break
-    case 'ZWUSDT':
+    case 'ZUSDT':
       validFilename = true
       break
     case 'ZIL':
