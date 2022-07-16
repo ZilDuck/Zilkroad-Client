@@ -14,7 +14,7 @@
   }
 
   const wzil = {
-    name: 'WZIL',
+    name: 'wZIL',
     key: 'Wzil'
   }
 

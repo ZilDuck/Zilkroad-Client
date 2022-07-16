@@ -1,22 +1,22 @@
 <script>
   export let currencies = [
     {
-      name: 'xsgd',
+      name: 'XSGD',
     },
     {
-      name: 'zwbtc',
+      name: 'zWBTC',
     },
     {
-      name: 'wzil',
+      name: 'wZIL',
     },
     {
-      name: 'zusdt',
+      name: 'zUSDT',
     },
     {
-      name: 'zeth',
+      name: 'zETH',
     },
     {
-      name: 'gzil',
+      name: 'gZIL',
     }
   ]
   export let wallets = []
