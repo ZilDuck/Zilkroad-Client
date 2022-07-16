@@ -8,7 +8,6 @@ export async function get({ params, url: { searchParams } }) {
 
   listedNfts = await api.get(`collections/${contractId}/listedNfts?page=${page}&limit=${limit}`).catch((error) => console.log(error))
 
-  console.log("NFTS: ", listedNfts)
   return {
     body: listedNfts
   }
