@@ -1,11 +1,9 @@
 <script context="module">
   export async function load({ fetch }) {
-    const [collections] = await Promise.all([
-      fetch(`/collections/collections.json`).then((r) => r.json()),
-    ])
+    const [collections] = await Promise.all([fetch(`/collections/collections.json`).then((r) => r.json())])
     return {
       props: {
-        collections,
+        collections
       }
     }
   }
@@ -18,6 +16,7 @@
 
   export let collections = []
 </script>
+
 <ShapeImage />
 <Header className="bg-liquid-metal bg-cover bg-center" light={true} />
 <div class="flex flex-col h-full mt-20 space-y-5 md:items-center md:mt-40">
@@ -31,6 +30,6 @@
   </p>
 </div>
 
-<main class="max-w-screen-xl mx-5 xl:mx-auto  mt-40 space-y-5">
-  <CollectionSectionList collections={collections} />
+<main class="max-w-screen-xl mx-5 xl:mx-auto mt-40 space-y-5">
+  <CollectionSectionList {collections} />
 </main>

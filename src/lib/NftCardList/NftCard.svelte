@@ -104,7 +104,7 @@
       <img
         src={imageSrc}
         alt="Nft"
-        class="object-cover bg-zilkroad-gray-darker scale-100 hover:scale-110 transition-all"
+        class="object-cover bg-zilkroad-gray-darker scale-100 hover:scale-110 transition-all w-full"
         on:error={handleImageError}
         loading="eager"
       />

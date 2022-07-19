@@ -5,6 +5,9 @@
   import WalletOptions from '$components/WalletOptions.svelte'
   import { clickOutside } from '$lib/listeners.js'
 
+  export let full = false
+  export let noMargin = false
+
   let showWalletOptions = false
   $: truncatedWallet = $wallet.bech32 ? `${$wallet.bech32.slice(0, 6)}...${$wallet.bech32.slice(-6)}` : false
 
@@ -25,15 +28,17 @@
       showWalletOptions = false
     }
   }
-  
+
   if ($navigating) {
     showWalletOptions = false
   }
 </script>
 
-<div class="relative" use:clickOutside on:click_outside={handleClickOutside}>
+<div class="relative {full ? 'w-full' : ''}" use:clickOutside on:click_outside={handleClickOutside}>
   <button
-    class="flex items-center justify-center h-12 bg-white rounded-lg text-zilkroad-gray-medium pl-[20px] pr-[20px] ml-5 relative"
+    class="flex items-center justify-center h-12 bg-white rounded-lg text-zilkroad-gray-medium {noMargin
+      ? ''
+      : 'ml-5'} pl-5 pr-5 relative {full ? 'w-full' : ''}"
     on:click={handleWallet}
   >
     {truncatedWallet || 'Connect wallet'}
