@@ -52,8 +52,8 @@
   import NftActivityTable from '$components/NftActivityTable.svelte'
   import SideModal from '../../../../components/SideModal.svelte'
   import SellSidebar from '../../../../components/SellSidebar.svelte'
-  import {toast} from "../../../../store/toast";
-  import {pollTx} from "../../../../zilpay/poll-tx";
+  import { toast } from '../../../../store/toast'
+  import { pollTx } from '../../../../zilpay/poll-tx'
 
   export let nft
   export let collection
@@ -97,15 +97,15 @@
   }
 
   async function list() {
-    let {listTx} = await marketplace.listNft(nft.contract_address_b16, nft.token_id, sellFungible, sellPrice)
+    let { listTx } = await marketplace.listNft(nft.contract_address_b16, nft.token_id, sellFungible, sellPrice)
     if (listTx) {
-      toast.add({message: 'Transaction Pending', type: 'info'})
+      toast.add({ message: 'Transaction Pending', type: 'info' })
       await pollTx(listTx)
     } else {
-      toast.add({message: 'Transaction Failed', type: 'error'})
+      toast.add({ message: 'Transaction Failed', type: 'error' })
       return
     }
-    toast.add({message: 'Listing Finished', type: 'success'})
+    toast.add({ message: 'Listing Finished', type: 'success' })
   }
 
   function delist() {
@@ -230,9 +230,9 @@
     Other listings in {nft.contract_name}
   </h4>
   {#if listedNfts.length > 0}
-    <ScrollableSection className="px-0 lg:col-span-2 lg:grid-cols-4 lg:row-start-4">
+    <div class="mx-auto max-w-screen-xl">
       <NftCardList bind:nfts={listedNfts} />
-    </ScrollableSection>
+    </div>
   {:else}
     <div
       class="flex flex-col justify-center items-center pb-5 h-full min-h-[272px] border border-zilkroad-gray-dark rounded-lg  lg:max-w-screen-xl lg:mx-auto"

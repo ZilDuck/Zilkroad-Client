@@ -49,25 +49,21 @@
   <LinkButton url="/collections">Explore collections</LinkButton>
 </div>
 
-<main class="mt-[-7.5%] xl:mt-[-144px] space-y-28 mx-5">
-  <ScrollableSection className="md:grid-cols-4">
+<main class="space-y-28 mt-20 mx-5">
+  <div class="mx-auto max-w-screen-xl">
     <NftCardList nfts={featuredNfts} />
-  </ScrollableSection>
+  </div>
 
   <CallToActionSection className="md:mx-auto max-w-screen-xl" backgroundImage="/images/cta-background.jpg" />
 
   <div class="mx-auto max-w-screen-xl">
     <h2 class="text-2xl font-medium">Popular NFTs</h2>
-    <ScrollableSection className="mt-10 grid-cols-4">
-      <NftCardList nfts={recentlyListedNfts} />
-    </ScrollableSection>
+    <NftCardList nfts={recentlyListedNfts} cols={4} />
   </div>
 
   <div class="mx-auto max-w-screen-xl">
     <h2 class="text-2xl font-medium">Recently sold</h2>
-    <ScrollableSection className="mt-10 grid-cols-6">
-      <NftCardList nfts={recentlySoldNfts} />
-    </ScrollableSection>
+    <NftCardList nfts={recentlySoldNfts} cols={6} />
   </div>
 
   <div class="mx-auto max-w-screen-xl">
@@ -76,7 +72,6 @@
       <a href="/wallet-activity" class="text-white underline">View all wallet activity</a>
     </div>
     <p class="text-white pb-5">Top royalty earners</p>
-    <!-- <WalletActivityList {wallets} /> -->
   </div>
 
   <CallToActionSection

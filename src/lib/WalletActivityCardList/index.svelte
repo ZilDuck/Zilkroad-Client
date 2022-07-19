@@ -1,22 +1,22 @@
 <script>
   export let currencies = [
     {
-      name: 'xsgd',
+      name: 'XSGD',
     },
     {
-      name: 'zwbtc',
+      name: 'zWBTC',
     },
     {
-      name: 'wzil',
+      name: 'wZIL',
     },
     {
-      name: 'zusdt',
+      name: 'zUSDT',
     },
     {
-      name: 'zweth',
+      name: 'zETH',
     },
     {
-      name: 'gzil',
+      name: 'gZIL',
     }
   ]
   export let wallets = []
@@ -49,7 +49,7 @@
         {#each currencies as currency}
           <p class="overflow-x-hidden lg:w-2/12 overflow-ellipsis p-4 bg-gray-900 whitespace-pre hover:overflow-x-visible">
             <img alt="{currency.name} Token Logo" class="inline w-4" src="/images/tokens/{currency.name.toUpperCase()}.png" />
-            {wallet[currency.name]}
+            {wallet[currency.name.toLowerCase()]}
             <span class="lg:hidden"> {currency.name}</span>
           </p>
         {/each}
