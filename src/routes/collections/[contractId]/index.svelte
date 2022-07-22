@@ -3,20 +3,26 @@
     const { contractId } = params
     const page = url.searchParams.get('page') ?? 1
     const [collection, collectionNfts, metadata] = await Promise.all([
-      fetch(`/collections/${contractId}.json`).catch(error => {
-        console.log(error)
-      }).then((r) => r.json()),
-      fetch(`/collections/${contractId}/nfts.json?page=${page}`).catch(error => {
-        console.log(error)
-      }).then((r) => r.json()),
-      fetch(`/collections/${contractId}/metadata.json`).catch(error => {
-        console.log(error)
-      }).then((r) => r.json()),
+      fetch(`/collections/${contractId}.json`)
+        .catch((error) => {
+          console.log(error)
+        })
+        .then((r) => r.json()),
+      fetch(`/collections/${contractId}/nfts.json?page=${page}`)
+        .catch((error) => {
+          console.log(error)
+        })
+        .then((r) => r.json()),
+      fetch(`/collections/${contractId}/metadata.json`)
+        .catch((error) => {
+          console.log(error)
+        })
+        .then((r) => r.json())
     ])
     let nfts = collectionNfts.nfts
     let pagination = JSON.parse(collectionNfts.pagination)
     return {
-      props: { collection, nfts, pagination, metadata}
+      props: { collection, nfts, pagination, metadata }
     }
   }
 </script>
@@ -63,9 +69,9 @@
 
   function handleCollectionImageUri(metadata) {
     var image_uri = 'https://i.pickadummy.com/600x420'
-    if ( Object.keys(metadata).length !== 0 ) {
-      var uri = "collection_image_url" in metadata ? metadata.collection_image_url : metadata.animation_url
-      image_uri = (uri !== undefined && uri.startsWith("https://")) ? uri : `${cdnBaseUrl}${uri}`
+    if (Object.keys(metadata).length !== 0) {
+      var uri = 'collection_image_url' in metadata ? metadata.collection_image_url : metadata.animation_url
+      image_uri = uri !== undefined && uri.startsWith('https://') ? uri : `${cdnBaseUrl}${uri}`
     }
     return image_uri
   }
@@ -75,14 +81,12 @@
 
 <ShapeImage />
 <div class="flex flex-col h-full mt-40 space-y-5 md:items-center">
-  <div class="max-w-screen-xl mx-5 xl:mx-auto xl:px-0 lg:grid lg:grid-cols-2 lg:grid-flow-col-dense">
+  <div class="max-w-screen-xl mx-5 xl:mx-auto xl:px-0 lg:grid lg:grid-cols-2 lg:grid-flow-col-dense w-full">
     {#if collection.verified ?? collection.is_verified}
       <img
-        class='w-full h-auto rounded-lg lg:col-start-2'
-        src='{collection_image_uri}'
-        alt='{collection.name ?? collection.contract_name} hero'
-        width='400'
-        height='300'
+        class="w-full max-w-[600px] h-auto rounded-lg lg:col-start-2 ml-auto"
+        src={collection_image_uri}
+        alt="{collection.name ?? collection.contract_name} hero"
       />
     {/if}
     <section class="mr-5 lg:col-start-1">
@@ -107,7 +111,7 @@
       </p>
 
       <div>
-        <div class="grid grid-flow-col auto-cols-max gap-5 mt-5 rounded-lg bg-zilkroad-gray-dark p-5">
+        <div class="inline-grid grid-flow-col auto-cols-max gap-5 mt-5 rounded-lg bg-zilkroad-gray-dark p-5">
           <Detail description="Items listed" value="{listed_tokens} / {collection.nfts_minted}" border="right" />
           <!-- <Detail
           description='Floor price'
