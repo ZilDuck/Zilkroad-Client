@@ -91,6 +91,7 @@
 
       <p class="pt-5 font-light text-white">
         {collection.description ?? collection.contract_symbol ?? 'No description'}
+        {console.log('collection', collection)}
       </p>
 
       <div>
@@ -109,7 +110,7 @@
   </div>
 </div>
 
-<main class="max-w-screen-xl mx-auto mx-5">
+<main class="max-w-screen-xl mx-auto">
   <h2 class="mt-10 mb-10 text-xl md:col-span-2 lg:col-span-3 xl:col-span-4">
     Showing <span class="text-zilkroad-teal"
       >{pagination.size < pagination.total_elements ? pagination.size : pagination.total_elements}</span
