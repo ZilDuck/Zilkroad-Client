@@ -2,22 +2,21 @@
   export async function load({ params, fetch, url }) {
     const { contractId } = params
     const page = url.searchParams.get('page') ?? 1
-    const [collection, collectionNfts] = await Promise.all([
-      fetch(`/collections/${contractId}.json`)
-        .catch((error) => {
-          console.log(error)
-        })
-        .then((r) => r.json()),
-      fetch(`/collections/${contractId}/nfts.json?page=${page}`)
-        .catch((error) => {
-          console.log(error)
-        })
-        .then((r) => r.json())
+    const [collection, collectionNfts, metadata] = await Promise.all([
+      fetch(`/collections/${contractId}.json`).catch(error => {
+        console.log(error)
+      }).then((r) => r.json()),
+      fetch(`/collections/${contractId}/nfts.json?page=${page}`).catch(error => {
+        console.log(error)
+      }).then((r) => r.json()),
+      fetch(`/collections/${contractId}/metadata.json`).catch(error => {
+        console.log(error)
+      }).then((r) => r.json()),
     ])
     let nfts = collectionNfts.nfts
     let pagination = JSON.parse(collectionNfts.pagination)
     return {
-      props: { collection, nfts, pagination }
+      props: { collection, nfts, pagination, metadata}
     }
   }
 </script>
@@ -30,6 +29,7 @@
   import NftCardList from '../../../lib/NftCardList/index.svelte'
   import Pagination from '../../../components/Pagination.svelte'
   import { page } from '$app/stores'
+  import { cdnBaseUrl } from '../../../lib/cdn'
 
   export let collection = {}
   export let nfts = []
@@ -39,6 +39,9 @@
     total_pages: 0,
     total_elements: 0
   }
+  export let metadata = []
+  const collection_image_uri = handleCollectionImageUri(metadata)
+
   export let currentPage = $page.url.searchParams.get('page') ?? 1
   let contractId = $page.params.contractId
 
@@ -58,6 +61,15 @@
     currentPage = page
   }
 
+  function handleCollectionImageUri(metadata) {
+    var image_uri = 'https://i.pickadummy.com/600x420'
+    if ( Object.keys(metadata).length !== 0 ) {
+      var uri = "collection_image_url" in metadata ? metadata.collection_image_url : metadata.animation_url
+      image_uri = (uri !== undefined && uri.startsWith("https://")) ? uri : `${cdnBaseUrl}${uri}`
+    }
+    return image_uri
+  }
+
   console.log(pagination)
 </script>
 
@@ -66,11 +78,11 @@
   <div class="max-w-screen-xl mx-5 xl:mx-auto xl:px-0 lg:grid lg:grid-cols-2 lg:grid-flow-col-dense">
     {#if collection.verified ?? collection.is_verified}
       <img
-        class="w-full h-auto rounded-lg lg:col-start-2"
-        src="https://i.pickadummy.com/600x420?cache={collection.id ?? collection.contract_address_b32}"
-        alt="{collection.name ?? collection.contract_name} hero"
-        width="400"
-        height="300"
+        class='w-full h-auto rounded-lg lg:col-start-2'
+        src='{collection_image_uri}'
+        alt='{collection.name ?? collection.contract_name} hero'
+        width='400'
+        height='300'
       />
     {/if}
     <section class="mr-5 lg:col-start-1">

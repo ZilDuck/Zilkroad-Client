@@ -42,9 +42,17 @@
   ]
 
   let value = items[1]
+  let selectedCollection
 
-  function handleSelect(event) {
+  async function handleSelect(event) {
     console.log('selected item', event.detail)
+    selectedCollection = event.detail.value
+    let collectionNfts = await fetch(`/marketplace/marketplace.json?collection=${selectedCollection}`)
+      .catch((error) => {
+        console.log(error)
+      })
+      .then((r) => r.json())
+    nfts = collectionNfts.nfts
   }
 
   function handleOrder(event) {
