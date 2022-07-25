@@ -1,7 +1,7 @@
 <script context="module">
   export async function load({ url, fetch }) {
     const page = url.searchParams.get('page') ?? 1
-    const filter = url.searchParams.get('filter') ?? ''
+    const filter = url.searchParams.get('filter') ?? 'recently-listed'
     const order = url.searchParams.get('order') ?? 'ASC'
 
     const marketplace = await fetch(`/marketplace/marketplace.json?page=${page}&filter=${filter}&order=${order}`).then(
@@ -42,12 +42,14 @@
   ]
 
   let value = items[1]
+  let filter
   let selectedCollection
 
   async function handleSelect(event) {
     console.log('selected item', event.detail)
     selectedCollection = event.detail.value
-    let collectionNfts = await fetch(`/marketplace/marketplace.json?collection=${selectedCollection}`)
+    filter = 'contract-listed'
+    let collectionNfts = await fetch(`/marketplace/marketplace.json?filter=${filter}&collection=${selectedCollection}`)
       .catch((error) => {
         console.log(error)
       })
@@ -62,7 +64,7 @@
 
   async function handlePageChange(event) {
     const page = event.detail.currentPage
-    let collectionNfts = await fetch(`/marketplace/marketplace.json?page=${page}`)
+    let collectionNfts = await fetch(`/marketplace/marketplace.json?page=${page}?filter=${filter}&collection=${selectedCollection}`)
       .catch((error) => {
         console.log(error)
       })
