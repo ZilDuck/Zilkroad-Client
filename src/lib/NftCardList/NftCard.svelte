@@ -186,5 +186,5 @@
 </article>
 
 <SideModal bind:show={sidebarOpen}>
-  <SellSidebar bind:sellPrice {closeListModal} {list} {isLoading} />
+  <SellSidebar bind:sellPrice {closeListModal} {list} {isLoading} {nft} {imageSrc} {name} />
 </SideModal>
