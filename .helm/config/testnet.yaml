@@ -1,0 +1,22 @@
+env:
+  network: testnet
+  nftMarketplaceAddress: "0x552f96a968cac7a910fdeb668181b0f6e50e4fae"
+  wzilAddress: "0x864895d52504c388A345eF6cd9C800DBBD0eF92A"
+  cdnBase: https://zildexr-testnet.b-cdn.net/
+  
+namespace: zilkroad-testnet
+
+image.app.pullSecret: aws-registry
+
+ingress:
+  host: staging.zilkroad.io
+
+replicas: 2
+
+# filebeat requirements
+logPath: /app/logs
+
+elasticSearch:
+  hosts:       https://search.zildexr.com:443
+  username:    elastic
+  password:    gyXGCRTvHuNjLKEXQUH98kggRLEfH6rP
