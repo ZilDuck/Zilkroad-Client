@@ -26,13 +26,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v1
         with:
-          repository: ZilDuck/automation
-          ref:        ${{ github.event.inputs.tag }}
-          token:      ${{ secrets.ACCESS_TOKEN }}
-
-      - name: Setup Helm Chart
-        run: |
-          mv /home/runner/work/${{ github.event.repository.name }}/automation/deployments/${{ env.APP }} .
+          ref: refs/tags/${{ github.event.inputs.tag }}
 
       - name: Deploy to Kubernetes
         uses: WyriHaximus/github-action-helm3@v2
