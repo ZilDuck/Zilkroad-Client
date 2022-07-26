@@ -6,7 +6,9 @@ env:
   
 namespace: zilkroad-testnet
 
-image.app.pullSecret: aws-registry
+image:
+  app:
+    pullSecret: aws-registry
 
 ingress:
   host: staging.zilkroad.io

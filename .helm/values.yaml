@@ -3,7 +3,7 @@ image:
     url: 465700395685.dkr.ecr.eu-west-1.amazonaws.com/zilkroad-private/client
     tag: latest
     pullPolicy: IfNotPresent
-    pullSecret: ""
+    pullSecret: ~
 
 port: 3050
 targetPort: 3050
