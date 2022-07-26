@@ -37,5 +37,5 @@ jobs:
       - name: Deploy to Kubernetes
         uses: WyriHaximus/github-action-helm3@v2
         with:
-          exec: helm upgrade --install ${{ env.SERVICE }} .helm -f ./helm/config/${{ github.event.inputs.environment }}.yaml --namespace ${{ env.APP }}-${{ github.event.inputs.environment }} --atomic --set=image.app.tag=${{ github.event.inputs.tag }}
+          exec: helm upgrade --install ${{ env.SERVICE }} .helm -f .helm/config/${{ github.event.inputs.environment }}.yaml --namespace ${{ env.APP }}-${{ github.event.inputs.environment }} --atomic --set=image.app.tag=${{ github.event.inputs.tag }}
           kubeconfig: '${{ secrets.KUBECONFIG }}'
