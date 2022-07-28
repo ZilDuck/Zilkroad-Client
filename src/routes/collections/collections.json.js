@@ -10,18 +10,20 @@ export async function get() {
       nonfungible_address: id,
       nonfungible_name: name,
       nonfungible_symbol: description,
+      royalty_bps: royalty,
       primary_sales: [
         {
           lifetime_sales_usd: volume,
-          lifetime_royalty_usd: royalty,
+          lifetime_royalty_usd: royalty_usd,
           lifetime_quantity_sold: count
         }
       ],
+      nfts_minted: minted,
       stats: {
         listed_tokens: listed
       }
     } = collection
-    return { id, name, description, listed, volume, royalty, count }
+    return { id, name, description, listed, minted, volume, royalty, royalty_usd, count }
   })
 
   return {
