@@ -12,6 +12,8 @@
     count: 0,
   }
 
+  export let cdnBaseUrl
+
   const max_royalty_bps = 10000
   collection.royalty = collection.royalty ? max_royalty_bps / collection.royalty : 0
 
@@ -31,7 +33,7 @@
 <div class="lg:flex lg:h-24 bg-gray-900 rounded-lg" on:mouseenter={enter} on:mouseleave={leave}>
   <div class="m-5 mb-0 lg:m-0 col-span-4 flex pb-5 lg:pb-0 border-b border-gray-600 lg:border-b-0">
     <img
-      src="https://i.pickadummy.com/300x300?cache={collection.id}"
+      src="{cdnBaseUrl}/{collection.id}?optimizer=image&width=800"
       alt={collection.name}
       class="rounded-lg lg:rounded-r-none w-24 mt-5 lg:mt-0"
       width="300"
@@ -60,12 +62,12 @@
       <p class="">${collection.volume || 0} USD</p>
     </div>
     <div class="m-5 mr-0 pr-5 border-r-[1px] border-gray-600">
-      <p class="text-zilkroad-text-light">Royalty %</p>
-      <p class="">{collection.royalty || 0}%</p>
-    </div>
-    <div class="m-5 mr-0 pr-5">
       <p class="text-zilkroad-text-light">Royalty USD</p>
       <p class="">${collection.royalty_usd || 0}</p>
+    </div>
+    <div class="m-5 mr-0 pr-5">
+      <p class="text-zilkroad-text-light">Royalty %</p>
+      <p class="">{collection.royalty || 0}%</p>
     </div>
   </div>
 </div>

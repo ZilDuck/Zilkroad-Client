@@ -46,7 +46,7 @@
     total_elements: 0
   }
   export let metadata = []
-  const collection_image_uri = handleCollectionImageUri(metadata)
+  // const collection_image_uri = handleCollectionImageUri(metadata)
 
   export let currentPage = $page.url.searchParams.get('page') ?? 1
   let contractId = $page.params.contractId
@@ -55,6 +55,8 @@
   export let royalty_percentage = collection.royalty_bps ? max_royalty_bps / collection.royalty_bps : 0
   export let listed_tokens = collection.stats.listed_tokens
   export let sales_volume = collection.stats.volume
+
+  const image_uri = `${cdnBaseUrl}${collection.contract_address_b16}?optimizer=image&width=650`
 
   async function handlePageChange(event) {
     const page = event.detail.currentPage
@@ -67,15 +69,6 @@
     currentPage = page
   }
 
-  function handleCollectionImageUri(metadata) {
-    var image_uri = 'https://i.pickadummy.com/600x420'
-    if (Object.keys(metadata).length !== 0) {
-      var uri = 'collection_image_url' in metadata ? metadata.collection_image_url : metadata.animation_url
-      image_uri = uri !== undefined && uri.startsWith('https://') ? uri : `${cdnBaseUrl}${uri}`
-    }
-    return image_uri
-  }
-
   console.log(pagination)
 </script>
 
@@ -85,7 +78,7 @@
     {#if collection.verified ?? collection.is_verified}
       <img
         class="w-full max-w-[600px] h-auto rounded-lg lg:col-start-2 ml-auto"
-        src={collection_image_uri}
+        src={image_uri}
         alt="{collection.name ?? collection.contract_name} hero"
       />
     {/if}
