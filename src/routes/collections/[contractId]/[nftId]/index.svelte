@@ -54,6 +54,7 @@
   import SellSidebar from '../../../../components/SellSidebar.svelte'
   import { toast } from '../../../../store/toast'
   import { pollTx } from '../../../../zilpay/poll-tx'
+  import { convertWithDecimals } from "../../../../lib/fungibles";
 
   export let nft
   export let collection
@@ -84,7 +85,7 @@
 
   // marketplace meta
   export let sellPrice = 0 // replace with floor price as default?
-  export let sellFungible = '0x864895d52504c388A345eF6cd9C800DBBD0eF92A' // WZIL
+  export let sellFungible = '0x864895d52504c388a345ef6cd9c800dbbd0ef92a' // WZIL
   export let buyFungible = nft.listing ? nft.listing.fungible_address_b16 : 0
   export let fungibleSymbol = nft.listing ? nft.listing.fungible_symbol : 0
   export let orderId = nft.listing ? nft.listing.static_order_id : 0
@@ -97,7 +98,8 @@
   }
 
   async function list() {
-    let { listTx } = await marketplace.listNft(nft.contract_address_b16, nft.token_id, sellFungible, sellPrice)
+    const convertedSellPrice = await convertWithDecimals(sellFungible, sellPrice)
+    let { listTx } = await marketplace.listNft(nft.contract_address_b16, nft.token_id, sellFungible, convertedSellPrice)
     if (listTx) {
       toast.add({ message: 'Transaction Pending', type: 'info' })
       await pollTx(listTx)

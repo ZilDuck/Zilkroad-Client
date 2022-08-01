@@ -57,10 +57,10 @@
   </div>
 </div>
 <p class="flex justify-between items-center w-full text-[20px] text-zilkroad-text-normal mb-5">
-  Total received<span class="text-white">1098.00 XSGD</span>
+  Total received<span class="text-white">{sellPrice} {value.label}</span>
 </p>
 <p class="flex justify-between items-center w-full text-[20px] text-zilkroad-text-normal mb-5">
-  Total after royalties<span class="text-white">1098.00 XSGD</span>
+  Total after royalties<span class="text-white">{sellPrice} {value.label}</span>
 </p>
 <label>
   <input type="checkbox" bind:checked={checkOne} />
