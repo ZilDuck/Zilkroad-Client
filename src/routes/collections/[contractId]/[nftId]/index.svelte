@@ -169,7 +169,7 @@
           {:else}
             Owned by <mark class="bg-transparent border-b border-b-zilkroad-gray-light text-white"
               >{nft.owner_address_b32}</mark
-            >}
+            >
           {/if}
         </h3>
       </div>
