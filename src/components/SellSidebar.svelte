@@ -12,8 +12,7 @@
   export let imageSrc
   export let name
 
-  let checkOne = false
-  let checkTwo = false
+  let SpenderOperator = false
 
   let collections = [
     { value: 'WZIL', label: 'WZIL' },
@@ -63,12 +62,8 @@
   Total after royalties<span class="text-white">1098.00 XSGD</span>
 </p>
 <label>
-  <input type="checkbox" bind:checked={checkOne} />
-  Option one?
-</label>
-<label>
-  <input type="checkbox" bind:checked={checkTwo} />
-  Option two?
+  <input type="checkbox" bind:checked={SpenderOperator} />
+  Spender/Operator set?
 </label>
 <button
   class="text-white h-12 flex justify-center items-center bg-zilkroad-gray-dark p-5 rounded-lg w-full mb-5"
@@ -78,7 +73,7 @@
 <button
   class="text-zilkroad-text-light h-12 flex justify-center items-center bg-white rounded-lg w-full disabled:cursor-not-allowed disabled:opacity-50"
   on:click={list}
-  disabled={isLoading || !checkOne || !checkTwo}
+  disabled={isLoading || !SpenderOperator}
   >Approve and submit
   {#if isLoading}
     <span in:fly={{ y: -10 }}>

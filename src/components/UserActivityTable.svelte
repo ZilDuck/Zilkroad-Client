@@ -6,10 +6,7 @@
 
   if (data) {
     data.forEach((row) => {
-      const months = ['Jan', 'Feb', 'Mar', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-      const date = new Date(Number(row.unixtime))
-      const formattedDate =
-        date.getDate() + ' ' + months[date.getMonth()] + ', ' + ('0' + date.getHours()).slice(-2) + ':' + ('0' + date.getMinutes()).slice(-2)
+      var formattedDate = new Date(Number(row.unixtime)).toLocaleDateString('en-GB', { year: '2-digit', day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' });
 
       const output = Number(row.price) - Number(row.royalty_amount) ?? 0
       const isSale = row.activity == "Buy" || row.activity == "Sell"
