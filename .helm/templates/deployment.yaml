@@ -42,7 +42,3 @@ spec:
             requests:
               cpu: {{ .Values.resources.requests.cpu | quote }}
               memory: {{ .Values.resources.requests.memory | quote }}
-      volumes:
-        - name: configmap
-          configMap:
-            name: {{ .Release.Name }}
