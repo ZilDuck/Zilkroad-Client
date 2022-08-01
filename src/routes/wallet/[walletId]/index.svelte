@@ -118,7 +118,9 @@
     <div class="max-w-[100%] p-5 bg-zilkroad-gray-dark rounded-md self-start">
       <h1 class="flex text-4xl font-semibold h-14 border-b-[1px] border-zilkroad-gray-border">
         <span class="md:hidden">Your wallet</span>
-        <span class="hidden md:!block max-w-s overflow-hidden text-ellipsis">{walletId}</span>
+        <a href={`https://viewblock.io/zilliqa/address/${walletId}`}>
+          <span class="hidden md:!block max-w-s overflow-hidden text-ellipsis">{walletId}</span>
+        </a>
       </h1>
       <div class="flex space-x-5 pt-5 md:space-x-5">
         <Detail description="Total NFTs" value={nftCount} border="right" />
