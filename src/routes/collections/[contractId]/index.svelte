@@ -84,10 +84,12 @@
     {/if}
     <section class="mr-5 lg:col-start-1">
       <div class="flex mt-10 lg:mt-0">
-        <h3 class="mr-5 break-all text-zilkroad-teal">
-          <!-- TODO: Change to bech32 -->
-          {collection.id ?? collection.contract_address_b32}
-        </h3>
+        <a href={`https://viewblock.io/zilliqa/address/${collection.contract_address_b32}`}>
+          <h3 class="mr-5 break-all text-zilkroad-teal">
+            <!-- TODO: Change to bech32 -->
+            {collection.id ?? collection.contract_address_b32}
+          </h3>
+        </a>
 
         {#if collection.verified ?? collection.is_verified}
           <h4 class="flex items-center">
