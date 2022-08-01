@@ -72,6 +72,7 @@
       <a href="/wallet-activity" class="text-white underline">View all wallet activity</a>
     </div>
     <p class="text-white pb-5">Top royalty earners</p>
+    <WalletActivityList wallets={wallets} />
   </div>
 
   <CallToActionSection
