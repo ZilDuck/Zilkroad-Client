@@ -1,12 +1,10 @@
-export async function convertWithDecimals (fungibleAddressOrSymbol, sellAmount) {
-  const response = await fetch('http://localhost:3050/app/fungibles.json')
-  const fungibles = (await response.json().catch((error) => console.log(error))) ?? []
-  for (let i = 0; i < fungibles.length; i++) {
+export function convertWithDecimals (approvedFungibles, fungibleAddressOrSymbol, sellAmount) {
+  for (let i = 0; i < approvedFungibles.length; i++) {
     if (
-      fungibles[i].fungible_address === fungibleAddressOrSymbol ||
-      fungibles[i].fungible_symbol.toLowerCase() === fungibleAddressOrSymbol.toLowerCase()
+      approvedFungibles[i].fungible_address === fungibleAddressOrSymbol ||
+      approvedFungibles[i].fungible_symbol.toLowerCase() === fungibleAddressOrSymbol.toLowerCase()
     ) {
-      sellAmount = sellAmount * Math.pow(10, fungibles[i].decimals)
+      sellAmount = sellAmount * Math.pow(10, approvedFungibles[i].decimals)
     }
   }
   return sellAmount

@@ -1,7 +1,7 @@
 <script context="module">
   export async function load({ params, fetch }) {
     const { contractId, nftId } = params
-    const [collection, nft, collectionNfts, collectionListedNfts] = await Promise.all([
+    const [collection, nft, collectionNfts, collectionListedNfts, approvedFungibles] = await Promise.all([
       fetch(`/collections/${contractId}.json`)
         .catch((error) => console.log(error))
         .then((r) => r.json()),
@@ -12,6 +12,9 @@
         .catch((error) => console.log(error))
         .then((r) => r.json()),
       fetch(`/collections/${contractId}/listedNfts.json`)
+        .catch((error) => console.log(error))
+        .then((r) => r.json()),
+      fetch(`/app/fungibles.json`)
         .catch((error) => console.log(error))
         .then((r) => r.json())
     ])
@@ -30,7 +33,8 @@
         nft,
         nfts,
         listedNfts,
-        pagination
+        pagination,
+        approvedFungibles
       }
     }
   }
@@ -63,6 +67,7 @@
   export let listing: SingleListing | false // i set it as string cuz undefined no work wtf
   export let metadata: NftMetadata
   export let owner: string
+  export let approvedFungibles
 
   const max_royalty_bps = 10000
   export let currentPrice = nft.listing?.fungible_amount ?? 0
@@ -94,11 +99,12 @@
   export let graphData = nft.graph_data ?? []
 
   function buy() {
-    marketplace.buyNft(buyFungible, listingPrice, orderId)
+    const convertedListingPrice = convertWithDecimals(approvedFungibles, buyFungible, listingPrice)
+    marketplace.buyNft(buyFungible, convertedListingPrice, orderId)
   }
 
   async function list() {
-    const convertedSellPrice = await convertWithDecimals(sellFungible, sellPrice)
+    const convertedSellPrice = convertWithDecimals(approvedFungibles, sellFungible, sellPrice)
     let { listTx } = await marketplace.listNft(nft.contract_address_b16, nft.token_id, sellFungible, convertedSellPrice)
     if (listTx) {
       toast.add({ message: 'Transaction Pending', type: 'info' })
