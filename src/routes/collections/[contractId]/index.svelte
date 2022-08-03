@@ -36,6 +36,7 @@
   import Pagination from '../../../components/Pagination.svelte'
   import { page } from '$app/stores'
   import { cdnBaseUrl } from '../../../lib/cdn'
+  import { onMount } from "svelte";
 
   export let collection = {}
   export let nfts = []
@@ -46,7 +47,7 @@
     total_elements: 0
   }
   export let metadata = []
-  // const collection_image_uri = handleCollectionImageUri(metadata)
+  let collection_image_uri 
 
   export let currentPage = $page.url.searchParams.get('page') ?? 1
   let contractId = $page.params.contractId
@@ -70,6 +71,37 @@
   }
 
   console.log(pagination)
+  
+  onMount(async () => {
+    collection_image_uri = await getContractMetadataImage(collection.contract_address_b16)
+  })
+
+  /**
+   * Temporary fix as it requires the client to have zilpay extension enabled
+   * @param contractAddress
+   * @returns {Promise<string>}
+   */
+  async function getContractMetadataImage(contractAddress) {
+    let imageUrl = '';
+    const getHostnameFromIpfs = (url) => {
+      // run against regex
+      const matches = url.match(/^ipfs?\:\/\/([^\/?#]+)(?:[\/?#]|$)/i);
+      // extract hostname (will be null if no match is found)
+      return matches && matches[1];
+    }
+    if (window.zilPay && window.zilPay.wallet.isEnable) {
+      const contractState = await window.zilPay.contracts.at(contractAddress).getState()
+      const baseUri = contractState.base_uri ?? ''
+      if (baseUri) {
+        const metadata = await fetch(`https://gateway.pinata.cloud/ipfs/${getHostnameFromIpfs(baseUri)}/metadata.json`).then((res) => res.json())
+        if (metadata.collection_image_url) {
+          imageUrl = metadata.collection_image_url;
+        }
+      }
+    }
+    return imageUrl
+  }
+  
 </script>
 
 <ShapeImage />
@@ -78,7 +110,7 @@
     {#if collection.verified ?? collection.is_verified}
       <img
         class="w-full max-w-[600px] h-auto rounded-lg lg:col-start-2 ml-auto"
-        src={image_uri}
+        src={collection_image_uri || image_uri}
         alt="{collection.name ?? collection.contract_name} hero"
       />
     {/if}
