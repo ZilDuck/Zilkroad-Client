@@ -46,7 +46,7 @@
   {#if validFilename}
     <img src="/images/tokens/{tokenType.toUpperCase()}.png" alt="" class="mr-[10px] w-4 h-4 max-w-4 object-contain" />
   {/if}
-  {#if value}
+  {#if value || value === 0}
     {numberWithCommas(value)}
   {/if}
   {#if showTokenType}

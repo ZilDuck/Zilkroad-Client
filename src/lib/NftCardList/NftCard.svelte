@@ -12,14 +12,14 @@
   import Cross from '../../components/icons/Cross.svelte'
   import Elipsis from '../../components/icons/Elipsis.svelte'
   import SideModal from '../../components/SideModal.svelte'
-  import SellSidebar from '../../components/SellSidebar.svelte'
+  import SellSidebar from '$components/sidebars/SellSidebar.svelte'
+  import BuySidebar from '$components/sidebars/BuySidebar.svelte'
   import { toast } from '../../store/toast'
   import { pollTx } from '../../zilpay/poll-tx'
 
   export let nft
 
   $: userWalletIsOwner = nft.owner_address_b32 === $wallet.bech32
-
   $: imageSrc = `${cdnBaseUrl}${nft.contract_address_b16}/${nft.token_id}?&optimizer=image&height=400&width=400&aspect_ratio=1:1`
   $: name = nft.name ?? nft.symbol + ' #' + nft.token_id
 
@@ -180,11 +180,25 @@
             </li>
           {/if}
         {/if}
+        {#if !userWalletIsOwner}
+          <li class="flex items-center space-x-5 align-middle cursor-pointer" on:click={openListModal}>
+            <MoneyBill />
+            <button>Buy</button>
+          </li>
+        {/if}
       </ul>
     </div>
   {/if}
 </article>
 
-<SideModal bind:show={sidebarOpen}>
-  <SellSidebar bind:sellPrice {closeListModal} {list} {isLoading} {nft} {imageSrc} {name} />
-</SideModal>
+{#if userWalletIsOwner}
+  <SideModal bind:show={sidebarOpen}>
+    <SellSidebar bind:sellPrice {closeListModal} {list} {isLoading} {nft} {imageSrc} {name} />
+  </SideModal>
+{/if}
+
+{#if !userWalletIsOwner}
+  <SideModal bind:show={sidebarOpen} title="Buy NFT">
+    <BuySidebar bind:sellPrice {closeListModal} {list} {isLoading} {nft} {imageSrc} {name} /></SideModal
+  >
+{/if}
