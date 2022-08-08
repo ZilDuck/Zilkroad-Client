@@ -1,6 +1,6 @@
 env:
   network: testnet
-  nftMarketplaceAddress: "0x552f96a968cac7a910fdeb668181b0f6e50e4fae"
+  nftMarketplaceAddress: "0xa4463b8d05eecd52249521e3d33447b0dceb17fb"
   wzilAddress: "0x864895d52504c388A345eF6cd9C800DBBD0eF92A"
   cdnBase: https://zildexr-testnet.b-cdn.net/
   
