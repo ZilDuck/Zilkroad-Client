@@ -34,7 +34,7 @@
         </p>
       </a>
 
-      <a
+      <!-- <a
         href="/launchpad"
         class="w-[224px] p-5 border border-solid border-zilkroad-gray-dark rounded-lg hover:bg-zilkroad-gray-dark"
       >
@@ -44,7 +44,7 @@
         <p class="text-[14px] leading-[1.5] text-zilkroad-gray-lighter">
           See all the new projects minting on Zilkroad.
         </p>
-      </a>
+      </a> -->
 
       <a
         href="https://docs-testnet.zilkroad.io/docs/introduction/introduction#introduction"
