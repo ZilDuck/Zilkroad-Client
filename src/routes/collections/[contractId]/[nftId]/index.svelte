@@ -97,6 +97,8 @@
   export let listingPrice = nft.listing ? nft.listing.fungible_amount : 0
   export let nftActivity = nft.sales_history ?? []
   export let graphData = nft.graph_data ?? []
+  
+  let convertedListingPrice = convertWithDecimals(approvedFungibles, buyFungible, listingPrice, true)
 
   function buy() {
     const convertedListingPrice = convertWithDecimals(approvedFungibles, buyFungible, listingPrice)
@@ -162,7 +164,7 @@
 
       <div class="grid grid-flow-col auto-cols-max gap-5 mt-5 rounded-lg bg-zilkroad-gray-dark p-5">
         {#if currentPrice !== 0}
-          <Detail description="Current price" value="{currentPrice} {tokenSymbol}" border="right" />
+          <Detail description="Current price" value="{convertedListingPrice} {tokenSymbol}" border="right" />
         {/if}
         <Detail description="Sales" value={sales} border="right" />
         <Detail description="Volume" value="${volume}" border="right" />
@@ -185,7 +187,7 @@
       {#if nft.listing}
         <div in:fade>
           <Button on:click={buy} className="w-full mt-14 lg:mt-5 lg:w-auto "
-            >Purchase {listingPrice} {fungibleSymbol}
+            >Purchase {convertedListingPrice} {fungibleSymbol}
           </Button>
         </div>
       {/if}
