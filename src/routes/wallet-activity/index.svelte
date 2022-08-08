@@ -23,8 +23,7 @@
   import ShapeImage from '../../components/ShapeImage.svelte'
 
   export let title = 'Wallet Activity'
-  export let description =
-    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sem elementum lorem felis tincidunt. Semper urna, cursus sed congue fringilla gravida velit egestas nascetur.'
+  export let description = `Welcome to an overview of wallet activity of Zilliqa. Below you'll find the top rated wallets in their respective categories.`
   export let buyerWallets = []
   export let sellerWallets = []
   export let royaltyWallets = []
@@ -64,7 +63,7 @@
     <div class="flex">
       <h2 class="flex-1">Top buyer wallets</h2>
       <a href="/wallet-activity/buyers">View all buyers</a>
-    </div> 
+    </div>
     <WalletActivityCardList wallets={buyerWallets} />
   </div>
 </main>
