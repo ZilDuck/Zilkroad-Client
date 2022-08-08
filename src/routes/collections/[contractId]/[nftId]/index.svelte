@@ -50,8 +50,8 @@
   import { fade } from 'svelte/transition'
   import ShapeImage from '$components/ShapeImage.svelte'
   import NftActivityTable from '$components/NftActivityTable.svelte'
-  import SideModal from '../../../../components/SideModal.svelte'
-  import SellSidebar from '../../../../components/SellSidebar.svelte'
+  import SideModal from '$components/SideModal.svelte'
+  import SellSidebar from '$components/sidebars/SellSidebar.svelte'
   import { toast } from '../../../../store/toast'
   import { pollTx } from '../../../../zilpay/poll-tx'
 

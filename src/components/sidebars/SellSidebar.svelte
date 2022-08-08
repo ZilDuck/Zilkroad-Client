@@ -1,8 +1,8 @@
 <script>
   import Select from 'svelte-select'
   import { fly } from 'svelte/transition'
-  import Zil from './icons/Zil.svelte'
-  import SvgLoader from './SvgLoader.svelte'
+  import Zil from '$icons/Zil.svelte'
+  import SvgLoader from '$components/SvgLoader.svelte'
 
   export let isLoading = false
   export let sellPrice = 0
