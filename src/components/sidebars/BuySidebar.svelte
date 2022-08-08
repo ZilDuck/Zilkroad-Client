@@ -30,6 +30,7 @@
 <p class="flex justify-between items-center w-full text-[20px] text-zilkroad-text-normal mb-5">
   Total price <span class="text-white"><Token tokenType="XSGD" value={sellPrice ? sellPrice : 0} /></span>
 </p>
+<p class="mb-5">All purchases are final, and includes all royalties and fees for purchasing the NFT above.</p>
 <label class="block text-white mb-5">
   <input type="checkbox" bind:checked={checkOne} />
   Option one?
@@ -47,7 +48,10 @@
   class="text-zilkroad-text-light h-12 flex justify-center items-center bg-white rounded-lg w-full disabled:cursor-not-allowed disabled:opacity-50"
   on:click={list}
   disabled={isLoading || !checkOne || !checkTwo}
-  >Approve and submit
+  ><span class="mr-[10px] text-zilkroad-text-light">Approve and purchase for</span><Token
+    tokenType="XSGD"
+    value={sellPrice ? sellPrice : 0}
+  />
   {#if isLoading}
     <span in:fly={{ y: -10 }}>
       <SvgLoader />
