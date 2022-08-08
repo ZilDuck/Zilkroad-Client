@@ -1,7 +1,6 @@
 <script>
   import Select from 'svelte-select'
   import { fly } from 'svelte/transition'
-  import Zil from '$icons/Zil.svelte'
   import SvgLoader from '$components/SvgLoader.svelte'
 
   export let isLoading = false
@@ -16,7 +15,6 @@
 
   let collections = [
     { value: 'WZIL', label: 'WZIL' },
-    { value: 'ZIL', label: 'ZIL' },
     { value: 'XSGD', label: 'XSGD' },
     { value: 'zWBTC', label: 'zWBTC' },
     { value: 'zUSDT', label: 'zUSDT' },
