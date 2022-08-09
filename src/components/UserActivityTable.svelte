@@ -80,9 +80,9 @@
             </tr>
           {/each}
         {:else}
-          <tr>
-            <td colspan={headers.length}>You have no activity recorded on Zilkroad</td>
-          </tr>
+        <tr>
+          <td class="text-center" colspan={headers.length}>You have no activity recorded on Zilkroad</td>
+        </tr>
         {/if}
       </tbody>
     </table>

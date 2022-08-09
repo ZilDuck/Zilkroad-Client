@@ -30,7 +30,7 @@
           <WalletActivity /><span class="ml-2">Wallet activity</span>
         </div>
         <p class="text-[14px] leading-[1.5] text-zilkroad-gray-lighter">
-          View what’s going on with the most popular wallets.
+          Track wallet activity for buyers, sellers and royalty recipients.
         </p>
       </a>
 
@@ -53,7 +53,7 @@
         <div class="flex items-center mb-3">
           <Docs /><span class="ml-2">Docs</span>
         </div>
-        <p class="text-[14px] leading-[1.5] text-zilkroad-gray-lighter">Find out more information on using Zilkroad.</p>
+        <p class="text-[14px] leading-[1.5] text-zilkroad-gray-lighter">Learn more about the Zilkroad platform.</p>
       </a>
     </div>
 
