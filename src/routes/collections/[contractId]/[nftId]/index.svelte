@@ -1,7 +1,7 @@
 <script context="module">
   export async function load({ params, fetch }) {
     const { contractId, nftId } = params
-    const [collection, nft, collectionNfts, collectionListedNfts] = await Promise.all([
+    const [collection, nft, collectionNfts, collectionListedNfts, approvedFungibles] = await Promise.all([
       fetch(`/collections/${contractId}.json`)
         .catch((error) => console.log(error))
         .then((r) => r.json()),
@@ -12,6 +12,9 @@
         .catch((error) => console.log(error))
         .then((r) => r.json()),
       fetch(`/collections/${contractId}/listedNfts.json`)
+        .catch((error) => console.log(error))
+        .then((r) => r.json()),
+      fetch(`/app/fungibles.json`)
         .catch((error) => console.log(error))
         .then((r) => r.json())
     ])
@@ -30,7 +33,8 @@
         nft,
         nfts,
         listedNfts,
-        pagination
+        pagination,
+        approvedFungibles
       }
     }
   }
@@ -54,6 +58,7 @@
   import SellSidebar from '$components/sidebars/SellSidebar.svelte'
   import { toast } from '../../../../store/toast'
   import { pollTx } from '../../../../zilpay/poll-tx'
+  import { convertWithDecimals } from "../../../../lib/fungibles";
 
   export let nft
   export let collection
@@ -62,6 +67,7 @@
   export let listing: SingleListing | false // i set it as string cuz undefined no work wtf
   export let metadata: NftMetadata
   export let owner: string
+  export let approvedFungibles
 
   const max_royalty_bps = 10000
   export let currentPrice = nft.listing?.fungible_amount ?? 0
@@ -84,20 +90,24 @@
 
   // marketplace meta
   export let sellPrice = 0 // replace with floor price as default?
-  export let sellFungible = '0x864895d52504c388A345eF6cd9C800DBBD0eF92A' // WZIL
+  export let sellFungible = '0x864895d52504c388a345ef6cd9c800dbbd0ef92a' // WZIL
   export let buyFungible = nft.listing ? nft.listing.fungible_address_b16 : 0
   export let fungibleSymbol = nft.listing ? nft.listing.fungible_symbol : 0
   export let orderId = nft.listing ? nft.listing.static_order_id : 0
   export let listingPrice = nft.listing ? nft.listing.fungible_amount : 0
   export let nftActivity = nft.sales_history ?? []
   export let graphData = nft.graph_data ?? []
+  
+  let convertedListingPrice = convertWithDecimals(approvedFungibles, buyFungible, listingPrice, true)
 
   function buy() {
-    marketplace.buyNft(buyFungible, listingPrice, orderId)
+    const convertedListingPrice = convertWithDecimals(approvedFungibles, buyFungible, listingPrice)
+    marketplace.buyNft(buyFungible, convertedListingPrice, orderId)
   }
 
   async function list() {
-    let { listTx } = await marketplace.listNft(nft.contract_address_b16, nft.token_id, sellFungible, sellPrice)
+    const convertedSellPrice = convertWithDecimals(approvedFungibles, sellFungible, sellPrice)
+    let { listTx } = await marketplace.listNft(nft.contract_address_b16, nft.token_id, sellFungible, convertedSellPrice)
     if (listTx) {
       toast.add({ message: 'Transaction Pending', type: 'info' })
       await pollTx(listTx)
@@ -154,7 +164,7 @@
 
       <div class="grid grid-flow-col auto-cols-max gap-5 mt-5 rounded-lg bg-zilkroad-gray-dark p-5">
         {#if currentPrice !== 0}
-          <Detail description="Current price" value="{currentPrice} {tokenSymbol}" border="right" />
+          <Detail description="Current price" value="{convertedListingPrice} {tokenSymbol}" border="right" />
         {/if}
         <Detail description="Sales" value={sales} border="right" />
         <Detail description="Volume" value="${volume}" border="right" />
@@ -178,7 +188,7 @@
       {#if nft.listing}
         <div in:fade>
           <Button on:click={buy} className="w-full mt-14 lg:mt-5 lg:w-auto "
-            >Purchase {listingPrice} {fungibleSymbol}
+            >Purchase {convertedListingPrice} {fungibleSymbol}
           </Button>
         </div>
       {/if}
