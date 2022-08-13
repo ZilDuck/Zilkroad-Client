@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: client
+  labels:
+    service: client
+spec:
+  replicas: {{ .Values.replicas }}
+  selector:
+    matchLabels:
+      service: client
+  template:
+    metadata:
+      labels:
+        service: client
+      annotations:
+        rollme: {{ randAlphaNum 5 | quote }}
+    spec:
+      imagePullSecrets:
+        - name: {{ .Values.image.app.pullSecret }}
+      containers:
+        - name: client
+          image: "{{ .Values.image.app.url }}:{{ .Values.image.app.tag }}"
+          imagePullPolicy: {{ .Values.image.app.pullPolicy }}
+          ports:
+            - containerPort: {{ .Values.port }}
+          env:
+            - name: VITE_API_ENDPOINT
+              value: {{ .Values.env.viteApiEndpoint | quote }}
+            - name: VITE_BLOCK_NETWORK
+              value: {{ .Values.env.network | quote }}
+            - name: VITE_MARKETPLACE_ADDRESS
+              value: {{ .Values.env.nftMarketplaceAddress | quote }}
+            - name: VITE_WZIL_ADDRESS
+              value: {{ .Values.env.wzilAddress | quote }}
+            - name: VITE_CDN_BASE_URL
+              value: {{ .Values.env.cdnBase | quote }}
+          resources:
+            limits:
+              cpu: {{ .Values.resources.limits.cpu | quote }}
+              memory: {{ .Values.resources.limits.memory | quote }}
+            requests:
+              cpu: {{ .Values.resources.requests.cpu | quote }}
+              memory: {{ .Values.resources.requests.memory | quote }}

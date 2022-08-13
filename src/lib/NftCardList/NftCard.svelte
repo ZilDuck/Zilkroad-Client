@@ -12,14 +12,35 @@
   import Cross from '../../components/icons/Cross.svelte'
   import Elipsis from '../../components/icons/Elipsis.svelte'
   import SideModal from '../../components/SideModal.svelte'
-  import SellSidebar from '../../components/SellSidebar.svelte'
+  import SellSidebar from '$components/sidebars/SellSidebar.svelte'
+  import BuySidebar from '$components/sidebars/BuySidebar.svelte'
   import { toast } from '../../store/toast'
   import { pollTx } from '../../zilpay/poll-tx'
+
+  export let currencies = [
+    {
+      name: 'XSGD',
+    },
+    {
+      name: 'zWBTC',
+    },
+    {
+      name: 'wZIL',
+    },
+    {
+      name: 'zUSDT',
+    },
+    {
+      name: 'zETH',
+    },
+    {
+      name: 'gZIL',
+    }
+  ]
 
   export let nft
 
   $: userWalletIsOwner = nft.owner_address_b32 === $wallet.bech32
-
   $: imageSrc = `${cdnBaseUrl}${nft.contract_address_b16}/${nft.token_id}?&optimizer=image&height=400&width=400&aspect_ratio=1:1`
   $: name = nft.name ?? nft.symbol + ' #' + nft.token_id
 
@@ -27,7 +48,8 @@
   export let sellFungible = '0x864895d52504c388A345eF6cd9C800DBBD0eF92A' // WZIL
   export let orderId = nft.listing ? nft.listing.static_order_id : 0
   export let buyFungible = nft.listing ? nft.listing.fungible_address : 0
-  export let listingPrice = nft.listing ? nft.listing.listing_fungible_token_price : 0
+  export let listingPrice = nft.token_price ? nft.token_price : 0
+  export let priceSymbol = nft.token_symbol ? nft.token_symbol.toUpperCase() : 'WZIL'
 
   let open = false
   let sidebarOpen = false
@@ -125,13 +147,13 @@
   {#if listingPrice}
     <div class="flex items-start">
       <img
-        src="https://meta.viewblock.io/zilliqa.zil1gvr0jgwfsfmxsyx0xsnhtlte4gks6r3yk8x5fn/logo?t=dark"
+        alt="{priceSymbol} Token Logo"
         class="w-4 h-4 mr-[10px] mt-1"
-        alt="logo"
+        src="/images/tokens/{priceSymbol}.png"
       />
       <h3 class="font-light">
         {listingPrice}
-        WZIL
+        {priceSymbol}
       </h3>
     </div>
   {/if}
@@ -180,11 +202,25 @@
             </li>
           {/if}
         {/if}
+        {#if !userWalletIsOwner}
+          <li class="flex items-center space-x-5 align-middle cursor-pointer" on:click={openListModal}>
+            <MoneyBill />
+            <button>Buy</button>
+          </li>
+        {/if}
       </ul>
     </div>
   {/if}
 </article>
 
-<SideModal bind:show={sidebarOpen}>
-  <SellSidebar bind:sellPrice {closeListModal} {list} {isLoading} {nft} {imageSrc} {name} />
-</SideModal>
+{#if userWalletIsOwner}
+  <SideModal bind:show={sidebarOpen}>
+    <SellSidebar bind:sellPrice {closeListModal} {list} {isLoading} {nft} {imageSrc} {name} />
+  </SideModal>
+{/if}
+
+{#if !userWalletIsOwner}
+  <SideModal bind:show={sidebarOpen} title="Buy NFT">
+    <BuySidebar bind:sellPrice {closeListModal} {list} {isLoading} {nft} {imageSrc} {name} /></SideModal
+  >
+{/if}

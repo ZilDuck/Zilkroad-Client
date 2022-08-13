@@ -6,10 +6,6 @@
 
 <div class="grid grid-cols-4 gap-5">
   {#each wallets as wallet}
-    <WalletCard />
+    <WalletCard wallet={wallet}/>
   {/each}
-  <WalletCard />
-  <WalletCard />
-  <WalletCard />
-  <WalletCard />
 </div>

@@ -54,8 +54,8 @@
   import { fade } from 'svelte/transition'
   import ShapeImage from '$components/ShapeImage.svelte'
   import NftActivityTable from '$components/NftActivityTable.svelte'
-  import SideModal from '../../../../components/SideModal.svelte'
-  import SellSidebar from '../../../../components/SellSidebar.svelte'
+  import SideModal from '$components/SideModal.svelte'
+  import SellSidebar from '$components/sidebars/SellSidebar.svelte'
   import { toast } from '../../../../store/toast'
   import { pollTx } from '../../../../zilpay/poll-tx'
   import { convertWithDecimals } from "../../../../lib/fungibles";
@@ -177,9 +177,10 @@
           {#if userWalletIsOwner}
             Owned by you
           {:else}
-            Owned by <mark class="bg-transparent border-b border-b-zilkroad-gray-light text-white"
+            Owned by <a href="/wallet/{nft.owner_address_b32}">
+                      <mark class="bg-transparent border-b border-b-zilkroad-gray-light text-white"
               >{nft.owner_address_b32}</mark
-            >}
+            > </a>
           {/if}
         </h3>
       </div>
@@ -220,7 +221,7 @@
           src={imageSrc.toLowerCase()}
           on:error={handleImageError}
         />
-        {#if nft.token_metadata}
+        {#if nft.token_metadata.attributes}
           <ul class="flex flex-wrap gap-5 mt-10 lg:col-start-2">
             {#each nft.token_metadata.attributes as attribute}
               <li class="py-3 px-[10px] bg-zilkroad-gray-dark rounded-lg">

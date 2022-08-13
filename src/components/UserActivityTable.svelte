@@ -6,15 +6,18 @@
 
   if (data) {
     data.forEach((row) => {
-      const months = ['Jan', 'Feb', 'Mar', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-      const date = new Date(Number(row.unixtime))
-      const formattedDate =
-        date.getDate() + ' ' + months[date.getMonth()] + ', ' + ('0' + date.getHours()).slice(-2) + ':' + ('0' + date.getMinutes()).slice(-2)
+      var formattedDate = new Date(Number(row.unixtime)).toLocaleDateString('en-GB', {
+        year: '2-digit',
+        day: '2-digit',
+        month: 'short',
+        hour: '2-digit',
+        minute: '2-digit'
+      })
 
       const output = Number(row.price) - Number(row.royalty_amount) ?? 0
-      const isSale = row.activity == "Buy" || row.activity == "Sell"
+      const isSale = row.activity == 'Buy' || row.activity == 'Sell'
       let royaltySection
-      if ( isSale ) {
+      if (isSale) {
         royaltySection = `<div class="flex items-center">
                 <img
                   src="/images/tokens/${row.price_symbol.toUpperCase()}.png"
@@ -32,7 +35,7 @@
         Event: row.activity,
         Date: formattedDate,
         'NFT Token ID': row.token_id,
-        'NFT Contract': `<a class="underline" href="/collections/${row.contract}">${row.contract}</a>`,
+        'NFT Contract': `<a class="underline contract" href="/collections/${row.contract}">${row.contract}</a>`,
         Price: `<div class="flex items-center">
                 <img
                   src="/images/tokens/${row.price_symbol.toUpperCase()}.png"
@@ -69,16 +72,16 @@
       </thead>
       <tbody>
         {#if rows.length > 0}
-        {#each rows as row}
-          <tr>
-            {#each Object.values(row) as cell}
-              <td>{@html cell}</td>
-            {/each}
-          </tr>
-        {/each}
+          {#each rows as row}
+            <tr>
+              {#each Object.values(row) as cell}
+                <td>{@html cell}</td>
+              {/each}
+            </tr>
+          {/each}
         {:else}
         <tr>
-          <td colspan={headers.length}>You have no activity recorded on Zilkroad</td>
+          <td class="text-center" colspan={headers.length}>You have no activity recorded on Zilkroad</td>
         </tr>
         {/if}
       </tbody>
