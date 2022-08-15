@@ -17,7 +17,7 @@ export const increaseAllowance = async (
       },
       {
         vname: 'amount',
-        value: String('amount'),
+        value: String(amount),
         type: 'Uint128'
       }
     ],
