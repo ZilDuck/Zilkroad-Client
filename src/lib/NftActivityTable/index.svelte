@@ -1,4 +1,8 @@
 <script type="ts">
+  import marketplace from "$store/marketplace";
+  import { convertWithDecimals } from "../fungibles";
+  import NftActivityRow from "./NftActivityRow.svelte";
+
   export let data: NftActivity[]
   let rows = []
 
@@ -7,7 +11,6 @@
   if (data) {
     data.forEach((row) => {
       var formattedDate = new Date(Number(row.unixtime)).toLocaleDateString('en-GB', { year: '2-digit', day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' });
-
       rows.push({
         Event: row.activity,
         Date: formattedDate,
@@ -18,7 +21,7 @@
                   class="h-6 w-6 p-0.5"
                   alt="..."
                 />
-                <span class="ml-2">${row.price}</span>
+                <span class="ml-2">${convertWithDecimals($marketplace.approvedFungibles, row.price_symbol, row.price, true)}</span>
               </div>`
       })
     })
@@ -29,35 +32,41 @@
   <div class="overflow-x-auto border-[1px] border-zilkroad-gray-dark rounded-lg">
     <table class={`items-center w-full bg-transparent border-collapse ${rows.length <= 0 ? 'min-h-[272px]' : ''}`}>
       <thead>
-        <tr class="bg-zilkroad-gray-dark">
-          {#each headers as header}
-            <th>{header}</th>
-          {/each}
-        </tr>
+      <tr class="bg-zilkroad-gray-dark">
+        {#each headers as header}
+          <th>{header}</th>
+        {/each}
+      </tr>
       </thead>
       <tbody>
-        {#if rows.length > 0}
-          {#each rows as row}
-            <tr>
-              {#each Object.values(row) as cell}
-                <td>{@html cell}</td>
-              {/each}
-            </tr>
+      {#if data.length > 0}
+        {#each data as row}
+          <NftActivityRow event={row.activity} date={row.unixtime} wallet={row.contract} price={row.price} priceSymbol={row.price_symbol}/>
           {/each}
-        {:else}
-          <tr>
-            <td colspan={headers.length} class="">
-              <div class="flex flex-col justify-center items-center pb-5">
-                <img
-                  src="/icons/Outline/General/Moon.svg"
-                  alt="No sales history"
-                  class="fill-white max-w-[24px] mb-[10px]"
-                />
-                <p class="text-[14px]">There is no sale history for this NFT yet</p>
-              </div>
-            </td>
-          </tr>
         {/if}
+      {#if rows.length > 0}
+        {#each rows as row}
+      
+          <tr>
+            {#each Object.values(row) as cell}
+              <td>{@html cell}</td>
+            {/each}
+          </tr>
+        {/each}
+      {:else}
+        <tr>
+          <td colspan={headers.length} class="">
+            <div class="flex flex-col justify-center items-center pb-5">
+              <img
+                src="/icons/Outline/General/Moon.svg"
+                alt="No sales history"
+                class="fill-white max-w-[24px] mb-[10px]"
+              />
+              <p class="text-[14px]">There is no sale history for this NFT yet</p>
+            </div>
+          </td>
+        </tr>
+      {/if}
       </tbody>
     </table>
   </div>
