@@ -4,10 +4,18 @@
   import { unwrapZil, wrapZil } from '../zilpay/wzil'
   import {pollTx} from "../zilpay/poll-tx";
   import {toast} from "../store/toast";
+  import { convertWithDecimals } from "../lib/fungibles";
+  import { onMount } from "svelte";
 
   let convertAmount
+  let approvedFungibles
   let zilToWZil = true
 
+  onMount(async () => {
+    const response = await fetch('/app/fungibles.json')
+    approvedFungibles = (await response.json().catch((error) => console.log(error))) ?? []
+  })
+  
   const zil = {
     name: 'ZIL',
     key: 'Zil'
@@ -34,7 +42,8 @@
   }
 
   async function convert() {
-    let convertTransactions = zilToWZil ? await wrapZil(convertAmount) : await unwrapZil(convertAmount)
+    const convertedConvertAmount = convertWithDecimals(approvedFungibles, currentTokenType.name, convertAmount)
+    let convertTransactions = zilToWZil ? await wrapZil(convertedConvertAmount) : await unwrapZil(convertedConvertAmount)
     if (convertTransactions){
       toast.add({ message: 'Transaction Pending', type: 'info' })
       await pollTx(convertTransactions)

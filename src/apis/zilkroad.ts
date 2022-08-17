@@ -134,6 +134,11 @@ export const zilkroad = (fetch: (info: RequestInfo, init?: RequestInit) => Promi
     return activity.result
   }
 
+  const getApprovedFungibles = async () => {
+    const response = await fetch('http://localhost:3000/app/fungibles.json')
+    return await response.json() as { [key: string]: Fungible }
+  }
+
   return {
     getListings,
     getFeaturedListings,
@@ -150,6 +155,7 @@ export const zilkroad = (fetch: (info: RequestInfo, init?: RequestInit) => Promi
     getUserDetails,
     getNftOwner,
     getVerifiedContracts,
-    getUserActivity
+    getUserActivity,
+    getApprovedFungibles
   }
 }

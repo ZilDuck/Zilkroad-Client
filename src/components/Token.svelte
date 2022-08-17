@@ -1,6 +1,6 @@
 <script lang="ts">
   export let tokenType: string
-  export let value = 0
+  export let value
   export let showTokenType = true
 
   let validFilename = false
