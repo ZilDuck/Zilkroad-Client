@@ -16,7 +16,7 @@
   import BuySidebar from '$components/sidebars/BuySidebar.svelte'
   import { toast } from '../../store/toast'
   import { pollTx } from '../../zilpay/poll-tx'
-  import TokenPrice from "../../components/TokenPrice.svelte";
+  import TokenPrice from '../../components/TokenPrice.svelte'
 
   export let currencies = [
     {
