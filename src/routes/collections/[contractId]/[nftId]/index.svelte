@@ -55,6 +55,7 @@
   import { toast } from '../../../../store/toast'
   import { pollTx } from '../../../../zilpay/poll-tx'
   import { convertWithDecimals } from "../../../../lib/fungibles";
+  import TokenPrice from "../../../../components/TokenPrice.svelte";
 
   export let nft
   export let collection
@@ -181,8 +182,8 @@
 
       {#if nft.listing}
         <div in:fade>
-          <Button on:click={buy} className="w-full mt-14 lg:mt-5 lg:w-auto "
-            >Purchase {convertWithDecimals($marketplace.approvedFungibles, buyFungible, listingPrice, true)} {fungibleSymbol}
+          <Button on:click={buy} className="w-full mt-14 lg:mt-5 lg:w-auto ">
+            Purchase <TokenPrice price={listingPrice} fungibleAddressOrSymbol={buyFungible} reverse='true'/> {fungibleSymbol}
           </Button>
         </div>
       {/if}
