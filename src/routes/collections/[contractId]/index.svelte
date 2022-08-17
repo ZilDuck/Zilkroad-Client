@@ -32,8 +32,10 @@
   import Detail from '$components/Detail.svelte'
   import ShapeImage from '$components/ShapeImage.svelte'
   import Checkmark from '$components/icons/Checkmark.svelte'
+  import Report from '$components/icons/Report.svelte'
   import NftCardList from '../../../lib/NftCardList/index.svelte'
   import Pagination from '../../../components/Pagination.svelte'
+  import TwitterShare from '../../../components/TwitterShare.svelte'
   import { page } from '$app/stores'
   import { cdnBaseUrl } from '../../../lib/cdn'
 
@@ -102,19 +104,25 @@
 
       <p class="pt-5 font-light text-white">
         {collection.description ?? collection.contract_symbol ?? 'No description'}
-        {console.log('collection', collection)}
       </p>
 
-      <div>
-        <div class="inline-grid grid-flow-col auto-cols-max gap-5 mt-5 rounded-lg bg-zilkroad-gray-dark p-5">
+      <div class="bg-zilkroad-gray-dark mt-5 rounded-lg">
+        <div class="inline-grid grid-flow-col auto-cols-max gap-5 rounded-lg p-5">
           <Detail description="Items listed" value="{listed_tokens} / {collection.nfts_minted}" border="right" />
-          <!-- <Detail
-          description='Floor price'
-          value='{collection.floor} ZIL'
-          border='right'
-        /> -->
           <Detail description="Volume" value="${sales_volume}" border="right" />
           <Detail description="Royalty" value="{royalty_percentage}%" />
+        </div>
+        <div class="rounded-lg p-5 w-full pt-0">
+          <div class="flex justify-between w-full border-zilkroad-gray-border border-t-[1px] pt-5">
+            <div class="social-share flex">
+              <p class="text-white mr-5 items-center">Share</p>
+              <TwitterShare text={collection.name ?? collection.contract_name} url={currentPage} via="zilkroad_dex" />
+            </div>
+            <div class="flex items-center">
+              <p class="text-[#D8A270] mr-[10px]">Report collection</p>
+              <Report />
+            </div>
+          </div>
         </div>
       </div>
     </section>
