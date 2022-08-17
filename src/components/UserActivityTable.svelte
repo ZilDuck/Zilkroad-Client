@@ -15,7 +15,7 @@
       })
 
       const output = Number(row.price) - Number(row.royalty_amount) ?? 0
-      const isSale = row.activity == 'Buy' || row.activity == 'Sell'
+      const isSale = row.activity == 'Bought' || row.activity == 'Sold' || row.activity == 'Royalties'
       let royaltySection
       if (isSale) {
         royaltySection = `<div class="flex items-center">
