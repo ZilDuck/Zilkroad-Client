@@ -16,6 +16,7 @@
   import BuySidebar from '$components/sidebars/BuySidebar.svelte'
   import { toast } from '../../store/toast'
   import { pollTx } from '../../zilpay/poll-tx'
+  import TokenPrice from '../../components/TokenPrice.svelte'
 
   export let currencies = [
     {
@@ -152,7 +153,7 @@
         src="/images/tokens/{priceSymbol}.png"
       />
       <h3 class="font-light">
-        {listingPrice}
+        <TokenPrice price={listingPrice} fungibleAddressOrSymbol={priceSymbol} reverse="true"/>
         {priceSymbol}
       </h3>
     </div>

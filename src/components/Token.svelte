@@ -1,6 +1,6 @@
 <script lang="ts">
   export let tokenType: string
-  export let value = 0
+  export let value
   export let showTokenType = true
 
   let validFilename = false
@@ -8,9 +8,10 @@
   function numberWithCommas(number) {
     const formattedNumber = new Intl.NumberFormat('en-GB', {
       style: 'currency',
-      currency: 'USD'
+      currency: 'USD',
+      currencyDisplay: 'narrowSymbol'
     }).format(number)
-    return number
+    return formattedNumber
   }
 
   switch (tokenType.toUpperCase()) {
