@@ -8,11 +8,12 @@ import { zilkroad } from '../apis/zilkroad'
 import { toast } from './toast'
 
 export type Marketplace = {
-  verifiedContracts: string[]
+  verifiedContracts: string[],
+  approvedFungibles: Fungible[]
 }
 
 const createMarketplaceStore = () => {
-  const { subscribe, update }: Writable<Marketplace> = writable({ verifiedContracts: [] })
+  const { subscribe, update }: Writable<Marketplace> = writable({ verifiedContracts: [], approvedFungibles: [] })
   const api = zilkroad(fetch)
 
   const listNft = async (
@@ -82,6 +83,10 @@ const createMarketplaceStore = () => {
 
   api.getVerifiedContracts().then((verifiedContracts) => {
     update((m) => ({ ...m, verifiedContracts }))
+  })
+
+  api.getApprovedFungibles().then((approvedFungibles) => {
+    update((m) => ({ ...m, approvedFungibles }))
   })
 
   return {
