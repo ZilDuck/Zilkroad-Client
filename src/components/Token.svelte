@@ -8,9 +8,10 @@
   function numberWithCommas(number) {
     const formattedNumber = new Intl.NumberFormat('en-GB', {
       style: 'currency',
-      currency: 'USD'
+      currency: 'USD',
+      currencyDisplay: 'narrowSymbol'
     }).format(number)
-    return number
+    return formattedNumber
   }
 
   switch (tokenType.toUpperCase()) {
