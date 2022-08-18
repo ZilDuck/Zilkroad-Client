@@ -2,9 +2,11 @@
   import Select from 'svelte-select'
   import { fly } from 'svelte/transition'
   import SvgLoader from '$components/SvgLoader.svelte'
+  import marketplace from "$store/marketplace";
 
   export let isLoading = false
   export let sellPrice = 0
+  export let sellFungible
   export let closeListModal
   export let list
   export let nft
@@ -13,23 +15,23 @@
 
   let SpenderOperator = false
 
-  let collections = [
-    { value: 'WZIL', label: 'WZIL' },
-    { value: 'XSGD', label: 'XSGD' },
-    { value: 'zWBTC', label: 'zWBTC' },
-    { value: 'zUSDT', label: 'zUSDT' },
-    { value: 'zETH', label: 'zETH' },
-    { value: 'GZIL', label: 'GZIL' }
-  ]
-
+  
+  let fungibles = $marketplace.approvedFungibles
+  let collections = fungibles.map((fungible) => {
+    return {
+      value:fungible.fungible_address, 
+      label: fungible.fungible_symbol 
+    }
+  } )
   let value = collections[1]
+  sellFungible =collections[1].value
 
   function handleOrder(event) {
     console.log('selected item', event.detail)
     value = event.detail
+    sellFungible = event.detail.value
   }
 </script>
-
 <h4 class="text-[20px] font-[600] mb-5">{name}</h4>
 <img src={imageSrc} alt="NFT image you're selling" class="w-full pb-5" />
 <div
