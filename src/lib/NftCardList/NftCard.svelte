@@ -46,7 +46,7 @@
   $: name = nft.name ?? nft.symbol + ' #' + nft.token_id
 
   export let sellPrice = 0 // replace with floor price as default?
-  export let sellFungible = '0x864895d52504c388A345eF6cd9C800DBBD0eF92A' // WZIL
+  export let sellFungible
   export let orderId = nft.listing ? nft.listing.static_order_id : 0
   export let buyFungible = nft.listing ? nft.listing.fungible_address : 0
   export let listingPrice = nft.token_price ? nft.token_price : 0
@@ -222,6 +222,6 @@
 
 {#if !userWalletIsOwner}
   <SideModal bind:show={sidebarOpen} title="Buy NFT">
-    <BuySidebar bind:sellPrice {closeListModal} {list} {isLoading} {nft} {imageSrc} {name} /></SideModal
+    <BuySidebar bind:sellPrice bind:sellFungible {closeListModal} {list} {isLoading} {nft} {imageSrc} {name} /></SideModal
   >
 {/if}
