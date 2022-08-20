@@ -15,7 +15,7 @@ export const unwrapZil = async (amount: number) => {
   return await call('Burn', [
     {
       vname: 'amount',
-      value: amount,
+      value: amount.toString(),
       type: 'Uint128'
     }
   ]).catch((error) => console.log(error))
