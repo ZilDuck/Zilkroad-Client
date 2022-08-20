@@ -32,10 +32,17 @@
   import Detail from '$components/Detail.svelte'
   import ShapeImage from '$components/ShapeImage.svelte'
   import Checkmark from '$components/icons/Checkmark.svelte'
+  import Report from '$components/icons/Report.svelte'
   import NftCardList from '../../../lib/NftCardList/index.svelte'
   import Pagination from '../../../components/Pagination.svelte'
+  import TwitterShare from '../../../components/TwitterShare.svelte'
   import { page } from '$app/stores'
   import { cdnBaseUrl } from '../../../lib/cdn'
+
+  import Discord from '$icons/social/Discord.svelte'
+  import Twitter from '$icons/social/Twitter.svelte'
+  import Telegram from '$icons/social/Telegram.svelte'
+  import Website from '$icons/social/Website.svelte'
 
   export let collection = {}
   export let nfts = []
@@ -83,38 +90,50 @@
       />
     {/if}
     <section class="mr-5 lg:col-start-1">
-      <div class="flex mt-10 lg:mt-0">
-        <a href={`https://viewblock.io/zilliqa/address/${collection.contract_address_b32}`}>
-          <h3 class="mr-5 break-all text-zilkroad-teal">
+      <div class="flex mt-10 lg:mt-0 items-center">
+        <a href={`https://viewblock.io/zilliqa/address/${collection.contract_address_b32}`} class="w-[100px]">
+          <h3 class="mr-5 text-zilkroad-teal contract w-[100px] break-normal">
             <!-- TODO: Change to bech32 -->
             {collection.id ?? collection.contract_address_b32}
           </h3>
         </a>
 
         {#if collection.verified ?? collection.is_verified}
-          <h4 class="flex items-center">
+          <h4 class="flex items-center ml-10">
             <Checkmark className="mr-2" />
             Verified
           </h4>
         {/if}
+        <div class="ml-auto flex">
+          <a href="/" class="mr-5"><Twitter /></a>
+          <a href="/" class="mr-5"><Discord /></a>
+          <a href="/" class="mr-5"><Telegram /></a>
+          <a href="/" class="mr-5"><Website /></a>
+        </div>
       </div>
       <h1 class="mt-5 text-4xl font-medium md:text-5xl">{collection.name ?? collection.contract_name}</h1>
 
       <p class="pt-5 font-light text-white">
         {collection.description ?? collection.contract_symbol ?? 'No description'}
-        {console.log('collection', collection)}
       </p>
 
-      <div>
-        <div class="inline-grid grid-flow-col auto-cols-max gap-5 mt-5 rounded-lg bg-zilkroad-gray-dark p-5">
+      <div class="bg-zilkroad-gray-dark mt-5 rounded-lg">
+        <div class="inline-grid grid-flow-col auto-cols-max gap-5 rounded-lg p-5">
           <Detail description="Items listed" value="{listed_tokens} / {collection.nfts_minted}" border="right" />
-          <!-- <Detail
-          description='Floor price'
-          value='{collection.floor} ZIL'
-          border='right'
-        /> -->
           <Detail description="Volume" value="${sales_volume}" border="right" />
           <Detail description="Royalty" value="{royalty_percentage}%" />
+        </div>
+        <div class="rounded-lg p-5 w-full pt-0">
+          <div class="flex justify-between w-full border-zilkroad-gray-border border-t-[1px] pt-5">
+            <div class="social-share flex">
+              <p class="text-white mr-[10px] items-center">Share to</p>
+              <TwitterShare text={collection.name ?? collection.contract_name} url={currentPage} via="zilkroad_dex" />
+            </div>
+            <button class="flex items-center">
+              <p class="text-[#D8A270] mr-[10px]">Report collection</p>
+              <Report />
+            </button>
+          </div>
         </div>
       </div>
     </section>
