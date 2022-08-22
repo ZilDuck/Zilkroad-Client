@@ -74,21 +74,21 @@ export const getListing = async (orderId: string) => {
   const { getSubstate } = contract(marketplaceAddress)
   const orderState = (await getSubstate('listing_map', [orderId])) as
     | {
-        argtypes: []
-        arguments: [
-          {
-            argtypes: []
-            arguments: [string, string]
-            constructor: string
-          },
-          {
-            argtypes: []
-            arguments: [string, string, string]
-            constructor: string
-          }
-        ]
-        constructor: string
-      }
+      argtypes: []
+      arguments: [
+        {
+          argtypes: []
+          arguments: [string, string]
+          constructor: string
+        },
+        {
+          argtypes: []
+          arguments: [string, string, string]
+          constructor: string
+        }
+      ]
+      constructor: string
+    }
     | undefined
 
   if (!orderState) return undefined
