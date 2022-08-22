@@ -1,8 +1,11 @@
 <script type="ts">
+  import { variables } from '../lib/variables.js'
   export let data: UserActivity[]
   let rows = []
 
+  export const { network } = variables
   const headers = ['Event', 'Date', 'NFT Token ID', 'NFT Contract', 'Price', 'NFT Royalty', 'Output']
+  const viewblockURL = 'https://viewblock.io/zilliqa/tx'
 
   if (data) {
     data.forEach((row) => {
@@ -15,8 +18,19 @@
       })
 
       const output = Number(row.price) - Number(row.royalty_amount) ?? 0
-      const isSale = row.activity == 'Bought' || row.activity == 'Sold' || row.activity == 'Royalties'
+      const isSale = row.activity == 'Bought' || row.activity == 'Sold'
+      const isRoyalties = row.activity == 'Royalties'
+
+      const hideValue = `<div class="flex items-center">
+                <span class="ml-2">-</span>
+              </div>`
+
+      let priceSection
       let royaltySection
+      let outputSection 
+
+      // If sold, bought, show the royalty information as well as the output
+      // Otherwise hide this
       if (isSale) {
         royaltySection = `<div class="flex items-center">
                 <img
@@ -26,26 +40,7 @@
                 />
                 <span class="ml-2">${row.royalty_amount ?? 0}</span>
               </div>`
-      } else {
-        royaltySection = `<div class="flex items-center">
-                <span class="ml-2">-</span>
-              </div>`
-      }
-      rows.push({
-        Event: row.activity,
-        Date: formattedDate,
-        'NFT Token ID': row.token_id,
-        'NFT Contract': `<a class="underline contract" href="/collections/${row.contract}">${row.contract}</a>`,
-        Price: `<div class="flex items-center">
-                <img
-                  src="/images/tokens/${row.price_symbol.toUpperCase()}.png"
-                  class="h-6 w-6 p-0.5"
-                  alt="..."
-                />
-                <span class="ml-2">${row.price}</span>
-              </div>`,
-        'NFT Royalty': royaltySection,
-        Output: `<div class="flex items-center">
+        outputSection = `<div class="flex items-center">
                 <img
                   src="/images/tokens/${row.price_symbol.toUpperCase()}.png"
                   class="h-6 w-6 p-0.5"
@@ -53,6 +48,43 @@
                 />
                 <span class="ml-2">${output}</span>
               </div>`
+      } else {
+        royaltySection = hideValue
+        outputSection = hideValue
+      }
+
+      // If royalties have been earnt, show this, but hide the price and output
+      // Otherwise just show the price (for listed, delisted and edit listing)
+      if (isRoyalties) {
+        royaltySection = `<div class="flex items-center">
+                <img
+                  src="/images/tokens/${row.price_symbol.toUpperCase()}.png"
+                  class="h-6 w-6 p-0.5"
+                  alt="..."
+                />
+                <span class="ml-2">${row.royalty_amount ?? 0}</span>
+              </div>`
+        priceSection = hideValue
+        outputSection = hideValue
+      } else {
+        priceSection = `<div class="flex items-center">
+                <img
+                  src="/images/tokens/${row.price_symbol.toUpperCase()}.png"
+                  class="h-6 w-6 p-0.5"
+                  alt="..."
+                />
+                <span class="ml-2">${row.price}</span>
+              </div>`
+      }
+
+      rows.push({
+        Event: row.activity,
+        Date: `<a class="underline" href="${viewblockURL}/${row.tx_hash}?network=${network}">${formattedDate}</a>`,
+        'NFT Token ID': `<a class="underline" href="/collections/${row.contract}/${row.token_id}">${row.token_id}</a>`,
+        'NFT Contract': `<a class="underline contract" href="/collections/${row.contract}">${row.contract}</a>`,
+        Price: priceSection,
+        'NFT Royalty': royaltySection,
+        Output: outputSection
       })
     })
   }
