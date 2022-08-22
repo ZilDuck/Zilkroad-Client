@@ -105,16 +105,24 @@
           </h4>
         {/if}
         <div class="ml-auto flex">
-          <a href="/" class="mr-5"><Twitter /></a>
-          <a href="/" class="mr-5"><Discord /></a>
-          <a href="/" class="mr-5"><Telegram /></a>
-          <a href="/" class="mr-5"><Website /></a>
+          {#if metadata.twitter}
+          <a href={metadata.twitter} class="mr-5"><Twitter /></a>
+          {/if}
+          {#if metadata.discord}
+          <a href={metadata.discord} class="mr-5"><Discord /></a>
+          {/if}
+          {#if metadata.telegram}
+          <a href={metadata.telegram} class="mr-5"><Telegram /></a>
+          {/if}
+          {#if metadata.url}
+          <a href={metadata.url} class="mr-5"><Website /></a>
+          {/if}
         </div>
       </div>
       <h1 class="mt-5 text-4xl font-medium md:text-5xl">{collection.name ?? collection.contract_name}</h1>
 
       <p class="pt-5 font-light text-white">
-        {collection.description ?? collection.contract_symbol ?? 'No description'}
+        {metadata.description ?? collection.contract_symbol ?? 'No description'}
       </p>
 
       <div class="bg-zilkroad-gray-dark mt-5 rounded-lg">
