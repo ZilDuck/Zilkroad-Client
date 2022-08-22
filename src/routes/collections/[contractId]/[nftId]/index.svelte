@@ -86,7 +86,7 @@
 
   // marketplace meta
   export let sellPrice = 0 // replace with floor price as default?
-  export let sellFungible = '0x864895d52504c388a345ef6cd9c800dbbd0ef92a' // WZIL
+  export let sellFungible
   export let buyFungible = nft.listing ? nft.listing.fungible_address_b16 : 0
   export let fungibleSymbol = nft.listing ? nft.listing.fungible_symbol : 0
   export let orderId = nft.listing ? nft.listing.static_order_id : 0
@@ -248,6 +248,6 @@
     </div>
   {/if}
   <SideModal bind:show={sidebarOpen}>
-    <SellSidebar bind:sellPrice {closeListModal} {list} {isLoading} />
+    <SellSidebar bind:sellPrice bind:sellFungible={sellFungible} {closeListModal} {list} {isLoading} {imageSrc} {name} />
   </SideModal>
 </main>
