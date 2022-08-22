@@ -1,6 +1,4 @@
 <script lang="ts">
-  import TokenPrice from "./TokenPrice.svelte";
-
   export let tokenType: string
   export let value
   export let valueUsd
@@ -58,7 +56,6 @@
     <small class="block -mb-2 text-gray-600 ">≈{numberWithCommas(valueUsd)}</small>
   {/if}
   </span>
-
   {#if showTokenType}
     <span class="lg:hidden">{tokenType}</span>
   {/if}
