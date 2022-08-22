@@ -16,15 +16,15 @@
   let SpenderOperator = false
 
   
-  let fungibles = $marketplace.approvedFungibles
+  let fungibles = $marketplace.approvedFungibles.filter((fungible) => fungible.fungible_address !== '')
   let collections = fungibles.map((fungible) => {
     return {
       value:fungible.fungible_address, 
       label: fungible.fungible_symbol 
     }
   } )
-  let value = collections[1]
-  sellFungible =collections[1].value
+  let value = collections[0]
+  sellFungible =collections[0].value
 
   function handleOrder(event) {
     console.log('selected item', event.detail)
