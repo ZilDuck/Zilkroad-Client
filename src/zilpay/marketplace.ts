@@ -33,17 +33,14 @@ export const userList = async (
       {
         vname: 'sell_price',
         type: 'Uint128',
-        value: sellPrice
+        value: sellPrice.toString()
       }
     ],
     params
   )
 }
 
-export const userReturn = async (
-  orderId: string,
-  params: Partial<TxParams> = {}
-) => {
+export const userReturn = async (orderId: string, params: Partial<TxParams> = {}) => {
   const { call } = contract(marketplaceAddress)
   return await call(
     'UserReturn',
@@ -58,10 +55,7 @@ export const userReturn = async (
   )
 }
 
-export const userBuy = async (
-  orderId: string,
-  params: Partial<TxParams> = {}
-) => {
+export const userBuy = async (orderId: string, params: Partial<TxParams> = {}) => {
   const { call } = contract(marketplaceAddress)
   return await call(
     'UserBuy',
@@ -78,23 +72,24 @@ export const userBuy = async (
 
 export const getListing = async (orderId: string) => {
   const { getSubstate } = contract(marketplaceAddress)
-  const orderState = await getSubstate('listing_map', [orderId]) as {
-    argtypes: []
-    arguments: [
-      {
-        argtypes: []
-        arguments: [string, string]
-        constructor: string
-      },
-      {
-        argtypes: []
-        arguments: [string, string, string]
-        constructor: string
-      }
-    ]
-    constructor: string
-  }
-  | undefined
+  const orderState = (await getSubstate('listing_map', [orderId])) as
+    | {
+      argtypes: []
+      arguments: [
+        {
+          argtypes: []
+          arguments: [string, string]
+          constructor: string
+        },
+        {
+          argtypes: []
+          arguments: [string, string, string]
+          constructor: string
+        }
+      ]
+      constructor: string
+    }
+    | undefined
 
   if (!orderState) return undefined
 
