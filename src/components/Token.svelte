@@ -1,6 +1,9 @@
 <script lang="ts">
+  import TokenPrice from "./TokenPrice.svelte";
+
   export let tokenType: string
   export let value
+  export let valueUsd
   export let showTokenType = true
 
   let validFilename = false
@@ -43,13 +46,19 @@
   }
 </script>
 
-<p class="flex items-center">
+<p class="flex items-start">
   {#if validFilename}
-    <img src="/images/tokens/{tokenType.toUpperCase()}.png" alt="" class="mr-[10px] w-4 h-4 max-w-4 object-contain" />
+    <img src="/images/tokens/{tokenType.toUpperCase()}.png" alt="" class="mr-[10px] mt-1 w-4 h-4 max-w-4 object-contain" />
   {/if}
+  <span>
   {#if value || value === 0}
-    {numberWithCommas(value)}
+    {Number(value).toFixed(2)}
+  {/if} 
+  {#if valueUsd || valueUsd === 0}
+    <small class="block -mb-2 text-gray-600 ">≈{numberWithCommas(valueUsd)}</small>
   {/if}
+  </span>
+
   {#if showTokenType}
     <span class="lg:hidden">{tokenType}</span>
   {/if}
