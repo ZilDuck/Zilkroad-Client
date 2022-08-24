@@ -38,6 +38,8 @@
   import TwitterShare from '../../../components/TwitterShare.svelte'
   import { page } from '$app/stores'
   import { cdnBaseUrl } from '../../../lib/cdn'
+  import { toast } from '$store/toast'
+  import wallet from '$store/wallet'
 
   import Discord from '$icons/social/Discord.svelte'
   import Twitter from '$icons/social/Twitter.svelte'
@@ -74,6 +76,19 @@
       .then((r) => r.json())
     nfts = collectionNfts.nfts
     currentPage = page
+  }
+
+  async function reportCollection() {
+    const user = $wallet.bech32 ?? ""
+    let response = await fetch(`/collections/${contractId}/report.json?user=${user}`)
+    .catch((error) => {
+      console.log(error)
+      toast.add({ message: "Issue with reporting collection, please try again later", type: "error" })
+    })
+    .then((r) => {
+      console.log("User %s successfully reported collection %s", user, contractId)
+      toast.add({ message: "Collection reported, this will be reviewed by the Zilkroad Team", type: "success" })
+    })
   }
 
   console.log(pagination)
@@ -138,7 +153,7 @@
               <TwitterShare text={collection.name ?? collection.contract_name} url={currentPage} via="zilkroad_dex" />
             </div>
             <button class="flex items-center">
-              <p class="text-[#D8A270] mr-[10px]">Report collection</p>
+              <p class="text-[#D8A270] mr-[10px]" on:click={reportCollection}>Report collection</p>
               <Report />
             </button>
           </div>
