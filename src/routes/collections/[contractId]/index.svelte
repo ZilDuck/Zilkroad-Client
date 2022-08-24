@@ -79,8 +79,8 @@
   }
 
   async function reportCollection() {
-    const user = $wallet.bech32 ?? ""
-    let response = await fetch(`/collections/${contractId}/report.json?user=${user}`)
+    const user = $wallet.bech32 ?? "<no-user>"
+    await fetch(`/collections/${contractId}/report.json?user=${user}`)
     .catch((error) => {
       console.log(error)
       toast.add({ message: "Issue with reporting collection, please try again later", type: "error" })
