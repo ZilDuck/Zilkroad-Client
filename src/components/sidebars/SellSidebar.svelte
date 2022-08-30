@@ -3,17 +3,30 @@
   import { fly } from 'svelte/transition'
   import SvgLoader from '$components/SvgLoader.svelte'
   import marketplace from "$store/marketplace";
-
+  import { hasSpender } from "../../zilpay/nonfungible";
+  import { onMount } from "svelte";
+  
   export let isLoading = false
   export let sellPrice = 0
   export let sellFungible
   export let closeListModal
   export let list
-  export let nft
+  export let approve
   export let imageSrc
   export let name
+  export let tokenContract
+  export let tokenID
 
-  let SpenderOperator = false
+  let spenderButtonText = 'Approve'
+  let nftHasSpender = false
+  onMount(async () => {
+    nftHasSpender = await hasSpender(tokenContract, tokenID);
+    if (nftHasSpender) {
+      spenderButtonText = 'Approved'
+    }
+  });
+  
+  console.log(nftHasSpender)
 
   
   let fungibles = $marketplace.approvedFungibles.filter((fungible) => fungible.fungible_address !== '')
@@ -25,7 +38,7 @@
   } )
   let value = collections[0]
   sellFungible =collections[0].value
-
+  
   function handleOrder(event) {
     console.log('selected item', event.detail)
     value = event.detail
@@ -61,25 +74,32 @@
 <p class="flex justify-between items-center w-full text-[20px] text-zilkroad-text-normal mb-5">
   Total after royalties<span class="text-white">{sellPrice} {value.label}</span>
 </p>
-<label>
-  <input type="checkbox" bind:checked={SpenderOperator} />
-  Spender/Operator set?
-</label>
-<button
-  class="text-white h-12 flex justify-center items-center bg-zilkroad-gray-dark p-5 rounded-lg w-full mb-5"
-  on:click={closeListModal}
-  >Cancel
-</button>
 <button
   class="text-zilkroad-text-light h-12 flex justify-center items-center bg-white rounded-lg w-full disabled:cursor-not-allowed disabled:opacity-50"
-  on:click={list}
-  disabled={isLoading || !SpenderOperator}
-  >Approve and submit
+  on:click={approve}
+  disabled={isLoading || nftHasSpender}
+>{spenderButtonText}
   {#if isLoading}
     <span in:fly={{ y: -10 }}>
       <SvgLoader />
     </span>
   {/if}
+</button>
+<button
+  class="text-zilkroad-text-light h-12 flex justify-center items-center bg-white rounded-lg w-full disabled:cursor-not-allowed disabled:opacity-50"
+  on:click={list}
+  disabled={isLoading || !nftHasSpender}
+  >List
+  {#if isLoading}
+    <span in:fly={{ y: -10 }}>
+      <SvgLoader />
+    </span>
+  {/if}
+</button>
+<button
+  class="text-white h-12 flex justify-center items-center bg-zilkroad-gray-dark p-5 rounded-lg w-full mb-5"
+  on:click={closeListModal}
+>Cancel
 </button>
 
 <style type="text/scss">
