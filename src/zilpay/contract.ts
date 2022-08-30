@@ -10,11 +10,11 @@ const msgVersion = 1
 const version = bytes.pack(chainId, msgVersion)
 
 export const contract = (address: string) => {
-  const contract = window.zilPay.contracts.at(address)
+  const zilpayContract = window.zilPay.contracts.at(address)
 
   return {
     call: async (transition: string, args: Value[], params: Partial<TxParams> = {}) => {
-      return contract.call(transition, args, {
+      return zilpayContract.call(transition, args, {
         gasLimit,
         gasPrice,
         amount: params.amount || new BN('0'),
@@ -23,7 +23,7 @@ export const contract = (address: string) => {
       })
     },
     getSubstate: async (variableName: string, indices?: string[]) => {
-      const substate = await contract.getSubState(variableName, indices) as undefined | { [key: string]: string } | { [key: string]: { [key: string]: unknown }}
+      const substate = await zilpayContract.getSubState(variableName, indices) as undefined | { [key: string]: string } | { [key: string]: { [key: string]: unknown }}
       return !substate
         ? undefined
         : indices.length === 1 && indices[0] && substate[variableName][indices[0]]
