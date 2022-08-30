@@ -24,3 +24,12 @@ export const setSpender = async (
     params
   )
 }
+
+export const hasSpender = async (
+  nftContract: string,
+  tokenId: string
+) => {
+  const tokenContract = contract(nftContract)
+  const spender = await tokenContract.getSubstate('spenders', [tokenId])
+  return spender === marketplaceAddress
+}
