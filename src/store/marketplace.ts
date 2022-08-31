@@ -16,11 +16,10 @@ const createMarketplaceStore = () => {
   const { subscribe, update }: Writable<Marketplace> = writable({ verifiedContracts: [], approvedFungibles: [] })
   const api = zilkroad(fetch)
 
-  const listNft = async (
+
+  const approveNftSpender = async (
     nftContract: string,
-    tokenId: string,
-    fungible: string,
-    sellPrice: number
+    tokenId: string
   ) => {
     const nonce = await wallet.getNonce()
 
@@ -29,6 +28,16 @@ const createMarketplaceStore = () => {
       toast.add({ message: 'User rejected spender set', type: 'error' })
     })
     wallet.increaseNonce()
+    return { spenderTx }
+  }
+
+  const listNft = async (
+    nftContract: string,
+    tokenId: string,
+    fungible: string,
+    sellPrice: number
+  ) => {
+    const nonce = await wallet.getNonce()
 
     const listTx = await userList(nftContract, tokenId, fungible, sellPrice, {
       nonce: nonce + 2
@@ -38,7 +47,7 @@ const createMarketplaceStore = () => {
     })
     wallet.increaseNonce()
 
-    return { spenderTx, listTx }
+    return { listTx }
   }
 
   const delistNft = async (orderId: string) => {
@@ -91,6 +100,7 @@ const createMarketplaceStore = () => {
 
   return {
     subscribe,
+    approveNftSpender,
     listNft,
     delistNft,
     buyNft

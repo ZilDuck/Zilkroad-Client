@@ -2,7 +2,7 @@
   import { slide } from 'svelte/transition'
   import { goto } from '$app/navigation'
   import { cdnBaseUrl } from '../cdn'
-  import { clickOutside } from '$lib/listeners.js'
+  import { clickOutside } from '$lib/listeners'
   import wallet from '$store/wallet'
   import marketplace from '$store/marketplace'
   import Checkmark from '../../components/icons/Checkmark.svelte'
@@ -17,28 +17,7 @@
   import { toast } from '../../store/toast'
   import { pollTx } from '../../zilpay/poll-tx'
   import TokenPrice from '../../components/TokenPrice.svelte'
-
-  export let currencies = [
-    {
-      name: 'XSGD',
-    },
-    {
-      name: 'zWBTC',
-    },
-    {
-      name: 'wZIL',
-    },
-    {
-      name: 'zUSDT',
-    },
-    {
-      name: 'zETH',
-    },
-    {
-      name: 'gZIL',
-    }
-  ]
-
+  
   export let nft
 
   $: userWalletIsOwner = nft.owner_address_b32 === $wallet.bech32
@@ -216,7 +195,7 @@
 
 {#if userWalletIsOwner}
   <SideModal bind:show={sidebarOpen}>
-    <SellSidebar bind:sellPrice {closeListModal} {list} {isLoading} {nft} {imageSrc} {name} />
+    <SellSidebar bind:sellPrice bind:sellFungible {closeListModal} {list} {isLoading} {imageSrc} {name} tokenContract={nft.contract_address_b16} tokenID={nft.token_id}/>
   </SideModal>
 {/if}
 
