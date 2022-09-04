@@ -30,6 +30,8 @@
   export let buyFungible = nft.listing ? nft.listing.fungible_address : 0
   export let listingPrice = nft.token_price ? nft.token_price : 0
   export let priceSymbol = nft.token_symbol ? nft.token_symbol.toUpperCase() : 'WZIL'
+  export let verified = nft.verified ?? false
+  console.log("NFT: ", nft)
 
   let open = false
   let sidebarOpen = false
@@ -111,12 +113,14 @@
         loading="eager"
       />
     </div>
+    {#if verified}
     <div class="flex items-start mt-5">
       <Checkmark className="mr-[10px]" />
       <h1 class="text-lg font-medium">
         {name}
       </h1>
     </div>
+    {/if}
   </a>
   <a href="/collections/{nft.contract_address_b32}" class="mb-1">
     <h2 class="font-light text-zilkroad-gray-lighter">

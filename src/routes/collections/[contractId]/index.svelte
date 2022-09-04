@@ -92,6 +92,9 @@
   }
 
   console.log(pagination)
+  const poo = collection.verified
+  const willy = collection.is_verified
+  console.log("Verified: %s, Is Verified: %s", poo, willy)
 </script>
 
 <ShapeImage />
