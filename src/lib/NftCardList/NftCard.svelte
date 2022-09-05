@@ -2,7 +2,7 @@
   import { slide } from 'svelte/transition'
   import { goto } from '$app/navigation'
   import { cdnBaseUrl } from '../cdn'
-  import { clickOutside } from '$lib/listeners.js'
+  import { clickOutside } from '$lib/listeners'
   import wallet from '$store/wallet'
   import marketplace from '$store/marketplace'
   import Checkmark from '../../components/icons/Checkmark.svelte'
@@ -19,27 +19,6 @@
   import { pollTx } from '../../zilpay/poll-tx'
   import TokenPrice from '../../components/TokenPrice.svelte'
 
-  export let currencies = [
-    {
-      name: 'XSGD'
-    },
-    {
-      name: 'zWBTC'
-    },
-    {
-      name: 'wZIL'
-    },
-    {
-      name: 'zUSDT'
-    },
-    {
-      name: 'zETH'
-    },
-    {
-      name: 'gZIL'
-    }
-  ]
-
   export let nft
 
   $: userWalletIsOwner = nft.owner_address_b32 === $wallet.bech32
@@ -47,11 +26,13 @@
   $: name = nft.name ?? nft.symbol + ' #' + nft.token_id
 
   export let sellPrice = 0 // replace with floor price as default?
-  export let sellFungible = '0x864895d52504c388A345eF6cd9C800DBBD0eF92A' // WZIL
+  export let sellFungible
   export let orderId = nft.listing ? nft.listing.static_order_id : 0
   export let buyFungible = nft.listing ? nft.listing.fungible_address : 0
   export let listingPrice = nft.token_price ? nft.token_price : 0
   export let priceSymbol = nft.token_symbol ? nft.token_symbol.toUpperCase() : 'WZIL'
+  export let verified = nft.verified ?? false
+  console.log('NFT: ', nft)
 
   let open = false
   let sidebarOpen = false
@@ -138,12 +119,14 @@
         loading="eager"
       />
     </div>
-    <div class="flex items-start mt-5">
-      <Checkmark className="mr-[10px]" />
-      <h1 class="text-lg font-medium">
-        {name}
-      </h1>
-    </div>
+    {#if verified}
+      <div class="flex items-start mt-5">
+        <Checkmark className="mr-[10px]" />
+        <h1 class="text-lg font-medium">
+          {name}
+        </h1>
+      </div>
+    {/if}
   </a>
   <a href="/collections/{nft.contract_address_b32}" class="mb-1">
     <h2 class="font-light text-zilkroad-gray-lighter">
@@ -224,12 +207,31 @@
 
 {#if userWalletIsOwner}
   <SideModal bind:show={sidebarOpen}>
-    <SellSidebar bind:sellPrice {closeListModal} {list} {isLoading} {nft} {imageSrc} {name} />
+    <SellSidebar
+      bind:sellPrice
+      bind:sellFungible
+      {closeListModal}
+      {list}
+      {isLoading}
+      {imageSrc}
+      {name}
+      tokenContract={nft.contract_address_b16}
+      tokenID={nft.token_id}
+    />
   </SideModal>
 {/if}
 
 {#if !userWalletIsOwner}
   <SideModal bind:show={sidebarOpen} title="Buy NFT">
-    <BuySidebar bind:sellPrice {closeListModal} {list} {isLoading} {nft} {imageSrc} {name} /></SideModal
+    <BuySidebar
+      bind:sellPrice
+      bind:sellFungible
+      {closeListModal}
+      {list}
+      {isLoading}
+      {nft}
+      {imageSrc}
+      {name}
+    /></SideModal
   >
 {/if}

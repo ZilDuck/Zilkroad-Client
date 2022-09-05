@@ -38,6 +38,8 @@
   import TwitterShare from '../../../components/TwitterShare.svelte'
   import { page } from '$app/stores'
   import { cdnBaseUrl } from '../../../lib/cdn'
+  import { toast } from '$store/toast'
+  import wallet from '$store/wallet'
 
   import Discord from '$icons/social/Discord.svelte'
   import Twitter from '$icons/social/Twitter.svelte'
@@ -76,7 +78,23 @@
     currentPage = page
   }
 
+  async function reportCollection() {
+    const user = $wallet.bech32 ?? "<no-user>"
+    await fetch(`/collections/${contractId}/report.json?user=${user}`)
+    .catch((error) => {
+      console.log(error)
+      toast.add({ message: "Issue with reporting collection, please try again later", type: "error" })
+    })
+    .then((r) => {
+      console.log("User %s successfully reported collection %s", user, contractId)
+      toast.add({ message: "Collection reported, this will be reviewed by the Zilkroad Team", type: "success" })
+    })
+  }
+
   console.log(pagination)
+  const poo = collection.verified
+  const willy = collection.is_verified
+  console.log("Verified: %s, Is Verified: %s", poo, willy)
 </script>
 
 <ShapeImage />
@@ -105,16 +123,24 @@
           </h4>
         {/if}
         <div class="ml-auto flex">
-          <a href="/" class="mr-5"><Twitter /></a>
-          <a href="/" class="mr-5"><Discord /></a>
-          <a href="/" class="mr-5"><Telegram /></a>
-          <a href="/" class="mr-5"><Website /></a>
+          {#if metadata.twitter}
+          <a href={metadata.twitter} class="mr-5"><Twitter /></a>
+          {/if}
+          {#if metadata.discord}
+          <a href={metadata.discord} class="mr-5"><Discord /></a>
+          {/if}
+          {#if metadata.telegram}
+          <a href={metadata.telegram} class="mr-5"><Telegram /></a>
+          {/if}
+          {#if metadata.url}
+          <a href={metadata.url} class="mr-5"><Website /></a>
+          {/if}
         </div>
       </div>
       <h1 class="mt-5 text-4xl font-medium md:text-5xl">{collection.name ?? collection.contract_name}</h1>
 
       <p class="pt-5 font-light text-white">
-        {collection.description ?? collection.contract_symbol ?? 'No description'}
+        {metadata.description ?? collection.contract_symbol ?? 'No description'}
       </p>
 
       <div class="bg-zilkroad-gray-dark mt-5 rounded-lg">
@@ -130,7 +156,7 @@
               <TwitterShare text={collection.name ?? collection.contract_name} url={currentPage} via="zilkroad_dex" />
             </div>
             <button class="flex items-center">
-              <p class="text-[#D8A270] mr-[10px]">Report collection</p>
+              <p class="text-[#D8A270] mr-[10px]" on:click={reportCollection}>Report collection</p>
               <Report />
             </button>
           </div>

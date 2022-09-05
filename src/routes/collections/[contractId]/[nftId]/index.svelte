@@ -86,7 +86,7 @@
 
   // marketplace meta
   export let sellPrice = 0 // replace with floor price as default?
-  export let sellFungible = '0x864895d52504c388a345ef6cd9c800dbbd0ef92a' // WZIL
+  export let sellFungible
   export let buyFungible = nft.listing ? nft.listing.fungible_address_b16 : 0
   export let fungibleSymbol = nft.listing ? nft.listing.fungible_symbol : 0
   export let orderId = nft.listing ? nft.listing.static_order_id : 0
@@ -100,17 +100,29 @@
     marketplace.buyNft(buyFungible, convertedListingPrice, orderId)
   }
 
+  async function approve() {
+    let { spenderTx } = await marketplace.approveNftSpender(nft.contract_address_b16, nft.token_id)
+    if (spenderTx) {
+      toast.add({ message: 'Approving Zilkroad as Nft Spender', type: 'info' })
+      await pollTx(spenderTx)
+    } else {
+      toast.add({ message: 'Approval Failed', type: 'error' })
+      return
+    }
+    toast.add({ message: 'Approval Confirmed', type: 'success' })
+  }
+  
   async function list() {
     const convertedSellPrice = convertWithDecimals($marketplace.approvedFungibles, sellFungible, sellPrice)
     let { listTx } = await marketplace.listNft(nft.contract_address_b16, nft.token_id, sellFungible, convertedSellPrice)
     if (listTx) {
-      toast.add({ message: 'Transaction Pending', type: 'info' })
+      toast.add({ message: 'Listing NFT', type: 'info' })
       await pollTx(listTx)
     } else {
-      toast.add({ message: 'Transaction Failed', type: 'error' })
+      toast.add({ message: 'Listed Failed', type: 'error' })
       return
     }
-    toast.add({ message: 'Listing Finished', type: 'success' })
+    toast.add({ message: 'NFT Listed', type: 'success' })
   }
 
   function delist() {
@@ -248,6 +260,6 @@
     </div>
   {/if}
   <SideModal bind:show={sidebarOpen}>
-    <SellSidebar bind:sellPrice {closeListModal} {list} {isLoading} />
+    <SellSidebar bind:sellPrice bind:sellFungible {closeListModal} {list} {approve} {isLoading} {imageSrc} {name} tokenContract={nft.contract_address_b16} tokenID={nft.token_id}/>
   </SideModal>
 </main>
