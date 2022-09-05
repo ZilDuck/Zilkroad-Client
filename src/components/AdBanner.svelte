@@ -11,7 +11,7 @@
 </script>
 
 <section
-  class="md:w-full h-[420px] bg-cover rounded-lg flex flex-col space-y-5 px-4 md:pr-0 md:pl-20 justify-center {className} bg-black relative"
+  class="md:w-full h-[420px] bg-cover rounded-lg flex flex-col space-y-5 px-4 md:pr-0 md:pl-20 justify-center {className}"
   style="background-image: url('{background}')"
 >
   <div class="absolute top-0 left-0 w-full h-full bg-[rgba(0,0,0,0.2)]" />
