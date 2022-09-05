@@ -11,6 +11,7 @@
   import MoneyBill from '../../components/icons/MoneyBill.svelte'
   import Cross from '../../components/icons/Cross.svelte'
   import Elipsis from '../../components/icons/Elipsis.svelte'
+  import Pencil from '../../components/icons/Pencil.svelte'
   import SideModal from '../../components/SideModal.svelte'
   import SellSidebar from '$components/sidebars/SellSidebar.svelte'
   import BuySidebar from '$components/sidebars/BuySidebar.svelte'
@@ -20,22 +21,22 @@
 
   export let currencies = [
     {
-      name: 'XSGD',
+      name: 'XSGD'
     },
     {
-      name: 'zWBTC',
+      name: 'zWBTC'
     },
     {
-      name: 'wZIL',
+      name: 'wZIL'
     },
     {
-      name: 'zUSDT',
+      name: 'zUSDT'
     },
     {
-      name: 'zETH',
+      name: 'zETH'
     },
     {
-      name: 'gZIL',
+      name: 'gZIL'
     }
   ]
 
@@ -102,6 +103,11 @@
     marketplace.delistNft(orderId)
   }
 
+  function edit() {
+    open = false
+    // Do the edit stuff here
+  }
+
   function view() {
     open = false
     goto(`/collections/${nft.contract_address_b32}/${nft.token_id}`)
@@ -147,13 +153,9 @@
 
   {#if listingPrice}
     <div class="flex items-start">
-      <img
-        alt="{priceSymbol} Token Logo"
-        class="w-4 h-4 mr-[10px] mt-1"
-        src="/images/tokens/{priceSymbol}.png"
-      />
+      <img alt="{priceSymbol} Token Logo" class="w-4 h-4 mr-[10px] mt-1" src="/images/tokens/{priceSymbol}.png" />
       <h3 class="font-light">
-        <TokenPrice price={listingPrice} fungibleAddressOrSymbol={priceSymbol} reverse="true"/>
+        <TokenPrice price={listingPrice} fungibleAddressOrSymbol={priceSymbol} reverse="true" />
         {priceSymbol}
       </h3>
     </div>
@@ -194,6 +196,12 @@
             <li class="flex items-center space-x-5 cursor-pointer" on:click={delist}>
               <Trash />
               <button>Remove listing</button>
+            </li>
+          {/if}
+          {#if orderId}
+            <li class="flex items-center space-x-5 cursor-pointer" on:click={edit}>
+              <Pencil />
+              <button>Edit listing</button>
             </li>
           {/if}
           {#if !orderId}
