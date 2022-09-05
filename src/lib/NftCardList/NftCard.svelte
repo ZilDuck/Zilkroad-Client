@@ -11,13 +11,14 @@
   import MoneyBill from '../../components/icons/MoneyBill.svelte'
   import Cross from '../../components/icons/Cross.svelte'
   import Elipsis from '../../components/icons/Elipsis.svelte'
+  import Pencil from '../../components/icons/Pencil.svelte'
   import SideModal from '../../components/SideModal.svelte'
   import SellSidebar from '$components/sidebars/SellSidebar.svelte'
   import BuySidebar from '$components/sidebars/BuySidebar.svelte'
   import { toast } from '../../store/toast'
   import { pollTx } from '../../zilpay/poll-tx'
   import TokenPrice from '../../components/TokenPrice.svelte'
-  
+
   export let nft
 
   $: userWalletIsOwner = nft.owner_address_b32 === $wallet.bech32
@@ -31,7 +32,7 @@
   export let listingPrice = nft.token_price ? nft.token_price : 0
   export let priceSymbol = nft.token_symbol ? nft.token_symbol.toUpperCase() : 'WZIL'
   export let verified = nft.verified ?? false
-  console.log("NFT: ", nft)
+  console.log('NFT: ', nft)
 
   let open = false
   let sidebarOpen = false
@@ -83,6 +84,11 @@
     marketplace.delistNft(orderId)
   }
 
+  function edit() {
+    open = false
+    // Do the edit stuff here
+  }
+
   function view() {
     open = false
     goto(`/collections/${nft.contract_address_b32}/${nft.token_id}`)
@@ -114,12 +120,12 @@
       />
     </div>
     {#if verified}
-    <div class="flex items-start mt-5">
-      <Checkmark className="mr-[10px]" />
-      <h1 class="text-lg font-medium">
-        {name}
-      </h1>
-    </div>
+      <div class="flex items-start mt-5">
+        <Checkmark className="mr-[10px]" />
+        <h1 class="text-lg font-medium">
+          {name}
+        </h1>
+      </div>
     {/if}
   </a>
   <a href="/collections/{nft.contract_address_b32}" class="mb-1">
@@ -130,13 +136,9 @@
 
   {#if listingPrice}
     <div class="flex items-start">
-      <img
-        alt="{priceSymbol} Token Logo"
-        class="w-4 h-4 mr-[10px] mt-1"
-        src="/images/tokens/{priceSymbol}.png"
-      />
+      <img alt="{priceSymbol} Token Logo" class="w-4 h-4 mr-[10px] mt-1" src="/images/tokens/{priceSymbol}.png" />
       <h3 class="font-light">
-        <TokenPrice price={listingPrice} fungibleAddressOrSymbol={priceSymbol} reverse="true"/>
+        <TokenPrice price={listingPrice} fungibleAddressOrSymbol={priceSymbol} reverse="true" />
         {priceSymbol}
       </h3>
     </div>
@@ -179,6 +181,12 @@
               <button>Remove listing</button>
             </li>
           {/if}
+          {#if orderId}
+            <li class="flex items-center space-x-5 cursor-pointer" on:click={edit}>
+              <Pencil />
+              <button>Edit listing</button>
+            </li>
+          {/if}
           {#if !orderId}
             <li class="flex items-center space-x-5 align-middle cursor-pointer" on:click={openListModal}>
               <MoneyBill />
@@ -199,12 +207,31 @@
 
 {#if userWalletIsOwner}
   <SideModal bind:show={sidebarOpen}>
-    <SellSidebar bind:sellPrice bind:sellFungible {closeListModal} {list} {isLoading} {imageSrc} {name} tokenContract={nft.contract_address_b16} tokenID={nft.token_id}/>
+    <SellSidebar
+      bind:sellPrice
+      bind:sellFungible
+      {closeListModal}
+      {list}
+      {isLoading}
+      {imageSrc}
+      {name}
+      tokenContract={nft.contract_address_b16}
+      tokenID={nft.token_id}
+    />
   </SideModal>
 {/if}
 
 {#if !userWalletIsOwner}
   <SideModal bind:show={sidebarOpen} title="Buy NFT">
-    <BuySidebar bind:sellPrice bind:sellFungible {closeListModal} {list} {isLoading} {nft} {imageSrc} {name} /></SideModal
+    <BuySidebar
+      bind:sellPrice
+      bind:sellFungible
+      {closeListModal}
+      {list}
+      {isLoading}
+      {nft}
+      {imageSrc}
+      {name}
+    /></SideModal
   >
 {/if}
