@@ -1,12 +1,11 @@
 <script context="module">
   export async function load({ url, fetch }) {
-    const [featuredNfts, recentlyListedNfts, recentlySoldNfts, featuredCollections, wallets, advert] = await Promise.all([
+    const [featuredNfts, recentlyListedNfts, recentlySoldNfts, featuredCollections, wallets] = await Promise.all([
       fetch(`/nfts.json?type=featured`).then((r) => r.json()),
       fetch(`/nfts.json?type=recentlyListed`).then((r) => r.json()),
       fetch(`/nfts.json?type=recentlySold`).then((r) => r.json()),
       fetch(`/collections.json?type=featured`).then((r) => r.json()),
       fetch(`/wallets.json`).then((r) => r.json()),
-      fetch(`/adverts.json`).then((r) => r.json())
     ])
     return {
       props: {
@@ -15,7 +14,6 @@
         recentlySoldNfts: recentlySoldNfts.nfts,
         featuredCollections,
         wallets,
-        advert
       }
     }
   }
@@ -38,7 +36,6 @@
   export let recentlySoldNfts = []
   export let featuredCollections = []
   export let wallets = []
-  export let advert
 </script>
 <ShapeImage />
 <Header className="bg-liquid-metal bg-cover bg-center" light={true} />
@@ -78,7 +75,7 @@
     <WalletActivityList {wallets} />
   </div>
 
-  <AdBanner className="md:mx-auto max-w-screen-xl" adtitle={advert.adtitle} description={advert.description} backgroundImage={advert.desktop_image_uri} />
+  <AdBanner className="md:mx-auto max-w-screen-xl" />
 
   <JoinDiscord className="mx-auto max-w-screen-xl" />
 </main>
