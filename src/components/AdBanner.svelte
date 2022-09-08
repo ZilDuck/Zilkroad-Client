@@ -25,8 +25,8 @@
       let advertise_end_unixtime = advert.advertise_end_unixtime
       adtitle = advert.adtitle
       description = advert.description
-      let advertise_uri = advert.advertise_uri
-      let nonfungible_address = advert.nonfungible_address
+      url = advert.advertise_uri
+      contractAddress = advert.nonfungible_address
       let desktop_image_uri = advert.desktop_image_uri
       let mobile_image_uri = advert.mobile_image_uri
     }
