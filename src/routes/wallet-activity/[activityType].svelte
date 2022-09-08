@@ -18,7 +18,7 @@
 <script>
   import WalletActivityCardList from '../../lib/WalletActivityCardList/index.svelte'
   import ShapeImage from '../../components/ShapeImage.svelte'
-  import AdBanner from "../../components/AdBanner.svelte";
+  import AdBanner from '../../components/AdBanner.svelte'
 
   export let activityType = ''
   export let title
