@@ -45,6 +45,7 @@
   import Twitter from '$icons/social/Twitter.svelte'
   import Telegram from '$icons/social/Telegram.svelte'
   import Website from '$icons/social/Website.svelte'
+  import AdBanner from "../../../components/AdBanner.svelte";
 
   export let collection = {}
   export let nfts = []
@@ -174,4 +175,5 @@
   <div class="w-full flex justify-center mt-20">
     <Pagination numPages={pagination.total_pages} {currentPage} className="mx-auto" on:pageChange={handlePageChange} />
   </div>
+  <AdBanner className="md:mx-auto max-w-screen-xl" />
 </main>

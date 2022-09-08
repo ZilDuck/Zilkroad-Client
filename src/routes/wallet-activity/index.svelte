@@ -21,6 +21,7 @@
 <script>
   import WalletActivityCardList from '../../lib/WalletActivityCardList/index.svelte'
   import ShapeImage from '../../components/ShapeImage.svelte'
+  import AdBanner from "../../components/AdBanner.svelte";
 
   export let title = 'Wallet Activity'
   export let description = `Welcome to an overview of wallet activity of Zilliqa. Below you'll find the top rated wallets in their respective categories.`
@@ -66,4 +67,7 @@
     </div>
     <WalletActivityCardList wallets={buyerWallets} />
   </div>
+
+  <AdBanner className="md:mx-auto max-w-screen-xl" />
+
 </main>

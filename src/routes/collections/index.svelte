@@ -13,6 +13,7 @@
   import CollectionSectionList from '../../lib/CollectionSectionList/index.svelte'
   import Header from '../../components/Header.svelte'
   import ShapeImage from '$components/ShapeImage.svelte'
+  import AdBanner from "../../components/AdBanner.svelte";
 
   export let collections = []
 </script>
@@ -32,4 +33,5 @@
 
 <main class="max-w-screen-xl mx-5 xl:mx-auto mt-40 space-y-5">
   <CollectionSectionList {collections} />
+  <AdBanner className="md:mx-auto max-w-screen-xl" />
 </main>

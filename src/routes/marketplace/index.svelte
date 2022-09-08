@@ -24,6 +24,7 @@
   import ScrollableSection from '$components/ScrollableSection.svelte'
   import Pagination from '../../components/Pagination.svelte'
   import { page } from '$app/stores'
+  import AdBanner from "../../components/AdBanner.svelte";
 
   export let nfts = []
   export let collections = []
@@ -122,6 +123,7 @@
     <NftCardList {nfts} />
   </div>
   <Pagination numPages={pagination.total_pages} {currentPage} className="mx-auto" on:pageChange={handlePageChange} />
+  <AdBanner className="md:mx-auto max-w-screen-xl" />
 </main>
 
 <style>
