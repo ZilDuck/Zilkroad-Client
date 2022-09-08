@@ -18,6 +18,7 @@
 <script>
   import WalletActivityCardList from '../../lib/WalletActivityCardList/index.svelte'
   import ShapeImage from '../../components/ShapeImage.svelte'
+  import AdBanner from '../../components/AdBanner.svelte'
 
   export let activityType = ''
   export let title
@@ -62,4 +63,5 @@
     <h2>{tableTitle}</h2>
     <WalletActivityCardList {wallets} />
   </div>
+  <AdBanner className="md:mx-auto max-w-screen-xl" />
 </main>

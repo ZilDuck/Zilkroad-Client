@@ -5,7 +5,7 @@
       fetch(`/nfts.json?type=recentlyListed`).then((r) => r.json()),
       fetch(`/nfts.json?type=recentlySold`).then((r) => r.json()),
       fetch(`/collections.json?type=featured`).then((r) => r.json()),
-      fetch(`/wallets.json`).then((r) => r.json())
+      fetch(`/wallets.json`).then((r) => r.json()),
     ])
     return {
       props: {
@@ -13,7 +13,7 @@
         recentlyListedNfts: recentlyListedNfts.nfts,
         recentlySoldNfts: recentlySoldNfts.nfts,
         featuredCollections,
-        wallets
+        wallets,
       }
     }
   }
@@ -29,6 +29,7 @@
   import NftCardList from '../lib/NftCardList/index.svelte'
   import CollectionCardList from '../lib/CollectionCardList/index.svelte'
   import WalletActivityList from '../lib/WalletActivityList/index.svelte'
+  import AdBanner from "../components/AdBanner.svelte";
 
   export let featuredNfts = []
   export let recentlyListedNfts = []
@@ -36,7 +37,6 @@
   export let featuredCollections = []
   export let wallets = []
 </script>
-
 <ShapeImage />
 <Header className="bg-liquid-metal bg-cover bg-center" light={true} />
 <div class="flex flex-col h-full mt-20 space-y-5 md:items-center md:mt-40 mx-5">
@@ -75,13 +75,7 @@
     <WalletActivityList {wallets} />
   </div>
 
-  <!-- <CallToActionSection
-    className="md:mx-auto max-w-screen-xl"
-    title="View NFT launches"
-    description="View new NFT launches at the launchpad and mint new NFTs that are exclusive to Zilkroad. Get minting some new NFTs with our curated partners."
-    buttonText="Go to the launchpad"
-    backgroundImage=""
-  /> -->
+  <AdBanner className="md:mx-auto max-w-screen-xl" />
 
   <JoinDiscord className="mx-auto max-w-screen-xl" />
 </main>
