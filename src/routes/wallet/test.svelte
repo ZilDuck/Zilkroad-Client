@@ -14,6 +14,11 @@
   let listingId = '0'
   let listingPrice = '0'
 
+  // EDIT
+  let editListingId = '0'
+  let editListingFungibleAddress = ''
+  let editListingFungibleAmount = '0'
+  
   // LIST
   let nftContractAddress = ''
   let nftContractTokenID = ''
@@ -34,6 +39,19 @@
     try {
       let buyTransactions = marketplace.buyNft(fungibleAddress, listingPrice, listingId)
       console.log(buyTransactions)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  function edit() {
+    console.log('edit triggered')
+    console.log('Editing Listing: ' + editListingId)
+    console.log('For: ' + editListingFungibleAmount)
+    console.log('With: ' + editListingFungibleAddress)
+    try {
+      let editTransactions = marketplace.editListedNft(editListingId, editListingFungibleAddress, editListingFungibleAmount)
+      console.log(editTransactions)
     } catch (error) {
       console.log(error)
     }
@@ -99,6 +117,24 @@
     </div>
 
     <p class="border-blue-400 border-2 text-gray-700 font-bold" on:click={buy}>CLICK TO BUY</p>
+  </div>
+
+  <div class="bg-gray-200 w-fit space-y-5 p-5">
+    <h3 class="text-gray-700 font-bold">Edit Listing</h3>
+    <div>
+      <label for="listingID">Listing ID</label>
+      <input id="editListingID" bind:value={editListingId} />
+    </div>
+    <div>
+      <label for="listingPrice">Listing Price</label>
+      <input id="editListingPrice" bind:value={editListingFungibleAmount} />
+    </div>
+    <div>
+      <label for="fungibleAddress">Fungible Address</label>
+      <input id="editFungibleAddress" bind:value={editListingFungibleAddress} />
+    </div>
+
+    <p class="border-blue-400 border-2 text-gray-700 font-bold" on:click={edit}>CLICK TO EDIT</p>
   </div>
 
   <div class="bg-gray-200 w-fit space-y-5 p-5">
