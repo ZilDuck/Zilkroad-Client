@@ -4,6 +4,8 @@
   import { unwrapZil, wrapZil } from '../../zilpay/wzil'
   import SideModal from "../../components/SideModal.svelte";
   import EditSidebar from "../../components/sidebars/EditSidebar.svelte";
+  import { convertWithDecimals } from "../../lib/fungibles";
+
 
   // DEBUG
   let importEnv = JSON.stringify(import.meta.env, undefined, 2)
@@ -55,7 +57,8 @@
     console.log('For: ' + editListingFungibleAmount)
     console.log('With: ' + editListingFungibleAddress)
     try {
-      let editTransactions = marketplace.editListedNft(editListingId, editListingFungibleAddress, editListingFungibleAmount)
+      const convertedEditAmount = convertWithDecimals($marketplace.approvedFungibles, editListingFungibleAddress, editListingFungibleAmount)
+      let editTransactions = marketplace.editListedNft(editListingId, editListingFungibleAddress, convertedEditAmount)
       console.log(editTransactions)
     } catch (error) {
       console.log(error)
