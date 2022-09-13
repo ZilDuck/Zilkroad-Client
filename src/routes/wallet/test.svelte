@@ -2,6 +2,8 @@
   import wallet from '$store/wallet'
   import marketplace from '$store/marketplace'
   import { unwrapZil, wrapZil } from '../../zilpay/wzil'
+  import SideModal from "../../components/SideModal.svelte";
+  import EditSidebar from "../../components/sidebars/EditSidebar.svelte";
 
   // DEBUG
   let importEnv = JSON.stringify(import.meta.env, undefined, 2)
@@ -30,6 +32,9 @@
   // CONVERT
   let convertAmount = 0
   let zilToWZil = true
+  
+  // SIDEBAR
+  let sidebarOpen = false
 
   function buy() {
     console.log('buy triggered')
@@ -93,6 +98,11 @@
       console.log(error)
     }
   }
+  
+  
+  function openEditModal() {
+    sidebarOpen = true
+  }
 
   $: walletAvailable = $wallet.isConnected ? 'Connected!' : 'Not Found. Is Zilpay connected?'
 </script>
@@ -135,6 +145,7 @@
     </div>
 
     <p class="border-blue-400 border-2 text-gray-700 font-bold" on:click={edit}>CLICK TO EDIT</p>
+    <p class="border-blue-400 border-2 text-gray-700 font-bold" on:click={openEditModal}>CLICK TO OPEN EDIT SIDEBAR</p>
   </div>
 
   <div class="bg-gray-200 w-fit space-y-5 p-5">
@@ -199,3 +210,6 @@
     {importEnv}
   </pre>
 </div>
+<SideModal bind:show={sidebarOpen} title="Edit">
+  <EditSidebar bind:sellPrice={editListingFungibleAmount} bind:sellFungible={editListingFungibleAddress} bind:listingId={editListingId} {edit}/>
+</SideModal>
