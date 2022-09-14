@@ -16,7 +16,7 @@ jobs:
         uses: cypress-io/github-action@v2
         with:
           build: npm run build
-          start: npm dev
+          start: npm start
           record: true
         env:
           # pass GitHub token to detect new build vs re-run build
