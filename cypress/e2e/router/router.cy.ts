@@ -34,5 +34,4 @@ describe('A Single NFT page returns 200 when requested', () => {
   })
 })
 
-
   
