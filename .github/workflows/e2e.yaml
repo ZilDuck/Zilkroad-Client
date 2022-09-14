@@ -15,8 +15,13 @@ jobs:
       - name: Cypress run
         uses: cypress-io/github-action@v2
         with:
-          build: npm run build
-          start: npm start
+          # Simply start a python http server that exposes the build/ dir
+          start: python3 -m http.server --directory build 3000
+          # Only start tests when the server is up and running.
+          wait-on: http://localhost:3000/
+          # A simple python http server should really never take longer
+          # than 10 seconds to start.
+          wait-on-timeout: 10
           record: true
         env:
           # pass GitHub token to detect new build vs re-run build
