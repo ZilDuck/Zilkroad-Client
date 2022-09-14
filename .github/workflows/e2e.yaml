@@ -6,12 +6,17 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      # Install NPM dependencies, cache them correctly
-      # and run all Cypress tests
+      - name: Install dependencies 📦
+        run: npm ci --legacy-peer-deps
+      - name: Show Cypress information ℹ️
+        run: npx cypress info
+      - name: Verify Cypress can run 🏃‍♂️
+        run: npx cypress verify
       - name: Cypress run
-        uses: cypress-io/github-action@v4
+        uses: cypress-io/github-action@v2
         with:
-          buildtest: ci
+          build: npm run build
+          start: npm dev
           record: true
         env:
           # pass GitHub token to detect new build vs re-run build
