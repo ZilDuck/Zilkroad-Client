@@ -1,13 +1,5 @@
-name: Cypress CI Tests
-
-on:
-  # Manual button click from the GitHub UI
-  workflow_dispatch:
-  push:
-    branches: [main]
-  pull_request:
-    branches: [main]
-
+name: End-to-end tests
+on: [push]
 jobs:
   start:
     runs-on: ubuntu-latest
