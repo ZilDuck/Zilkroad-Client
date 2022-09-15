@@ -8,11 +8,13 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v2
 
-      - name: Run Cypress E2E Tests
-        uses: cypress-io/github-action@v4.1.0
+      - name: Custom tests 🧪
+        uses: cypress-io/github-action@v4
         with:
           start: npm run dev
           wait-on: 'http://localhost:3000'
+          command: npm run ci
+
         env:
           VITE_API_ENDPOINT: 'https://staging-public-api.zilkroad.io'
           VITE_BLOCK_NETWORK: 'testnet'
