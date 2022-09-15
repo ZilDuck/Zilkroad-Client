@@ -1,0 +1,29 @@
+name: End-to-end tests
+on: [push]
+jobs:
+  start:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Run Cypress E2E Tests
+        uses: cypress-io/github-action@v4.1.0
+        with:
+          start: npm run dev
+          wait-on: 'http://localhost:3000'
+        env:
+          VITE_API_ENDPOINT: 'https://staging-public-api.zilkroad.io'
+          VITE_BLOCK_NETWORK: 'testnet'
+          VITE_MARKETPLACE_ADDRESS: '0xB4FA69997f7560fe48F375b03F73B8774cB3BF5A'
+          VITE_WZIL_ADDRESS: '0x864895d52504c388A345eF6cd9C800DBBD0eF92A'
+          VITE_CDN_BASE_URL: 'https://zildexr-testnet.b-cdn.net/'
+          # pass GitHub token to detect new build vs re-run build
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+          # overwrite commit message sent to Dashboard
+          COMMIT_INFO_MESSAGE: ${{github.event.pull_request.title}}
+          # re-enable PR comment bot
+          COMMIT_INFO_SHA: ${{github.event.pull_request.head.sha}}
+          # puts the infomation on the webportal?
+          CYPRESS_RECORD_KEY: ${{secrets.CYPRESS_RECORD_KEY}}
