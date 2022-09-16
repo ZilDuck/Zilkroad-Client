@@ -2,7 +2,7 @@
   import { fly } from 'svelte/transition'
   import marketplace from '$store/marketplace'
   import SvgLoader from '$components/SvgLoader.svelte'
-  import Token from '$components/Token.svelte'
+  import TokenPrice from "../TokenPrice.svelte";
 
   export let isLoading = false
   export let sellPrice = 0
@@ -32,7 +32,8 @@
 <h4 class="text-[20px] font-[600] mb-5">{name}</h4>
 <img src={imageSrc} alt="NFT image you're selling" class="w-full pb-5" />
 <p class="flex justify-between items-center w-full text-[20px] text-zilkroad-text-normal mb-5">
-  Total price <span class="text-white"><Token tokenType="{sellFungibleLabel}" value={sellPrice ? sellPrice : 0} /></span>
+  Total price <span class="text-white"><TokenPrice price={sellPrice} fungibleAddressOrSymbol={sellFungible} reverse="false" />
+</span>
 </p>
 <p class="mb-5">All purchases are final, and includes all royalties and fees for purchasing the NFT above.</p>
 <label class="block text-white mb-5">
@@ -52,10 +53,8 @@
   class="text-zilkroad-text-light h-12 flex justify-center items-center bg-white rounded-lg w-full disabled:cursor-not-allowed disabled:opacity-50"
   on:click={buy}
   disabled={isLoading || !checkOne || !checkTwo}
-  ><span class="mr-[10px] text-zilkroad-text-light">Approve and purchase for</span><Token
-    tokenType="{sellFungibleLabel}"
-    value={sellPrice ? sellPrice : 0}
-  />
+  ><span class="mr-[10px] text-zilkroad-text-light">Approve and purchase for</span>
+  <TokenPrice price={sellPrice} fungibleAddressOrSymbol={sellFungible} reverse="false" />
   {#if isLoading}
     <span in:fly={{ y: -10 }}>
       <SvgLoader />
