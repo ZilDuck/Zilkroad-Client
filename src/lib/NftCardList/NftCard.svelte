@@ -30,7 +30,7 @@
   export let sellPrice = 0 // replace with floor price as default?
   export let sellFungible
   export let orderId = nft.listing ? nft.listing.static_order_id : 0
-  export let buyFungible = nft.listing ? nft.listing.fungible_address : 0
+  export let buyFungible = nft.listing ? nft.listing.fungible_address : ''
   export let listingPrice = nft.token_price ? nft.token_price : 0
   export let priceSymbol = nft.token_symbol ? nft.token_symbol.toUpperCase() : 'WZIL'
   export let verified = nft.verified ?? false
@@ -120,8 +120,8 @@
 
   function buy() {
     open = false
-    const convertedListingPrice = convertWithDecimals($marketplace.approvedFungibles, sellFungible, listingPrice)
-    marketplace.buyNft(sellFungible, convertedListingPrice, orderId)
+    const convertedListingPrice = convertWithDecimals($marketplace.approvedFungibles, buyFungible, listingPrice)
+    marketplace.buyNft(buyFungible, convertedListingPrice, orderId)
   }
 
   let nftPlaceholder = '/images/nft-image.png'
