@@ -18,6 +18,8 @@
   import { toast } from '../../store/toast'
   import { pollTx } from '../../zilpay/poll-tx'
   import TokenPrice from '../../components/TokenPrice.svelte'
+  import EditSidebar from "../../components/sidebars/EditSidebar.svelte";
+  import { convertWithDecimals } from "../fungibles.js";
 
   export let nft
 
@@ -36,6 +38,7 @@
 
   let open = false
   let sidebarOpen = false
+  let editSidebarOpen = false
   let isLoading = false
   let showNftImage = true
 
@@ -57,6 +60,19 @@
   function closeListModal() {
     open = false
     sidebarOpen = false
+    isLoading = false
+  }
+
+  function openEditModal() {
+    open = false
+    editSidebarOpen = true
+    const body = document.getElementsByTagName('body')[0]
+    body.classList.add('lock')
+  }
+
+  function closeEditModal() {
+    open = false
+    editSidebarOpen = false
     isLoading = false
   }
 
@@ -84,9 +100,17 @@
     marketplace.delistNft(orderId)
   }
 
-  function edit() {
-    open = false
-    // Do the edit stuff here
+  async function edit() {
+    const convertedSellPrice = convertWithDecimals($marketplace.approvedFungibles, sellFungible, sellPrice)
+    let { editTx } = await marketplace.editListedNft(orderId, sellFungible, convertedSellPrice)
+    if (editTx) {
+      toast.add({ message: 'Editing Listing', type: 'info' })
+      await pollTx(editTx)
+    } else {
+      toast.add({ message: 'Listed Failed', type: 'error' })
+      return
+    }
+    toast.add({ message: 'NFT Listed', type: 'success' })
   }
 
   function view() {
@@ -96,7 +120,8 @@
 
   function buy() {
     open = false
-    marketplace.buyNft(buyFungible, listingPrice, orderId)
+    const convertedListingPrice = convertWithDecimals($marketplace.approvedFungibles, sellFungible, listingPrice)
+    marketplace.buyNft(sellFungible, convertedListingPrice, orderId)
   }
 
   let nftPlaceholder = '/images/nft-image.png'
@@ -105,7 +130,6 @@
     image.target.src = nftPlaceholder
   }
 </script>
-
 <article class="group flex flex-col w-full relative" use:clickOutside on:click_outside={closeOptions}>
   <a href="/collections/{nft.contract_address_b16}/{nft.token_id}" class="mb-1">
     <div
@@ -182,7 +206,7 @@
             </li>
           {/if}
           {#if orderId}
-            <li class="flex items-center space-x-5 cursor-pointer" on:click={edit}>
+            <li class="flex items-center space-x-5 cursor-pointer" on:click={openEditModal}>
               <Pencil />
               <button>Edit listing</button>
             </li>
@@ -219,15 +243,18 @@
       tokenID={nft.token_id}
     />
   </SideModal>
+  <SideModal bind:show={editSidebarOpen} title="Edit">
+    <EditSidebar bind:sellPrice={sellPrice} bind:sellFungible={sellFungible} {isLoading}  bind:listingId={orderId} {edit}/>
+  </SideModal>
 {/if}
 
 {#if !userWalletIsOwner}
   <SideModal bind:show={sidebarOpen} title="Buy NFT">
     <BuySidebar
-      bind:sellPrice
-      bind:sellFungible
+      bind:listingPrice
+      bind:buyFungible
       {closeListModal}
-      {list}
+      {buy}
       {isLoading}
       {nft}
       {imageSrc}

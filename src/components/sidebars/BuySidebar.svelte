@@ -1,34 +1,38 @@
 <script>
-  import Select from 'svelte-select'
   import { fly } from 'svelte/transition'
+  import marketplace from '$store/marketplace'
   import SvgLoader from '$components/SvgLoader.svelte'
   import Token from '$components/Token.svelte'
 
   export let isLoading = false
   export let sellPrice = 0
+  export let sellFungible
   export let closeListModal
-  export let list
+  export let buy
   export let imageSrc
   export let name
 
   let checkOne = false
   let checkTwo = false
+  let sellFungibleLabel 
 
-  let collections = [
-    { value: 'WZIL', label: 'WZIL' },
-    { value: 'ZIL', label: 'ZIL' },
-    { value: 'XSGD', label: 'XSGD' },
-    { value: 'zWBTC', label: 'zWBTC' },
-    { value: 'zUSDT', label: 'zUSDT' },
-    { value: 'zETH', label: 'zETH' },
-    { value: 'GZIL', label: 'GZIL' }
-  ]
+  let fungibles = $marketplace.approvedFungibles.filter((fungible) => fungible.fungible_address !== '')
+  let collections = fungibles.map((fungible) => {
+    return {
+      value:fungible.fungible_address,
+      label: fungible.fungible_symbol
+    }
+  } )
+  let value = collections[0]
+  sellFungible =collections[0].value
+  sellFungibleLabel = collections[0].label
+  
 </script>
 
 <h4 class="text-[20px] font-[600] mb-5">{name}</h4>
 <img src={imageSrc} alt="NFT image you're selling" class="w-full pb-5" />
 <p class="flex justify-between items-center w-full text-[20px] text-zilkroad-text-normal mb-5">
-  Total price <span class="text-white"><Token tokenType="XSGD" value={sellPrice ? sellPrice : 0} /></span>
+  Total price <span class="text-white"><Token tokenType="{sellFungibleLabel}" value={sellPrice ? sellPrice : 0} /></span>
 </p>
 <p class="mb-5">All purchases are final, and includes all royalties and fees for purchasing the NFT above.</p>
 <label class="block text-white mb-5">
@@ -46,10 +50,10 @@
 </button>
 <button
   class="text-zilkroad-text-light h-12 flex justify-center items-center bg-white rounded-lg w-full disabled:cursor-not-allowed disabled:opacity-50"
-  on:click={list}
+  on:click={buy}
   disabled={isLoading || !checkOne || !checkTwo}
   ><span class="mr-[10px] text-zilkroad-text-light">Approve and purchase for</span><Token
-    tokenType="XSGD"
+    tokenType="{sellFungibleLabel}"
     value={sellPrice ? sellPrice : 0}
   />
   {#if isLoading}
