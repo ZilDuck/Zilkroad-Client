@@ -120,7 +120,8 @@
 
   function buy() {
     open = false
-    marketplace.buyNft(buyFungible, listingPrice, orderId)
+    const convertedListingPrice = convertWithDecimals($marketplace.approvedFungibles, sellFungible, listingPrice)
+    marketplace.buyNft(sellFungible, convertedListingPrice, orderId)
   }
 
   let nftPlaceholder = '/images/nft-image.png'
@@ -253,7 +254,7 @@
       bind:sellPrice
       bind:sellFungible
       {closeListModal}
-      {list}
+      {buy}
       {isLoading}
       {nft}
       {imageSrc}
