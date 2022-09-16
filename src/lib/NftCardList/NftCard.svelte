@@ -251,8 +251,8 @@
 {#if !userWalletIsOwner}
   <SideModal bind:show={sidebarOpen} title="Buy NFT">
     <BuySidebar
-      bind:sellPrice
-      bind:sellFungible
+      bind:listingPrice
+      bind:buyFungible
       {closeListModal}
       {buy}
       {isLoading}
