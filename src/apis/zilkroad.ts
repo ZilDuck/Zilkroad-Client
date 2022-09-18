@@ -1,8 +1,12 @@
+import { variables } from '../lib/variables.js'
+
+const base = variables.apiEndpoint
+
 type MetadataResponse = {
   result: Metadata
 }
 
-// listing for contract - DB 
+// listing for contract - DB
 export const zilkroad = (fetch: (info: RequestInfo, init?: RequestInit) => Promise<Response>) => {
   const getListings = async ({ contract, page = 1, perPage = 25 }: {contract?: string, page?: number, perPage?: number}) => {
     const response = await fetch(`https://test-api.zilkroad.io/listings/${contract ?? ''}?page=${page}&per-page=${perPage}`)
@@ -10,7 +14,7 @@ export const zilkroad = (fetch: (info: RequestInfo, init?: RequestInit) => Promi
     return { ...listings.result, count: Number(listings.result.count) }
   }
 
-  //get all featured - DB
+  // get all featured - DB
   const getFeaturedListings = async () => {
     const response = await fetch('https://test-api.zilkroad.io/listings/featured')
     const listings = await response.json() as { result: Listing[] }
@@ -26,28 +30,28 @@ export const zilkroad = (fetch: (info: RequestInfo, init?: RequestInit) => Promi
     return { ...listings.result, count: Number(listings.result.count) }
   }
 
-  //get a listing for a specific contract/token db
+  // get a listing for a specific contract/token db
   const getListing = async (contract: string, tokenId: string) => {
     const response = await fetch(`https://test-api.zilkroad.io/listings/${contract}/${tokenId}`)
     const listing = await response.json() as { result: SingleListing }
     return listing.result
   }
 
-// get all the NFTs for a contract - prodpeak
+  // get all the NFTs for a contract - prodpeak
   const getCollections = async () => {
     const response = await fetch('https://test-api.zilkroad.io/collections')
     const collections = await response.json() as { result: Collection[] }
     return collections.result
   }
 
-// get a NFT for a contract - prodpeak
+  // get a NFT for a contract - prodpeak
   const getCollection = async (contract: string) => {
     const response = await fetch(`https://test-api.zilkroad.io/collections/${contract}`)
     const collection = await response.json() as { result: Collection & CollectionData }
     return collection.result
   }
 
-// get a NFT for a contract - prodpeak
+  // get a NFT for a contract - prodpeak
   const getNftMetadata = async (contract: string, tokenId: string) => {
     const response = await fetch(`https://test-api.zilkroad.io/nfts/metadata/${contract}/${tokenId}?network=https://dev-api.zilliqa.com`)
     const metadata = await response.json() as MetadataResponse
@@ -55,7 +59,7 @@ export const zilkroad = (fetch: (info: RequestInfo, init?: RequestInit) => Promi
     return { ...metadata.result, token: { ...metadata.result.token, attributes } }
   }
 
-  //get all user nfts held in wallet. - prodpeak
+  // get all user nfts held in wallet. - prodpeak
   const getUserNfts = async (userAddress: string) => {
     const response = await fetch(`https://test-api.zilkroad.io/wallets/${userAddress}?network=https://dev-api.zilliqa.com`)
     const userNfts = await response.json() as { contract: string, tokenIds: string[], zrc6: boolean }[]
@@ -135,7 +139,7 @@ export const zilkroad = (fetch: (info: RequestInfo, init?: RequestInit) => Promi
   }
 
   const getApprovedFungibles = async () => {
-    const response = await fetch('http://localhost:3000/app/fungibles.json')
+    const response = await fetch(`${base}/fungible`)
     return await response.json() as { [key: string]: Fungible }
   }
 
