@@ -2,30 +2,31 @@
   import Select from 'svelte-select'
   import { fly } from 'svelte/transition'
   import SvgLoader from '$components/SvgLoader.svelte'
+  import marketplace from "$store/marketplace";
 
   export let isLoading = false
   export let sellPrice = 0
+  export let sellFungible
   export let closeListModal
-  export let list
+  export let edit
   export let nft
   export let imageSrc
-  export let name
+  export let name = 'Edit your listing'
 
-  let SpenderOperator = false
-
-  let collections = [
-    { value: 'WZIL', label: 'WZIL' },
-    { value: 'XSGD', label: 'XSGD' },
-    { value: 'zWBTC', label: 'zWBTC' },
-    { value: 'zUSDT', label: 'zUSDT' },
-    { value: 'zETH', label: 'zETH' },
-    { value: 'GZIL', label: 'GZIL' }
-  ]
-
-  let value = collections[1]
+  let fungibles = $marketplace.approvedFungibles.filter((fungible) => fungible.fungible_address !== '')
+  let collections = fungibles.map((fungible) => {
+    return {
+      value:fungible.fungible_address,
+      label: fungible.fungible_symbol
+    }
+  } )
+  let value = collections[0]
+  sellFungible =collections[0].value
 
   function handleOrder(event) {
+    console.log('selected item', event.detail)
     value = event.detail
+    sellFungible = event.detail.value
   }
 </script>
 
@@ -43,7 +44,7 @@
     class="bg-transparent text-white text-xl flex-grow mr-5 p-[10px]"
     type="text"
     placeholder={sellPrice}
-    bind:value={sellPrice}]
+    bind:value={sellPrice}
     id="edit-price"
   />
   <div class="select-field w-40">
@@ -63,10 +64,6 @@
 <p class="flex justify-between items-center w-full text-[20px] text-zilkroad-text-normal mb-5">
   Total after royalties<span class="text-white">{sellPrice} {value.label}</span>
 </p>
-<label>
-  <input type="checkbox" bind:checked={SpenderOperator} />
-  Spender/Operator set?
-</label>
 <button
   class="text-white h-12 flex justify-center items-center bg-zilkroad-gray-dark p-5 rounded-lg w-full mb-5"
   on:click={closeListModal}
@@ -74,8 +71,8 @@
 </button>
 <button
   class="text-zilkroad-text-light h-12 flex justify-center items-center bg-white rounded-lg w-full disabled:cursor-not-allowed disabled:opacity-50"
-  on:click={list}
-  disabled={isLoading || !SpenderOperator}
+  on:click={edit}
+  disabled={isLoading}
   >Approve and submit
   {#if isLoading}
     <span in:fly={{ y: -10 }}>

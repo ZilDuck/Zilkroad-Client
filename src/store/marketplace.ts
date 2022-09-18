@@ -1,7 +1,7 @@
 import type { Writable } from 'svelte/store'
 import wallet from './wallet'
 import { setSpender } from '../zilpay/nonfungible'
-import { userList, userBuy, userReturn } from '../zilpay/marketplace'
+import { userList, userBuy, userReturn, userEditListing } from '../zilpay/marketplace'
 import { writable } from 'svelte/store'
 import { increaseAllowance } from '../zilpay/fungible'
 import { zilkroad } from '../apis/zilkroad'
@@ -90,6 +90,24 @@ const createMarketplaceStore = () => {
     return { increaseTx, buyTx }
   }
 
+  const editListedNft = async (
+    orderId: string,
+    fungible: string,
+    sellPrice: string
+  ) => {
+    const nonce = await wallet.getNonce()
+
+    const editTx = await userEditListing(orderId, fungible, sellPrice, {
+      nonce: nonce + 2
+    }).catch((error) => {
+      console.log(error)
+      toast.add({ message: 'User rejected edit', type: 'error' })
+    })
+    wallet.increaseNonce()
+
+    return { editTx }
+  }
+
   api.getVerifiedContracts().then((verifiedContracts) => {
     update((m) => ({ ...m, verifiedContracts }))
   })
@@ -103,7 +121,8 @@ const createMarketplaceStore = () => {
     approveNftSpender,
     listNft,
     delistNft,
-    buyNft
+    buyNft,
+    editListedNft
   }
 }
 
