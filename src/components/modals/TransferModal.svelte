@@ -10,8 +10,7 @@
     body.classList.remove('lock')
   }
 
-  const confirmationString = 'im-burning-this-nft'
-  let userConfirmationString = ''
+  let recipientAddress = ''
   let receipentAddressValid = true
 </script>
 
@@ -39,7 +38,7 @@
       <input
         type="text"
         class="w-full bg-[#393939] h-10 px-[10px] text-white rounded-[4px] mb-5"
-        bind:value={userConfirmationString}
+        bind:value={recipientAddress}
       />
       {#if receipentAddressValid === true}
         <div class="flex justify-between mb-5">
@@ -52,7 +51,7 @@
       {/if}
       <button
         class="w-full rounded-[4px] h-10 flex items-center justify-center bg-white text-[#989898] disabled:cursor-not-allowed"
-        disabled={userConfirmationString !== confirmationString}>Confirm sending NFT to new address</button
+        disabled={!recipientAddress && !receipentAddressValid}>Confirm sending NFT to new address</button
       >
     </div>
   </div>
