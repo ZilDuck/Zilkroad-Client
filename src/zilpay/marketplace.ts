@@ -40,6 +40,36 @@ export const userList = async (
   )
 }
 
+export const userEditListing = async (
+  orderId: string,
+  fungible: string,
+  sellPrice: string,
+  params: Partial<TxParams> = {}
+) => {
+  const { call } = contract(marketplaceAddress)
+  return await call(
+    'UserEditListingPrice',
+    [
+      {
+        vname: 'oid',
+        type: 'Uint256',
+        value: orderId
+      },
+      {
+        vname: 'new_fungible',
+        type: 'ByStr20',
+        value: fungible
+      },
+      {
+        vname: 'new_sell_price',
+        type: 'Uint128',
+        value: sellPrice.toString()
+      }
+    ],
+    params
+  )
+}
+
 export const userReturn = async (orderId: string, params: Partial<TxParams> = {}) => {
   const { call } = contract(marketplaceAddress)
   return await call(

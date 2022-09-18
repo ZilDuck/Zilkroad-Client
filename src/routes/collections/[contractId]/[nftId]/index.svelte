@@ -56,6 +56,8 @@
   import { pollTx } from '../../../../zilpay/poll-tx'
   import { convertWithDecimals } from "../../../../lib/fungibles";
   import TokenPrice from "../../../../components/TokenPrice.svelte";
+  import EditSidebar from "../../../../components/sidebars/EditSidebar.svelte";
+  import BuySidebar from "../../../../components/sidebars/BuySidebar.svelte";
 
   export let nft
   export let collection
@@ -94,12 +96,7 @@
   export let nftActivity = nft.sales_history ?? []
   export let graphData = nft.graph_data ?? []
   
-
-  function buy() {
-    const convertedListingPrice = convertWithDecimals($marketplace.approvedFungibles, buyFungible, listingPrice)
-    marketplace.buyNft(buyFungible, convertedListingPrice, orderId)
-  }
-
+  
   async function approve() {
     let { spenderTx } = await marketplace.approveNftSpender(nft.contract_address_b16, nft.token_id)
     if (spenderTx) {
@@ -125,12 +122,32 @@
     toast.add({ message: 'NFT Listed', type: 'success' })
   }
 
+  async function edit() {
+    const convertedSellPrice = convertWithDecimals($marketplace.approvedFungibles, sellFungible, sellPrice)
+    let { editTx } = await marketplace.editListedNft(orderId, sellFungible, convertedSellPrice)
+    if (editTx) {
+      toast.add({ message: 'Editing Listing', type: 'info' })
+      await pollTx(editTx)
+    } else {
+      toast.add({ message: 'Listed Failed', type: 'error' })
+      return
+    }
+    toast.add({ message: 'NFT Listed', type: 'success' })
+  }
+
+  function buy() {
+    open = false
+    marketplace.buyNft(buyFungible, listingPrice, orderId)
+  }
+
   function delist() {
     marketplace.delistNft(orderId)
   }
 
   let open = false
   let sidebarOpen = false
+  let editSidebarOpen = false
+  let buySidebarOpen = false
   let isLoading = false
 
   function openListModal() {
@@ -143,6 +160,32 @@
   function closeListModal() {
     open = false
     sidebarOpen = false
+    isLoading = false
+  }
+
+  function openEditModal() {
+    open = false
+    editSidebarOpen = true
+    const body = document.getElementsByTagName('body')[0]
+    body.classList.add('lock')
+  }
+
+  function closeEditModal() {
+    open = false
+    editSidebarOpen = false
+    isLoading = false
+  }
+
+  function openBuyModal() {
+    open = false
+    buySidebarOpen = true
+    const body = document.getElementsByTagName('body')[0]
+    body.classList.add('lock')
+  }
+
+  function closeBuyModal() {
+    open = false
+    buySidebarOpen = false
     isLoading = false
   }
 
@@ -194,7 +237,7 @@
 
       {#if nft.listing}
         <div in:fade>
-          <Button on:click={buy} className="w-full mt-14 lg:mt-5 lg:w-auto ">
+          <Button on:click={openBuyModal} className="w-full mt-14 lg:mt-5 lg:w-auto ">
             Purchase <TokenPrice price={listingPrice} fungibleAddressOrSymbol={buyFungible} reverse='true'/> {fungibleSymbol}
           </Button>
         </div>
@@ -208,6 +251,7 @@
         {#if nft.listing}
           <div in:fade>
             <Button on:click={delist} className="w-full mt-14 lg:mt-5 lg:w-auto ">Delist</Button>
+            <Button on:click={openEditModal} className="w-full mt-14 lg:mt-5 lg:w-auto ">Edit</Button>
           </div>
         {/if}
       {/if}
@@ -262,4 +306,19 @@
   <SideModal bind:show={sidebarOpen}>
     <SellSidebar bind:sellPrice bind:sellFungible {closeListModal} {list} {approve} {isLoading} {imageSrc} {name} tokenContract={nft.contract_address_b16} tokenID={nft.token_id}/>
   </SideModal>
+  <SideModal bind:show={editSidebarOpen} title="Edit">
+    <EditSidebar bind:sellPrice={sellPrice} bind:sellFungible={sellFungible} closeListModal={closeEditModal} {isLoading}  bind:listingId={orderId} {edit}/>
+  </SideModal>
+  <SideModal bind:show={buySidebarOpen} title="Buy NFT">
+    <BuySidebar
+      bind:sellPrice={listingPrice}
+      bind:sellFungible={buyFungible}
+      closeListModal = {closeBuyModal}
+      {buy}
+      {isLoading}
+      {nft}
+      {imageSrc}
+      {name}
+    /></SideModal
+  >
 </main>
