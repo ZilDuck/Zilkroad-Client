@@ -48,7 +48,7 @@
       "$apis/*": ["src/apis/*"]
     }
   },
-  "include": ["src/**/*.d.ts", "src/**/*.ts", "src/**/*.svelte"],
+  "include": ["src/**/*.d.ts", "src/**/*.ts", "src/**/*.svelte", "./jest-setup.ts"],
   "exclude": [
     "svelte.config.js", "tailwind.config.cjs"]
 }

@@ -22,6 +22,8 @@
   import TokenPrice from '../../components/TokenPrice.svelte'
   import BurnModal from '../../components/modals/BurnModal.svelte'
   import TransferModal from '../../components/modals/TransferModal.svelte'
+  import EditSidebar from "../../components/sidebars/EditSidebar.svelte";
+  import { convertWithDecimals } from "../fungibles.js";
 
   export let nft
 
@@ -32,7 +34,7 @@
   export let sellPrice = 0 // replace with floor price as default?
   export let sellFungible
   export let orderId = nft.listing ? nft.listing.static_order_id : 0
-  export let buyFungible = nft.listing ? nft.listing.fungible_address : 0
+  export let buyFungible = nft.listing ? nft.listing.fungible_address : ''
   export let listingPrice = nft.token_price ? nft.token_price : 0
   export let priceSymbol = nft.token_symbol ? nft.token_symbol.toUpperCase() : 'WZIL'
   export let verified = nft.verified ?? false
@@ -42,6 +44,7 @@
   let sidebarOpen = false
   let burnModalOpen = false
   let transferModalOpen = false
+  let editSidebarOpen = false
   let isLoading = false
   let showNftImage = true
 
@@ -63,6 +66,19 @@
   function closeListModal() {
     open = false
     sidebarOpen = false
+    isLoading = false
+  }
+
+  function openEditModal() {
+    open = false
+    editSidebarOpen = true
+    const body = document.getElementsByTagName('body')[0]
+    body.classList.add('lock')
+  }
+
+  function closeEditModal() {
+    open = false
+    editSidebarOpen = false
     isLoading = false
   }
 
@@ -90,9 +106,17 @@
     marketplace.delistNft(orderId)
   }
 
-  function edit() {
-    open = false
-    // Do the edit stuff here
+  async function edit() {
+    const convertedSellPrice = convertWithDecimals($marketplace.approvedFungibles, sellFungible, sellPrice)
+    let { editTx } = await marketplace.editListedNft(orderId, sellFungible, convertedSellPrice)
+    if (editTx) {
+      toast.add({ message: 'Editing Listing', type: 'info' })
+      await pollTx(editTx)
+    } else {
+      toast.add({ message: 'Listed Failed', type: 'error' })
+      return
+    }
+    toast.add({ message: 'NFT Listed', type: 'success' })
   }
 
   function view() {
@@ -125,7 +149,6 @@
     image.target.src = nftPlaceholder
   }
 </script>
-
 <article class="group flex flex-col w-full relative" use:clickOutside on:click_outside={closeOptions}>
   <a href="/collections/{nft.contract_address_b16}/{nft.token_id}" class="mb-1">
     <div
@@ -202,7 +225,7 @@
             </li>
           {/if}
           {#if orderId}
-            <li class="flex items-center space-x-5 cursor-pointer" on:click={edit}>
+            <li class="flex items-center space-x-5 cursor-pointer" on:click={openEditModal}>
               <Pencil />
               <button>Edit listing</button>
             </li>
@@ -247,15 +270,18 @@
       tokenID={nft.token_id}
     />
   </SideModal>
+  <SideModal bind:show={editSidebarOpen} title="Edit">
+    <EditSidebar bind:sellPrice={sellPrice} bind:sellFungible={sellFungible} {isLoading}  bind:listingId={orderId} {edit}/>
+  </SideModal>
 {/if}
 
 {#if !userWalletIsOwner}
   <SideModal bind:show={sidebarOpen} title="Buy NFT">
     <BuySidebar
-      bind:sellPrice
-      bind:sellFungible
+      bind:sellPrice={listingPrice}
+      bind:sellFungible={buyFungible}
       {closeListModal}
-      {list}
+      {buy}
       {isLoading}
       {nft}
       {imageSrc}

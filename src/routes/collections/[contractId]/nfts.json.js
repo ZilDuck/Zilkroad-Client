@@ -14,7 +14,7 @@ export async function get({ params, url: { searchParams } }) {
     }
   }
 
-  nfts = await api.get(`collections/${contractId}/nfts?page=${page}&limit=${limit}`)
+  nfts = await api.get(`collections/${contractId}/nfts?page=${page}&limit=${limit}`).catch((e) => console.log(e))
 
   return {
     body: nfts
