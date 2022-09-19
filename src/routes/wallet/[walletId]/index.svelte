@@ -180,9 +180,7 @@
 
   <div class="flex flex-col max-w-screen-xl mx-auto space-y-10 text-white">
     <h2 class="text-2xl font-medium">{pronoun} NFTs</h2>
-    <div class="mt-10">
-      <NftCardList nfts={ownedNfts} />
-    </div>
+    <NftCardList nfts={ownedNfts} />
     {#if listedNfts.length > 0}
       <Pagination
         bind:currentPage={pagination.page}
