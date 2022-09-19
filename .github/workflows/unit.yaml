@@ -1,0 +1,15 @@
+name: Jest Unit-tests
+on: [push]
+jobs:
+  start:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Install modules
+        run: npm i
+
+      - name: Unit tests 🧪
+        run: npm run unit-tests
