@@ -12,12 +12,16 @@
   import Cross from '../../components/icons/Cross.svelte'
   import Elipsis from '../../components/icons/Elipsis.svelte'
   import Pencil from '../../components/icons/Pencil.svelte'
+  import Burn from '../../components/icons/Burn.svelte'
+  import Transfer from '../../components/icons/Transfer.svelte'
   import SideModal from '../../components/SideModal.svelte'
   import SellSidebar from '$components/sidebars/SellSidebar.svelte'
   import BuySidebar from '$components/sidebars/BuySidebar.svelte'
   import { toast } from '../../store/toast'
   import { pollTx } from '../../zilpay/poll-tx'
   import TokenPrice from '../../components/TokenPrice.svelte'
+  import BurnModal from '../../components/modals/BurnModal.svelte'
+  import TransferModal from '../../components/modals/TransferModal.svelte'
   import EditSidebar from "../../components/sidebars/EditSidebar.svelte";
   import { convertWithDecimals } from "../fungibles.js";
 
@@ -38,6 +42,8 @@
 
   let open = false
   let sidebarOpen = false
+  let burnModalOpen = false
+  let transferModalOpen = false
   let editSidebarOpen = false
   let isLoading = false
   let showNftImage = true
@@ -121,6 +127,20 @@
   function buy() {
     open = false
     marketplace.buyNft(buyFungible, listingPrice, orderId)
+  }
+
+  function openBurnModal() {
+    open = false
+    burnModalOpen = true
+    const body = document.getElementsByTagName('body')[0]
+    body.classList.add('lock')
+  }
+
+  function openTransferModal() {
+    open = false
+    transferModalOpen = true
+    const body = document.getElementsByTagName('body')[0]
+    body.classList.add('lock')
   }
 
   let nftPlaceholder = '/images/nft-image.png'
@@ -216,6 +236,14 @@
               <button>Sell</button>
             </li>
           {/if}
+          <li class="flex items-center space-x-5 align-middle cursor-pointer" on:click={openTransferModal}>
+            <Transfer />
+            <button>Transfer</button>
+          </li>
+          <li class="flex items-center space-x-5 align-middle cursor-pointer" on:click={openBurnModal}>
+            <Burn />
+            <button>Burn</button>
+          </li>
         {/if}
         {#if !userWalletIsOwner}
           <li class="flex items-center space-x-5 align-middle cursor-pointer" on:click={openListModal}>
@@ -260,4 +288,12 @@
       {name}
     /></SideModal
   >
+{/if}
+
+{#if burnModalOpen}
+  <BurnModal bind:show={burnModalOpen} title="Burn NFT" />
+{/if}
+
+{#if transferModalOpen}
+  <TransferModal bind:show={transferModalOpen} />
 {/if}
