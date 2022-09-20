@@ -1,7 +1,3 @@
-import { variables } from '../lib/variables.js'
-
-const base = variables.apiEndpoint
-
 type MetadataResponse = {
   result: Metadata
 }
@@ -139,7 +135,11 @@ export const zilkroad = (fetch: (info: RequestInfo, init?: RequestInit) => Promi
   }
 
   const getApprovedFungibles = async () => {
-    const response = await fetch(`${base}/fungible`)
+    if (typeof location === 'undefined') {
+      return {}
+    }
+    const base = location.origin
+    const response = await fetch(`${base}/app/fungibles.json`)
     return await response.json() as { [key: string]: Fungible }
   }
 
