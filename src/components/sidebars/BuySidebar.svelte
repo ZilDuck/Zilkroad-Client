@@ -1,6 +1,5 @@
 <script>
   import { fly } from 'svelte/transition'
-  import marketplace from '$store/marketplace'
   import SvgLoader from '$components/SvgLoader.svelte'
   import TokenPrice from "../TokenPrice.svelte";
 
@@ -14,23 +13,11 @@
 
   let checkOne = false
   let checkTwo = false
-  let sellFungibleLabel 
-
-  let fungibles = $marketplace.approvedFungibles.filter((fungible) => fungible.fungible_address !== '')
-  let collections = fungibles.map((fungible) => {
-    return {
-      value:fungible.fungible_address,
-      label: fungible.fungible_symbol
-    }
-  } )
-  let value = collections[0]
-  sellFungible =collections[0].value
-  sellFungibleLabel = collections[0].label
   
 </script>
 
 <h4 class="text-[20px] font-[600] mb-5">{name}</h4>
-<img src={imageSrc} alt="NFT image you're selling" class="w-full pb-5" />
+<img src={imageSrc} alt="NFT you're selling" class="w-full pb-5" />
 <p class="flex justify-between items-center w-full text-[20px] text-zilkroad-text-normal mb-5">
   Total price <span class="text-white"><TokenPrice price={sellPrice} fungibleAddressOrSymbol={sellFungible} reverse="false" />
 </span>
