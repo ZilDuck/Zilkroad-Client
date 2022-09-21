@@ -27,13 +27,13 @@
 
   export let nft
 
-  $: userWalletIsOwner = nft.owner_address_b32 === $wallet.bech32
+  $: userWalletIsOwner = nft?.current_owner === $wallet.base16
   $: imageSrc = `${cdnBaseUrl}${nft.contract_address_b16}/${nft.token_id}?&optimizer=image&height=400&width=400&aspect_ratio=1:1`
   $: name = nft.name ?? nft.symbol + ' #' + nft.token_id
 
   export let sellPrice = 0 // replace with floor price as default?
   export let sellFungible
-  export let orderId = nft.listing ? nft.listing.static_order_id : 0
+  export let orderId = nft?.order_id ?? 0
   export let buyFungible = nft.listing ? nft.listing.fungible_address : ''
   export let listingPrice = nft.token_price ? nft.token_price : 0
   export let priceSymbol = nft.token_symbol ? nft.token_symbol.toUpperCase() : 'WZIL'
@@ -82,23 +82,29 @@
     isLoading = false
   }
 
-  async function list() {
-    open = false
-    isLoading = true
-    let { listTx } = await marketplace.listNft(
-      nft.contract_address_b16,
-      String(nft.token_id),
-      sellFungible,
-      String(sellPrice)
-    )
-    if (listTx) {
-      toast.add({ message: 'Transaction Pending', type: 'info' })
-      await pollTx(listTx)
+  async function approve() {
+    let { spenderTx } = await marketplace.approveNftSpender(nft.contract_address_b16, nft.token_id)
+    if (spenderTx) {
+      toast.add({ message: 'Approving Zilkroad as Nft Spender', type: 'info' })
+      await pollTx(spenderTx)
     } else {
-      toast.add({ message: 'Transaction Failed', type: 'error' })
+      toast.add({ message: 'Approval Failed', type: 'error' })
       return
     }
-    toast.add({ message: 'Listing Finished', type: 'success' })
+    toast.add({ message: 'Approval Confirmed', type: 'success' })
+  }
+
+  async function list() {
+    const convertedSellPrice = convertWithDecimals($marketplace.approvedFungibles, sellFungible, sellPrice)
+    let { listTx } = await marketplace.listNft(nft.contract_address_b16, nft.token_id, sellFungible, convertedSellPrice)
+    if (listTx) {
+      toast.add({ message: 'Listing NFT', type: 'info' })
+      await pollTx(listTx)
+    } else {
+      toast.add({ message: 'Listed Failed', type: 'error' })
+      return
+    }
+    toast.add({ message: 'NFT Listed', type: 'success' })
   }
 
   function delist() {
@@ -211,10 +217,10 @@
           <MagnifiyingGlass />
           <button>View NFT</button>
         </li>
-        {#if orderId}
-          <li class="flex items-center space-x-5 cursor-pointer" on:click={buy}>
-            <Trash />
-            <button>Buy listing</button>
+        {#if orderId && !userWalletIsOwner}
+          <li class="flex items-center space-x-5 align-middle cursor-pointer" on:click={openListModal}>
+            <MoneyBill />
+            <button>Buy</button>
           </li>
         {/if}
         {#if userWalletIsOwner}
@@ -245,12 +251,6 @@
             <button>Burn</button>
           </li>
         {/if}
-        {#if !userWalletIsOwner}
-          <li class="flex items-center space-x-5 align-middle cursor-pointer" on:click={openListModal}>
-            <MoneyBill />
-            <button>Buy</button>
-          </li>
-        {/if}
       </ul>
     </div>
   {/if}
@@ -262,7 +262,8 @@
       bind:sellPrice
       bind:sellFungible
       {closeListModal}
-      {list}
+      {list} 
+      {approve}
       {isLoading}
       {imageSrc}
       {name}

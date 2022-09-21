@@ -235,7 +235,7 @@
         </h3>
       </div>
 
-      {#if nft.listing}
+      {#if nft.listing && !userWalletIsOwner}
         <div in:fade>
           <Button on:click={openBuyModal} className="w-full mt-14 lg:mt-5 lg:w-auto ">
             Purchase <TokenPrice price={listingPrice} fungibleAddressOrSymbol={buyFungible} reverse='true'/> {fungibleSymbol}
