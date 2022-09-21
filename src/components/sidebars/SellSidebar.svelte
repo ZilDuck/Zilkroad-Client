@@ -26,9 +26,6 @@
     }
   });
   
-  console.log(nftHasSpender)
-
-  
   let fungibles = $marketplace.approvedFungibles.filter((fungible) => fungible.fungible_address !== '')
   let fungiblesSelect = fungibles.map((fungible) => {
     return {
@@ -38,6 +35,7 @@
   } )
 
   let value = fungiblesSelect[0]
+  sellFungible = fungiblesSelect[0].value
   function handleOrder(event) {
     console.log('selected item', event.detail)
     value = event.detail

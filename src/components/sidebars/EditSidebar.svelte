@@ -21,6 +21,7 @@
   } )
   
   let value = fungiblesSelect[0]
+  sellFungible = fungiblesSelect[0].value
   function handleOrder(event) {
     console.log('selected item', event.detail)
     value = event.detail
