@@ -25,6 +25,48 @@ export const setSpender = async (
   )
 }
 
+export const burn = async (
+  nftContract: string,
+  tokenId: string,
+  params: Partial<TxParams> = {}
+) => {
+  return await contract(nftContract).call(
+    'Burn',
+    [
+      {
+        vname: 'token_id',
+        value: tokenId,
+        type: 'Uint256'
+      }
+    ],
+    params
+  )
+}
+
+export const transferFrom = async (
+  nftContract: string,
+  to: string,
+  tokenId: string,
+  params: Partial<TxParams> = {}
+) => {
+  return await contract(nftContract).call(
+    'TransferFrom',
+    [
+      {
+        vname: 'to',
+        value: to,
+        type: 'ByStr20'
+      },
+      {
+        vname: 'token_id',
+        value: tokenId,
+        type: 'Uint256'
+      }
+    ],
+    params
+  )
+}
+
 export const hasSpender = async (
   nftContract: string,
   tokenId: string

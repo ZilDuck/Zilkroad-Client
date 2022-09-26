@@ -1,6 +1,6 @@
 import type { Writable } from 'svelte/store'
 import wallet from './wallet'
-import { setSpender } from '../zilpay/nonfungible'
+import { setSpender, burn, transferFrom } from '../zilpay/nonfungible'
 import { userList, userBuy, userReturn, userEditListing } from '../zilpay/marketplace'
 import { writable } from 'svelte/store'
 import { increaseAllowance } from '../zilpay/fungible'
@@ -108,6 +108,35 @@ const createMarketplaceStore = () => {
     return { editTx }
   }
 
+  const burnNft = async (
+    nftContract: string,
+    tokenId: string
+  ) => {
+    const nonce = await wallet.getNonce()
+
+    const burnTx = await burn(nftContract, tokenId, { nonce: nonce + 1 }).catch((error) => {
+      console.log(error)
+      toast.add({ message: 'User rejected burn', type: 'error' })
+    })
+    wallet.increaseNonce()
+    return { burnTx }
+  }
+
+  const transferNft = async (
+    nftContract: string,
+    to: string,
+    tokenId: string
+  ) => {
+    const nonce = await wallet.getNonce()
+
+    const transferFromTx = await transferFrom(nftContract, to, tokenId, { nonce: nonce + 1 }).catch((error) => {
+      console.log(error)
+      toast.add({ message: 'User rejected transfer', type: 'error' })
+    })
+    wallet.increaseNonce()
+    return { transferFromTx }
+  }
+
   api.getVerifiedContracts().then((verifiedContracts) => {
     update((m) => ({ ...m, verifiedContracts }))
   })
@@ -122,7 +151,9 @@ const createMarketplaceStore = () => {
     listNft,
     delistNft,
     buyNft,
-    editListedNft
+    editListedNft,
+    burnNft,
+    transferNft
   }
 }
 
