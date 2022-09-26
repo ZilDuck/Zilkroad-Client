@@ -1,17 +1,40 @@
 <script lang="ts">
-  import { fly } from 'svelte/transition'
   import { slide } from 'svelte/transition'
   import Cross from '$icons/Cross.svelte'
+  import { toast } from "../../store/toast";
+  import marketplace from "$store/marketplace";
+  import { pollTx } from "../../zilpay/poll-tx";
   export let show: boolean
-
+  export let nftName = ''
+  export let nftCollectionName = ''
+  export let nftImage = 'https://picsum.photos/80/80'
+  export let nftContract = ''
+  export let nftTokenId = ''
+  
+  async function transfer() {
+    let { transferTx } = await marketplace.transferNft(nftContract, recipientAddress, nftTokenId)
+    if (transferTx) {
+      toast.add({ message: 'Transferring NFT', type: 'info' })
+      await pollTx(transferTx)
+    } else {
+      toast.add({ message: 'Transfer Failed', type: 'error' })
+      return
+    }
+    toast.add({ message: 'Transfer Confirmed', type: 'success' })
+  }
+  
   function closeModal() {
     show = false
     const body = document.getElementsByTagName('body')[0]
     body.classList.remove('lock')
   }
-
+  
+  function isAddressValid() {
+    receipentAddressValid = recipientAddress.length > 10; 
+  }
+  
   let recipientAddress = ''
-  let receipentAddressValid = true
+  let receipentAddressValid = false
 </script>
 
 {#if show}
@@ -28,10 +51,10 @@
         that the address is correct below. Please enter the address of the wallet you are sending to below.
       </p>
       <div class="mb-5 flex items-center">
-        <img src="https://picsum.photos/80/80" alt={`nft.name`} class="rounded-lg" />
+        <img src={nftImage} alt={`nft.name`} class="rounded-lg w-20" />
         <div class="ml-5">
-          <p class="text-white">Nft name here</p>
-          <p>Nft collection here</p>
+          <p class="text-white">{nftName}</p>
+          <p>{nftCollectionName}</p>
         </div>
       </div>
       <p class="text-white mb-[10px]">NFT recipient address</p>
@@ -39,6 +62,7 @@
         type="text"
         class="w-full bg-[#393939] h-10 px-[10px] text-white rounded-[4px] mb-5"
         bind:value={recipientAddress}
+        on:input={isAddressValid}
       />
       {#if receipentAddressValid === true}
         <div class="flex justify-between mb-5">
@@ -51,7 +75,7 @@
       {/if}
       <button
         class="w-full rounded-[4px] h-10 flex items-center justify-center bg-white text-[#989898] disabled:cursor-not-allowed"
-        disabled={!recipientAddress && !receipentAddressValid}>Confirm sending NFT to new address</button
+        disabled={!recipientAddress && !receipentAddressValid} on:click={transfer}>Confirm sending NFT to new address</button
       >
     </div>
   </div>

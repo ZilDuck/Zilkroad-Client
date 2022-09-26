@@ -1,10 +1,27 @@
 <script lang="ts">
-  import { fly } from 'svelte/transition'
   import { slide } from 'svelte/transition'
   import Cross from '$icons/Cross.svelte'
-
-  export let title: string = 'Sell your NFT'
+  import marketplace from "$store/marketplace";
+  import { toast } from "../../store/toast";
+  import { pollTx } from "../../zilpay/poll-tx";
+  
+  export let title: string = 'Burn your NFT'
   export let show: boolean
+  
+  export let nftContract = ''
+  export let nftTokenId = ''
+
+  async function burn() {
+    let { burnTx } = await marketplace.burnNft(nftContract, nftTokenId)
+    if (burnTx) {
+      toast.add({ message: 'Burning NFT', type: 'info' })
+      await pollTx(burnTx)
+    } else {
+      toast.add({ message: 'Burn Failed', type: 'error' })
+      return
+    }
+    toast.add({ message: 'Burn Confirmed', type: 'success' })
+  }
 
   function closeModal() {
     show = false
@@ -36,7 +53,7 @@
       />
       <button
         class="w-full rounded-[4px] h-10 flex items-center justify-center bg-[#9E3030] text-[#FFE4E4] hover:bg-[#D25B5B] disabled:cursor-not-allowed"
-        disabled={userConfirmationString !== confirmationString}>I understand the consequences, delete NFT.</button
+        disabled={userConfirmationString !== confirmationString} on:click={burn}>I understand the consequences, delete NFT.</button
       >
     </div>
   </div>
