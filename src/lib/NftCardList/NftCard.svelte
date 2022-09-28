@@ -280,7 +280,7 @@
   <SideModal bind:show={sidebarOpen} title="Buy NFT">
     <BuySidebar
       bind:sellPrice={listingPrice}
-      bind:sellFungible={buyFungible}
+      bind:sellFungible={priceSymbol}
       {closeListModal}
       {buy}
       {isLoading}
