@@ -45,6 +45,7 @@
   import Twitter from '$icons/social/Twitter.svelte'
   import Telegram from '$icons/social/Telegram.svelte'
   import Website from '$icons/social/Website.svelte'
+  import AdBanner from '../../../components/AdBanner.svelte'
 
   export let collection = {}
   export let nfts = []
@@ -79,16 +80,16 @@
   }
 
   async function reportCollection() {
-    const user = $wallet.bech32 ?? "<no-user>"
+    const user = $wallet.bech32 ?? '<no-user>'
     await fetch(`/collections/${contractId}/report.json?user=${user}`)
-    .catch((error) => {
-      console.log(error)
-      toast.add({ message: "Issue with reporting collection, please try again later", type: "error" })
-    })
-    .then((r) => {
-      console.log("User %s successfully reported collection %s", user, contractId)
-      toast.add({ message: "Collection reported, this will be reviewed by the Zilkroad Team", type: "success" })
-    })
+      .catch((error) => {
+        console.log(error)
+        toast.add({ message: 'Issue with reporting collection, please try again later', type: 'error' })
+      })
+      .then((r) => {
+        console.log('User %s successfully reported collection %s', user, contractId)
+        toast.add({ message: 'Collection reported, this will be reviewed by the Zilkroad Team', type: 'success' })
+      })
   }
 
   console.log(pagination)
@@ -124,16 +125,16 @@
         {/if}
         <div class="ml-auto flex">
           {#if metadata.twitter}
-          <a href={metadata.twitter} class="mr-5"><Twitter /></a>
+            <a href={metadata.twitter} class="mr-5"><Twitter /></a>
           {/if}
           {#if metadata.discord}
-          <a href={metadata.discord} class="mr-5"><Discord /></a>
+            <a href={metadata.discord} class="mr-5"><Discord /></a>
           {/if}
           {#if metadata.telegram}
-          <a href={metadata.telegram} class="mr-5"><Telegram /></a>
+            <a href={metadata.telegram} class="mr-5"><Telegram /></a>
           {/if}
           {#if metadata.url}
-          <a href={metadata.url} class="mr-5"><Website /></a>
+            <a href={metadata.url} class="mr-5"><Website /></a>
           {/if}
         </div>
       </div>
@@ -177,4 +178,5 @@
   <div class="w-full flex justify-center mt-20">
     <Pagination numPages={pagination.total_pages} {currentPage} className="mx-auto" on:pageChange={handlePageChange} />
   </div>
+  <AdBanner className="md:mx-auto max-w-screen-xl" />
 </main>

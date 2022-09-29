@@ -24,6 +24,7 @@
   import ScrollableSection from '$components/ScrollableSection.svelte'
   import Pagination from '../../components/Pagination.svelte'
   import { page } from '$app/stores'
+  import AdBanner from '../../components/AdBanner.svelte'
 
   export let nfts = []
   export let collections = []
@@ -64,7 +65,9 @@
 
   async function handlePageChange(event) {
     const page = event.detail.currentPage
-    let collectionNfts = await fetch(`/marketplace/marketplace.json?page=${page}?filter=${filter}&collection=${selectedCollection}`)
+    let collectionNfts = await fetch(
+      `/marketplace/marketplace.json?page=${page}?filter=${filter}&collection=${selectedCollection}`
+    )
       .catch((error) => {
         console.log(error)
       })
@@ -122,6 +125,7 @@
     <NftCardList {nfts} />
   </div>
   <Pagination numPages={pagination.total_pages} {currentPage} className="mx-auto" on:pageChange={handlePageChange} />
+  <AdBanner className="md:mx-auto max-w-screen-xl" />
 </main>
 
 <style>
