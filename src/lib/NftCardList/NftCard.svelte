@@ -292,9 +292,9 @@
 {/if}
 
 {#if burnModalOpen}
-  <BurnModal bind:show={burnModalOpen} title="Burn NFT" />
+  <BurnModal bind:show={burnModalOpen} nftContract={nft.contract_address_b16} nftTokenId={nft.token_id} title="Burn NFT" />
 {/if}
 
 {#if transferModalOpen}
-  <TransferModal bind:show={transferModalOpen} />
+  <TransferModal bind:show={transferModalOpen} nftContract={nft.contract_address_b16} nftTokenId={nft.token_id} nftCollectionName={nft.collection_name} nftName={name} nftImage={imageSrc} />
 {/if}

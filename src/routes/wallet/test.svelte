@@ -30,6 +30,15 @@
 
   // DELIST
   let delistingId = '0'
+  
+  // BURN
+  let nftBurnContractAddress = ''
+  let nftBurnTokenID = ''
+  
+  // TRANSFER
+  let nftTransferContractAddress = ''
+  let nftTransferTo = ''
+  let nftTransferTokenID = ''
 
   // CONVERT
   let convertAmount = 0
@@ -84,6 +93,28 @@
     console.log('Listing id: ' + delistingId)
     try {
       let delistTransactions = marketplace.delistNft(delistingId)
+      console.log(delistTransactions)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  function burn() {
+    console.log('burn triggered')
+    console.log('Burn id: ' + nftBurnTokenID)
+    try {
+      let burnTransactions = marketplace.burnNft(nftBurnContractAddress, nftBurnTokenID)
+      console.log(burnTransactions)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  function transfer() {
+    console.log('transfer triggered')
+    console.log('Transfer id '+ nftTransferTokenID+ ' to ' + nftTransferTo)
+    try {
+      let delistTransactions = marketplace.transferNft(nftTransferContractAddress, nftTransferTo, nftTransferTokenID)
       console.log(delistTransactions)
     } catch (error) {
       console.log(error)
@@ -183,6 +214,36 @@
     <p class="border-blue-400 border-2 text-gray-700 font-bold" on:click={delist}>CLICK TO DELIST</p>
   </div>
 
+  <div class="bg-gray-200 w-fit space-y-5 p-5">
+    <h3 class="text-gray-700 font-bold">Burn Token</h3>
+    <div>
+      <label for="nftBurnContractAddress">Token Contract</label>
+      <input id="nftBurnContractAddress" bind:value={nftBurnContractAddress} />
+    </div>
+    <div>
+      <label for="nftBurnTokenID">Token ID</label>
+      <input id="nftBurnTokenID" bind:value={nftBurnTokenID} />
+    </div>
+    <p class="border-blue-400 border-2 text-gray-700 font-bold" on:click={burn}>CLICK TO BURN</p>
+  </div>
+
+  <div class="bg-gray-200 w-fit space-y-5 p-5">
+    <h3 class="text-gray-700 font-bold">Transfer Token</h3>
+    <div>
+      <label for="nftTransferContractAddress">Token Contract</label>
+      <input id="nftTransferContractAddress" bind:value={nftTransferContractAddress} />
+    </div>
+    <div>
+      <label for="nftTransferTo">To Wallet</label>
+      <input id="nftTransferTo" bind:value={nftTransferTo} />
+    </div>
+    <div>
+      <label for="nftTransferTokenID">Token ID</label>
+      <input id="nftTransferTokenID" bind:value={nftTransferTokenID} />
+    </div>
+    <p class="border-blue-400 border-2 text-gray-700 font-bold" on:click={transfer}>CLICK TO TRANSFER</p>
+  </div>
+  
   <div class="bg-gray-200 w-fit space-y-5 p-5">
     <h3 class="text-gray-700 font-bold">Convert ZIL WZIL</h3>
     <div>
