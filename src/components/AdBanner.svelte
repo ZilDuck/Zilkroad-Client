@@ -6,11 +6,10 @@
   export let adtitle = 'Collection name'
   export let description = 'Enter your advert description here.'
   export let buttonText = 'Vist our link'
-  export let backgroundImage = 'images/ad-background.png'
+  export let background = '/images/ad-background.png'
   export let url = 'https://docs-testnet.zilkroad.io/docs/features/adverts'
   export let contractAddress
   export let advert
-  const background = backgroundImage !== '' ? backgroundImage : 'images/ad-background.png'
   let loaded = false
   let valid = true
 
@@ -20,15 +19,12 @@
     if (advert?.advertise_start_unixtime === '') {
       valid = false
     }
-    if (advert?.advertise_start_unixtime > 0) {
-      let advertise_start_unixtime = advert.advertise_start_unixtime
-      let advertise_end_unixtime = advert.advertise_end_unixtime
+    if (advert?.advertise_start_unixtime >= 0) {
       adtitle = advert.adtitle
       description = advert.description
       url = advert.advertise_uri
       contractAddress = advert.nonfungible_address
-      let desktop_image_uri = advert.desktop_image_uri
-      let mobile_image_uri = advert.mobile_image_uri
+      background = advert.desktop_image_uri ?? advert.mobile_image_uri
     }
     loaded = true
   });
@@ -43,12 +39,12 @@
   <div class="absolute top-0 left-0 w-full h-full bg-[rgba(0,0,0,0.2)]"></div>
   <div class="relative z-10 flex flex-col space-y-5">
       <h1 class="text-4xl font-medium">{adtitle}</h1>
-      <p class="max-w-lg font-light text-white">{description}</p>
+      <p class="max-w-4xl font-light text-white">{description}</p>
       <LinkButton className="w-min whitespace-nowrap" {url}>
         {buttonText}
       </LinkButton>
       {#if contractAddress}
-        <LinkButton className="w-min whitespace-nowrap" {url}>View the collection</LinkButton>
+        <LinkButton className="w-min whitespace-nowrap" url="/collections/{contractAddress}">View the collection</LinkButton>
       {/if}
   </div>
     {/if}
