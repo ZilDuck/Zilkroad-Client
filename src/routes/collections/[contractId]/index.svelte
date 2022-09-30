@@ -1,6 +1,25 @@
 <script context="module">
+  import { isAddress, isBech32, toBech32Address } from "../../../zilpay/util";
+
   export async function load({ params, fetch, url }) {
     const { contractId } = params
+
+    //404 invalid addresses
+    if (isAddress(contractId) === false && isBech32(contractId) === false) {
+      return {
+        status: 404,
+        error: new Error(`Not Found`)
+      }
+    }
+
+    //Redirect base16 (0x) addresses
+    if (isBech32(contractId) === false) {
+      return {
+        status: 302,
+        redirect: toBech32Address(contractId)
+      }
+    }
+    
     const page = url.searchParams.get('page') ?? 1
     const [collection, collectionNfts, metadata] = await Promise.all([
       fetch(`/collections/${contractId}.json`)
@@ -63,8 +82,8 @@
 
   const max_royalty_bps = 10000
   export let royalty_percentage = collection.royalty_bps ? max_royalty_bps / collection.royalty_bps : 0
-  export let listed_tokens = collection.stats.listed_tokens
-  export let sales_volume = collection.stats.volume
+  export let listed_tokens = collection.stats?.listed_tokens
+  export let sales_volume = collection.stats?.volume
 
   const image_uri = `${cdnBaseUrl}${collection.contract_address_b16}?optimizer=image&width=650`
 
