@@ -18,7 +18,7 @@
       })
 
       const output = Number(row.price) - Number(row.royalty_amount) ?? 0
-      const isSale = row.activity == 'Bought' || row.activity == 'Sold'
+      const isSale = row.activity == 'Buy' || row.activity == 'Sell'
       const isRoyalties = row.activity == 'Royalties'
 
       const hideValue = `<div class="flex items-center">
