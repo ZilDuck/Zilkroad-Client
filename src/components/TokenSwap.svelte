@@ -42,7 +42,7 @@
   }
 
   async function convert() {
-    const convertedConvertAmount = convertWithDecimals(approvedFungibles, currentTokenType.name, convertAmount)
+    const convertedConvertAmount = convertWithDecimals(approvedFungibles, 'WZIL', convertAmount)
     let convertTransactions = zilToWZil ? await wrapZil(convertedConvertAmount) : await unwrapZil(convertedConvertAmount)
     if (convertTransactions){
       toast.add({ message: 'Transaction Pending', type: 'info' })
