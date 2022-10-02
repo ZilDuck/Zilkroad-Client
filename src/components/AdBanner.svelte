@@ -32,7 +32,7 @@
 </script>
 {#if valid} 
 <section
-  class="md:w-full h-[420px] bg-cover rounded-lg flex flex-col space-y-5 px-4 md:pr-0 md:pl-20 justify-center {className}"
+  class="md:w-full h-[420px] bg-cover rounded-lg flex flex-col space-y-5 px-4 md:pr-0 md:pl-20 justify-center relative {className}"
   style="background-image: url('{background}')"
 >
   {#if loaded}
