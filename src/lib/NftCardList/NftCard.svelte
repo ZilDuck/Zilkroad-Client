@@ -27,7 +27,7 @@
 
   export let nft
 
-  $: userWalletIsOwner = nft?.current_owner === $wallet.base16
+  $: userWalletIsOwner = ( nft?.current_owner || nft?.owner_address_b16 ) === $wallet.base16
   $: imageSrc = `${cdnBaseUrl}${nft.contract_address_b16}/${nft.token_id}?&optimizer=image&height=400&width=400&aspect_ratio=1:1`
   $: name = nft.name ?? nft.symbol + ' #' + nft.token_id
 
