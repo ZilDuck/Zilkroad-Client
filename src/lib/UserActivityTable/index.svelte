@@ -1,5 +1,6 @@
 <script type="ts">
-  import { variables } from '../lib/variables.js'
+  import { variables } from "../variables"
+  import UserActivityRow from "./UserActivityRow.svelte";
   export let data: UserActivity[]
   let rows = []
 
@@ -79,12 +80,13 @@
 
       rows.push({
         Event: row.activity,
-        Date: `<a class="underline" href="${viewblockURL}/${row.tx_hash}?network=${network}">${formattedDate}</a>`,
-        'NFT Token ID': `<a class="underline" href="/collections/${row.contract}/${row.token_id}">${row.token_id}</a>`,
-        'NFT Contract': `<a class="underline contract" href="/collections/${row.contract}">${row.contract}</a>`,
-        Price: priceSection,
-        'NFT Royalty': royaltySection,
-        Output: outputSection
+        Date: formattedDate,
+        NFTTokenID: row.token_id,
+        NFTContract: row.contract,
+        Price: row.price,
+        PriceSymbol: row.price_symbol,
+        NFTRoyalty: row.royalty_amount,
+        Output: output,
       })
     })
   }
@@ -98,18 +100,14 @@
         <tr class="bg-zilkroad-gray-dark">
           <!-- Will need formatting -->
           {#each headers as header}
-            <th>{header}</th>
+            <th class="px-6 py-3 font-normal text-left text-white align-middle whitespace-nowrap last:rounded-tr-lg first:rounded-tl-lg">{header}</th>
           {/each}
         </tr>
       </thead>
       <tbody>
         {#if rows.length > 0}
           {#each rows as row}
-            <tr>
-              {#each Object.values(row) as cell}
-                <td>{@html cell}</td>
-              {/each}
-            </tr>
+            <UserActivityRow eventType={row.Event} date={row.Date} tokenId={row.NFTTokenID} nftContract={row.NFTContract} price={row.Price} priceSymbol={row.PriceSymbol} royalty={row.NFTRoyalty} output={row.Output} />
           {/each}
         {:else}
         <tr>
@@ -121,10 +119,7 @@
   </div>
 </div>
 
-<style type="postcss">
-  table th {
-    @apply px-6 py-3 font-normal text-left text-white align-middle whitespace-nowrap last:rounded-tr-lg first:rounded-tl-lg;
-  }
+<style>
   table td {
     @apply p-4 px-6 text-white align-middle border-t-0 whitespace-nowrap;
   }
