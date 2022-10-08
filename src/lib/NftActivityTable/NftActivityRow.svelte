@@ -13,7 +13,7 @@
 <tr>
   <td>{event}</td>
   <td>{formattedDate}</td>
-  <td><a class="underline" href="#">{wallet}</a></td>
+  <td><a class="underline contract" href="#">{wallet}</a></td>
   <td><div class="flex items-center">
     <img
       src="/images/tokens/{priceSymbol.toUpperCase()}.png"
