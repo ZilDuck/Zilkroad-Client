@@ -12,5 +12,6 @@ export function convertWithDecimals (approvedFungibles, fungibleAddressOrSymbol,
       }
     }
   }
-  return sellAmount
+  // Multiplying the number by 1 removes the trailing decimals #javascript
+  return sellAmount * 1
 }
