@@ -121,7 +121,7 @@
 </div>
 
 <main class="max-w-screen-xl mx-auto">
-  <div class="flex flex-col mx-5 space-y-12 xl:mx-auto md:space-y-0 md:gap-6">
+  <div class="flex flex-col mx-5 space-y-12 xl:mx-auto md:space-y-0 md:gap-6 mb-[120px]">
     <NftCardList {nfts} />
   </div>
   <Pagination numPages={pagination.total_pages} {currentPage} className="mx-auto" on:pageChange={handlePageChange} />
