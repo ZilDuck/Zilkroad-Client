@@ -87,6 +87,7 @@
         PriceSymbol: row.price_symbol,
         NFTRoyalty: row.royalty_amount,
         Output: output,
+        tx_hash: row.tx_hash
       })
     })
   }
@@ -107,7 +108,7 @@
       <tbody>
         {#if rows.length > 0}
           {#each rows as row}
-            <UserActivityRow eventType={row.Event} date={row.Date} tokenId={row.NFTTokenID} nftContract={row.NFTContract} price={row.Price} priceSymbol={row.PriceSymbol} royalty={row.NFTRoyalty} output={row.Output} />
+            <UserActivityRow eventType={row.Event} date={row.Date} tokenId={row.NFTTokenID} nftContract={row.NFTContract} price={row.Price} priceSymbol={row.PriceSymbol} royalty={row.NFTRoyalty} output={row.Output} txHash={row.tx_hash} />
           {/each}
         {:else}
         <tr>

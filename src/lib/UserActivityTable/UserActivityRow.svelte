@@ -31,40 +31,46 @@
     <a class="underline contract" href="/collections/{nftContract}">{nftContract}</a>
   </td>  
   <td>
-    {#if !isRoyalties}
       <div class="flex items-center">
+        {#if !isRoyalties}
         <img
           src="/images/tokens/{priceSymbol.toUpperCase()}.png"
           class="h-6 w-6 p-0.5"
           alt="..."
         />
         <span class="ml-2"><TokenPrice price={price} fungibleAddressOrSymbol={priceSymbol} reverse="false" /></span>
+        {:else}
+        <span class="ml-2 ">-</span>
+        {/if}
       </div>
-    {/if}
   </td>  
   <td>
-    {#if royalty && isSale}
       <div class="flex items-center">
+        {#if royalty > 0}
         <img
           src="/images/tokens/{priceSymbol.toUpperCase()}.png"
           class="h-6 w-6 p-0.5"
           alt="..."
         />
         <span class="ml-2"><TokenPrice price={royalty} fungibleAddressOrSymbol={priceSymbol} reverse="false" /></span>
+        {:else}
+        <span class="ml-2">-</span>
+        {/if}
       </div>
-    {/if}
   </td>  
   <td>
-    {#if output && isSale}
       <div class="flex items-center">
+        {#if output && isSale}
         <img
           src="/images/tokens/{priceSymbol.toUpperCase()}.png"
           class="h-6 w-6 p-0.5"
           alt="..."
         />
         <span class="ml-2"><TokenPrice price={output} fungibleAddressOrSymbol={priceSymbol} reverse="false" /></span>
+        {:else}
+        <span class="ml-2">-</span>
+        {/if}
       </div>
-    {/if}
   </td>
 </tr>
 
