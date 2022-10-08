@@ -19,64 +19,6 @@
       })
 
       const output = Number(row.price) - Number(row.royalty_amount) ?? 0
-      const isSale = row.activity == 'Bought' || row.activity == 'Sold'
-      const isRoyalties = row.activity == 'Royalties'
-
-      const hideValue = `<div class="flex items-center">
-                <span class="ml-2">-</span>
-              </div>`
-
-      let priceSection
-      let royaltySection
-      let outputSection 
-
-      // If sold, bought, show the royalty information as well as the output
-      // Otherwise hide this
-      if (isSale) {
-        royaltySection = `<div class="flex items-center">
-                <img
-                  src="/images/tokens/${row.price_symbol.toUpperCase()}.png"
-                  class="h-6 w-6 p-0.5"
-                  alt="..."
-                />
-                <span class="ml-2">${row.royalty_amount ?? 0}</span>
-              </div>`
-        outputSection = `<div class="flex items-center">
-                <img
-                  src="/images/tokens/${row.price_symbol.toUpperCase()}.png"
-                  class="h-6 w-6 p-0.5"
-                  alt="..."
-                />
-                <span class="ml-2">${output}</span>
-              </div>`
-      } else {
-        royaltySection = hideValue
-        outputSection = hideValue
-      }
-
-      // If royalties have been earnt, show this, but hide the price and output
-      // Otherwise just show the price (for listed, delisted and edit listing)
-      if (isRoyalties) {
-        royaltySection = `<div class="flex items-center">
-                <img
-                  src="/images/tokens/${row.price_symbol.toUpperCase()}.png"
-                  class="h-6 w-6 p-0.5"
-                  alt="..."
-                />
-                <span class="ml-2">${row.royalty_amount ?? 0}</span>
-              </div>`
-        priceSection = hideValue
-        outputSection = hideValue
-      } else {
-        priceSection = `<div class="flex items-center">
-                <img
-                  src="/images/tokens/${row.price_symbol.toUpperCase()}.png"
-                  class="h-6 w-6 p-0.5"
-                  alt="..."
-                />
-                <span class="ml-2">${row.price}</span>
-              </div>`
-      }
 
       rows.push({
         Event: row.activity,
