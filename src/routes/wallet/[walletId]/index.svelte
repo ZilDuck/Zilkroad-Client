@@ -47,7 +47,7 @@
 <script>
   import ScrollableSection from '$components/ScrollableSection.svelte'
   import Pagination from '$components/Pagination.svelte'
-  import UserActivityTable from '$components/UserActivityTable.svelte'
+  import UserActivityTable from '../../../lib/UserActivityTable/index.svelte'
   import wallet from '$store/wallet'
   import Detail from '$components/Detail.svelte'
   import NftCardList from '../../../lib/NftCardList/index.svelte'
