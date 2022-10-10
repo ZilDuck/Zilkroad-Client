@@ -53,7 +53,7 @@ test('1 Duck to 100 Duck(lings?) using bech16 address', () => {
   expect(convertWithDecimals(approvedFungibles, '0x30832ed39781b7840485f79fb971bb67a595a2b2', 1)).toBe(100);
 });
 test('100 Duck(lings?) to equal 1 Duck', () => {
-  expect(convertWithDecimals(approvedFungibles, 'DUCK', 100, true)).toBe("1.00");
+  expect(convertWithDecimals(approvedFungibles, 'DUCK', 100, true)).toBe(1);
 });
 test('1 ZWBTC to 100000000 mZWBTC', () => {
   expect(convertWithDecimals(approvedFungibles, 'ZWBTC', 1)).toBe(100000000);
@@ -62,11 +62,11 @@ test('1 ZWBTC to 100000000 mZWBTC using bech16 address', () => {
   expect(convertWithDecimals(approvedFungibles, '0x75fA7D8BA6BEd4a68774c758A5e43Cfb6633D9d6', 1)).toBe(100000000);
 });
 test('100000000 mZWBTC to equal 1 ZWBTC', () => {
-  expect(convertWithDecimals(approvedFungibles, 'ZWBTC', 100000000, true)).toBe("1.00000000");
+  expect(convertWithDecimals(approvedFungibles, 'ZWBTC', 100000000, true)).toBe(1);
 });
 test('20 GZIL to 2000000000000000 mGZIL', () => {
   expect(convertWithDecimals(approvedFungibles, 'GZIL', 2)).toBe(2000000000000000);
 });
 test('5 mGZIL to 0.000000000000005 GZIL', () => {
-  expect(convertWithDecimals(approvedFungibles, 'GZIL', 5, true)).toBe("0.000000000000005");
+  expect(convertWithDecimals(approvedFungibles, 'GZIL', 5, true)).toBe(0.000000000000005);
 });
