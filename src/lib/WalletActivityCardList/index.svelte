@@ -27,7 +27,7 @@ import TokenPrice from "../../components/TokenPrice.svelte";
 
   function cleanWallet(wallet) {
     for (const [key, value] of Object.entries(wallet)) {
-      if ( key != "address" ) {
+      if ( key != "address"  && key != "total_usd") {
         wallet[key] = parseInt(value, 10)
       }
     }
