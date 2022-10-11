@@ -1,9 +1,18 @@
 <script>
-  export let searchResult
+  import { cdnBaseUrl } from '../../lib/cdn'
 
-  $:imageSrc = searchResult.result_image ?? '/images/nft-image.png'
+  export let searchResult
+  
+  // Leaving this in, just in case Nic hates me and I've changed things
+  // $:imageSrc = searchResult.result_image ?? '/images/nft-image.png'
   $:resultAction = searchResult.result_action ?? ''
   $:resultTitle = searchResult.result_text ?? ''
+  let imageSrc = '/images/nft-image.png'
+  if ( searchResult.result_action !== '' && searchResult.result_text !== '' ) {
+    imageSrc = cdnBaseUrl + searchResult.nonfungible_address + '?optimizer=image&width=800'
+  } else {
+    imageSrc = ''
+  }
   
   let placeholder = '/images/nft-image.png'
 
