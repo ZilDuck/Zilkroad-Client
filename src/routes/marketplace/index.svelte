@@ -21,7 +21,7 @@
   import Select from 'svelte-select'
   import NftCardList from '$lib/NftCardList/index.svelte'
   import ShapeImage from '$components/ShapeImage.svelte'
-  import ScrollableSection from '$components/ScrollableSection.svelte'
+  import PageHeader from '$components/PageHeader.svelte'
   import Pagination from '../../components/Pagination.svelte'
   import { page } from '$app/stores'
   import AdBanner from '../../components/AdBanner.svelte'
@@ -78,26 +78,19 @@
 </script>
 
 <ShapeImage />
-<div class="flex flex-col h-full mt-20 space-y-5 md:items-center md:mt-40">
-  <h1
-    class="text-4xl sm:text-5xl leading-relaxed md:text-[80px] font-medium max-w-3xl md:text-center md:leading-[1.25]"
-  >
-    The marketplace
-  </h1>
-  <p class="text-xl font-light text-zilkroad-gray-light md:text-white">View nfts available on the marketplace now.</p>
-</div>
+<PageHeader title="The marketplace" description="View nfts available on the marketplace now." />
 
 <div class=" mx-5">
   <div class="mx-auto max-w-screen-xl mt-20">
-    <div class="flex justify-between items-center w-full">
-      <h3 class="text-xl font-medium md:col-span-2 lg:col-span-3 xl:col-span-4 mb-10">
+    <div class="flex flex-col md:flex-row justify-between md:items-center w-full mb-5">
+      <h3 class="text-xl font-medium md:col-span-2 lg:col-span-3 xl:col-span-4 mb-5 md:mb-0">
         Showing <span class="text-zilkroad-teal"
           >{pagination.size < pagination.total_elements ? pagination.size : pagination.total_elements}</span
         >
         of <span class="text-zilkroad-teal">{pagination.total_elements}</span> items
       </h3>
-      <div class="flex">
-        <div class="select-field min-w-[300px] mr-5">
+      <div class="flex flex-col md:flex-row gap-5">
+        <div class="select-field min-w-[300px] md:mr-5">
           <Select
             items={collections}
             placeholder="Filter by collection"
