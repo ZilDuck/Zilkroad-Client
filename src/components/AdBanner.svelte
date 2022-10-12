@@ -39,7 +39,7 @@
       <div class="absolute top-0 left-0 w-full h-full bg-[rgba(0,0,0,0.2)]" />
       <div class="relative z-10 flex flex-col space-y-5">
         <h1 class="text-4xl font-medium">{adtitle}</h1>
-        <p class="max-w-4xl font-light text-white">{description}</p>
+        <p class="max-w-xl font-light text-white">{description}</p>
         <div class="flex items-center justify-start gap-5">
           <LinkButton className="w-min whitespace-nowrap" {url}>
             {buttonText}
