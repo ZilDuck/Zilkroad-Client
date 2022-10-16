@@ -47,7 +47,7 @@
       </a> -->
 
       <a
-        href="https://docs-testnet.zilkroad.io/docs/introduction/introduction#introduction"
+        href="https://docs-testnet.zilkroad.io"
         class="w-[224px] p-5 border border-solid border-zilkroad-gray-dark rounded-lg hover:bg-zilkroad-gray-dark"
       >
         <div class="flex items-center mb-3">
