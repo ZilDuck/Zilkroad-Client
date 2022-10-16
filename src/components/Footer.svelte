@@ -22,7 +22,7 @@
         <h2>Info</h2>
         <ul>
           <li>
-            <a href={'https://docs-testnet.zilkroad.io/docs/introduction/introduction#introduction'}>Documentation</a>
+            <a href={'https://docs-testnet.zilkroad.io'}>Documentation</a>
           </li>
           <li><a href={'/about-us'}>About us</a></li>
         </ul>
