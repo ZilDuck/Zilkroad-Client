@@ -5,7 +5,7 @@
   let rows = []
 
   export const { network } = variables
-  const headers = ['Event', 'Date', 'NFT Token ID', 'NFT Contract', 'Price', 'NFT Royalty', 'Output']
+  const headers = ['Event', 'Date', 'NFT Token ID', 'NFT Contract', 'Price', 'NFT Royalty', 'Tax', 'Output']
   const viewblockURL = 'https://viewblock.io/zilliqa/tx'
 
   if (data) {
@@ -18,7 +18,7 @@
         minute: '2-digit'
       })
 
-      const output = Number(row.price) - Number(row.royalty_amount) ?? 0
+      // const output = (Number(row.price) - Number(row.royalty_amount) ?? 0) - Number(row.tax_amount ?? 0)
 
       rows.push({
         Event: row.activity,
@@ -28,7 +28,8 @@
         Price: row.price,
         PriceSymbol: row.price_symbol,
         NFTRoyalty: row.royalty_amount,
-        Output: output,
+        TaxAmount: row.tax_amount,
+        Output: row.output,
         tx_hash: row.tx_hash
       })
     })
@@ -50,7 +51,7 @@
       <tbody>
         {#if rows.length > 0}
           {#each rows as row}
-            <UserActivityRow eventType={row.Event} date={row.Date} tokenId={row.NFTTokenID} nftContract={row.NFTContract} price={row.Price} priceSymbol={row.PriceSymbol} royalty={row.NFTRoyalty} output={row.Output} txHash={row.tx_hash} />
+            <UserActivityRow eventType={row.Event} date={row.Date} tokenId={row.NFTTokenID} nftContract={row.NFTContract} price={row.Price} priceSymbol={row.PriceSymbol} royalty={row.NFTRoyalty} taxAmount={row.TaxAmount} output={row.Output} txHash={row.tx_hash} />
           {/each}
         {:else}
         <tr>
