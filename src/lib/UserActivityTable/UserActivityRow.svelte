@@ -67,7 +67,7 @@
           class="h-6 w-6 p-0.5"
           alt="..."
         />
-        <span class="ml-2 contract"><TokenPrice price={taxAmount} fungibleAddressOrSymbol={priceSymbol} reverse="false" /></span>
+        <span class="ml-2 price"><TokenPrice price={taxAmount} fungibleAddressOrSymbol={priceSymbol} reverse="false" /></span>
         {:else}
         <span class="ml-2">-</span>
         {/if}
@@ -81,7 +81,7 @@
           class="h-6 w-6 p-0.5"
           alt="..."
         />
-        <span class="ml-2 contract"><TokenPrice price={output} fungibleAddressOrSymbol={priceSymbol} reverse="false" /></span>
+        <span class="ml-2 price"><TokenPrice price={output} fungibleAddressOrSymbol={priceSymbol} reverse="false" /></span>
         {:else}
         <span class="ml-2">-</span>
         {/if}
