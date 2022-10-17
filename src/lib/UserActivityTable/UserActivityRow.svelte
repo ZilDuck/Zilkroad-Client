@@ -9,6 +9,7 @@
   export let priceSymbol = '-'
   export let royalty
   export let output
+  export let taxAmount
   export let network = 'testnet'
   export let txHash = ''
   const viewblockURL = 'https://viewblock.io/zilliqa/tx'
@@ -57,7 +58,7 @@
         <span class="ml-2">-</span>
         {/if}
       </div>
-  </td>  
+  </td>
   <td>
       <div class="flex items-center">
         {#if output && isSale}
@@ -66,7 +67,21 @@
           class="h-6 w-6 p-0.5"
           alt="..."
         />
-        <span class="ml-2"><TokenPrice price={output} fungibleAddressOrSymbol={priceSymbol} reverse="false" /></span>
+        <span class="ml-2 price"><TokenPrice price={taxAmount} fungibleAddressOrSymbol={priceSymbol} reverse="false" /></span>
+        {:else}
+        <span class="ml-2">-</span>
+        {/if}
+      </div>
+  </td>
+  <td>
+      <div class="flex items-center">
+        {#if output && isSale}
+        <img
+          src="/images/tokens/{priceSymbol.toUpperCase()}.png"
+          class="h-6 w-6 p-0.5"
+          alt="..."
+        />
+        <span class="ml-2 price"><TokenPrice price={output} fungibleAddressOrSymbol={priceSymbol} reverse="false" /></span>
         {:else}
         <span class="ml-2">-</span>
         {/if}

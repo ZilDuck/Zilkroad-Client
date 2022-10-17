@@ -48,3 +48,11 @@ pre {
   display: block;
   overflow: hidden;
 }
+
+.price {
+  text-overflow: ellipsis;
+  max-width: 80px;
+  width: 100%;
+  display: block;
+  overflow: hidden; 
+}
