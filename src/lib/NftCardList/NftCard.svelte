@@ -34,9 +34,9 @@
   export let sellPrice = 0 // replace with floor price as default?
   export let sellFungible
   export let orderId = nft?.order_id ?? 0
-  export let buyFungible = nft.listing ? nft.listing.fungible_address : ''
+  export let buyFungible = nft?.fungible_address ?? nft?.listing?.fungible_address ?? ''
   export let listingPrice = nft.token_price ? nft.token_price : 0
-  export let priceSymbol = nft.token_symbol ? nft.token_symbol.toUpperCase() : 'WZIL'
+  export let priceSymbol = nft?.token_symbol ? nft?.token_symbol.toUpperCase() : 'WZIL'
   export let verified = nft.verified ?? false
   console.log('NFT: ', nft)
 
@@ -130,6 +130,11 @@
     goto(`/collections/${nft.contract_address_b32}/${nft.token_id}`)
   }
 
+  function increaseAllowance() {
+    open = false
+    marketplace.increaseFungibleAllowance(buyFungible, listingPrice)
+  }
+  
   function buy() {
     open = false
     marketplace.buyNft(buyFungible, listingPrice, orderId)
@@ -280,8 +285,10 @@
   <SideModal bind:show={sidebarOpen} title="Buy NFT">
     <BuySidebar
       bind:sellPrice={listingPrice}
-      bind:sellFungible={priceSymbol}
+      buyFungible={buyFungible}
+      buyFungibleSymbol={priceSymbol}
       {closeListModal}
+      {increaseAllowance}
       {buy}
       {isLoading}
       {nft}

@@ -131,8 +131,11 @@
     toast.add({ message: 'NFT Listed', type: 'success' })
   }
 
+  function increaseAllowance() {
+    marketplace.increaseFungibleAllowance(buyFungible, listingPrice)
+  }
+
   function buy() {
-    open = false
     marketplace.buyNft(buyFungible, listingPrice, orderId)
   }
 
@@ -289,8 +292,10 @@
   <SideModal bind:show={buySidebarOpen} title="Buy NFT">
     <BuySidebar
       bind:sellPrice={listingPrice}
-      bind:sellFungible={buyFungible}
+      bind:buyFungible={buyFungible}
+      buyFungibleSymbol={fungibleSymbol}
       closeListModal = {closeModal}
+      {increaseAllowance}
       {buy}
       {isLoading}
       {nft}
