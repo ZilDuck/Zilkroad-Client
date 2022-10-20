@@ -72,7 +72,7 @@
   class="text-zilkroad-text-light h-12 flex justify-center items-center bg-white rounded-lg w-full disabled:cursor-not-allowed disabled:opacity-50"
   on:click={edit}
   disabled={isLoading}
-  >Approve and submit
+  >Edit Listing Price
   {#if isLoading}
     <span in:fly={{ y: -10 }}>
       <SvgLoader />
