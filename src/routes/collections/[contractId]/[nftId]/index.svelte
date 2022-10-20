@@ -125,10 +125,10 @@
       toast.add({ message: 'Editing Listing', type: 'info' })
       await pollTx(editTx)
     } else {
-      toast.add({ message: 'Listed Failed', type: 'error' })
+      toast.add({ message: 'Edit Failed', type: 'error' })
       return
     }
-    toast.add({ message: 'NFT Listed', type: 'success' })
+    toast.add({ message: 'Edit Success', type: 'success' })
   }
 
   function increaseAllowance() {
@@ -287,7 +287,7 @@
     <SellSidebar bind:sellPrice bind:sellFungible closeListModal={closeModal} {list} {approve} {isLoading} {imageSrc} {name} tokenContract={nft.contract_address_b16} tokenID={nft.token_id}/>
   </SideModal>
   <SideModal bind:show={editSidebarOpen} title="Edit">
-    <EditSidebar bind:sellPrice={sellPrice} bind:sellFungible={sellFungible} closeListModal={closeModal} {isLoading}  bind:listingId={orderId} {edit}/>
+    <EditSidebar bind:sellPrice={sellPrice} bind:sellFungible={sellFungible} closeListModal={closeModal} {isLoading}  bind:listingId={orderId} {edit} {imageSrc} {name} />
   </SideModal>
   <SideModal bind:show={buySidebarOpen} title="Buy NFT">
     <BuySidebar
