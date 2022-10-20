@@ -277,7 +277,7 @@
     />
   </SideModal>
   <SideModal bind:show={editSidebarOpen} title="Edit">
-    <EditSidebar bind:sellPrice={sellPrice} bind:sellFungible={sellFungible} {isLoading}  bind:listingId={orderId} {edit}/>
+    <EditSidebar bind:sellPrice={sellPrice} bind:sellFungible={sellFungible} {isLoading}  bind:listingId={orderId} {edit} {imageSrc} {name}/>
   </SideModal>
 {/if}
 
