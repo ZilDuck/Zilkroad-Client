@@ -57,18 +57,32 @@
   import TokenPrice from "../../../../components/TokenPrice.svelte";
   import EditSidebar from "../../../../components/sidebars/EditSidebar.svelte";
   import BuySidebar from "../../../../components/sidebars/BuySidebar.svelte";
+  import { variables } from "../../../../lib/variables"
 
   export let nft
   export let collection
   export let listedNfts
   export let listing: SingleListing | false // i set it as string cuz undefined no work wtf
   
-  const max_royalty_bps = 10000
+  export let max_royalty_bps = Number(variables.maxRoyaltyBps)
+  console.log("Max royalty bps: ", max_royalty_bps)
   export let currentPrice = nft.listing?.fungible_amount ?? 0
   export let tokenSymbol = nft.listing?.fungible_symbol ?? ''
   export let sales = nft.sales_count ?? 0
   export let volume = nft.sales_volume ?? 0
-  export let royalty_percentage = collection.royalty_bps ? max_royalty_bps / collection.royalty_bps : 0
+
+  // Royalties
+  export let royalty_bps = collection.royalty_bps ?? 0
+  export let royalty_percentage = Number((royalty_bps / max_royalty_bps) * 100).toFixed(2) ?? 0.0
+  export let royalty_amount = (currentPrice * royalty_bps) / max_royalty_bps ?? 0
+  export let price_after_royalty = currentPrice - royalty_amount
+
+  // Tax 
+  export let tax_amount = Number(variables.taxAmount)
+  console.log("Tax bps: ", tax_amount)
+  export let tax_percentage = Number((tax_amount / max_royalty_bps) * 100).toFixed(2) ?? 0.0
+  export let final_price = (price_after_royalty * tax_amount) / max_royalty_bps ?? 0
+
 
   const nftDescription = nft.desc ? nft.desc : `This is an NFT for ${nft.collection_name}.`
 
@@ -281,7 +295,17 @@
     </div>
   {/if}
   <SideModal bind:show={listSidebarOpen}>
-    <SellSidebar bind:sellPrice bind:sellFungible closeListModal={closeModal} {list} {approve} {isLoading} {imageSrc} {name} tokenContract={nft.contract_address_b16} tokenID={nft.token_id}/>
+    <SellSidebar
+      bind:sellPrice
+      bind:sellFungible
+      bind:royalty_bps
+      bind:max_royalty_bps
+      bind:tax_amount
+      bind:royalty_percentage
+      bind:tax_percentage
+      bind:final_price
+      closeListModal={closeModal} {list} {approve} {isLoading} {imageSrc} {name} tokenContract={nft.contract_address_b16} tokenID={nft.token_id}
+    />
   </SideModal>
   <SideModal bind:show={editSidebarOpen} title="Edit">
     <EditSidebar bind:sellPrice={sellPrice} bind:sellFungible={sellFungible} closeListModal={closeModal} {isLoading}  bind:listingId={orderId} {edit}/>
