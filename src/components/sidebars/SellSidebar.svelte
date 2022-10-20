@@ -94,7 +94,7 @@
   {/if}
 </button>
 <button
-  class="text-white h-12 flex justify-center items-center bg-zilkroad-gray-dark p-5 rounded-lg w-full mb-5"
+  class="text-white h-12 flex justify-center items-center bg-zilkroad-gray-dark p-5 rounded-lg w-full mb-5 md:hidden"
   on:click={closeListModal}
 >Cancel
 </button>

@@ -5,6 +5,7 @@
   import Zil from '$icons/Zil.svelte'
   import wallet from '$store/wallet'
   import TokenSwap from '$components/TokenSwap.svelte'
+  import TransactionList from "../lib/TransactionList/index.svelte";
 
   let showTokenSwap = false
 
@@ -67,4 +68,5 @@
       >
     {/if}
   </div>
+  <TransactionList />
 </div>
