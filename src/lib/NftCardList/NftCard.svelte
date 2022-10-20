@@ -68,6 +68,8 @@
     open = false
     sidebarOpen = false
     isLoading = false
+    const body = document.getElementsByTagName('body')[0]
+    body.classList.remove('lock')
   }
 
   function openEditModal() {
@@ -81,6 +83,8 @@
     open = false
     editSidebarOpen = false
     isLoading = false
+    const body = document.getElementsByTagName('body')[0]
+    body.classList.remove('lock')
   }
 
   async function approve() {
@@ -280,7 +284,7 @@
     />
   </SideModal>
   <SideModal bind:show={editSidebarOpen} title="Edit">
-    <EditSidebar bind:sellPrice={sellPrice} bind:sellFungible={sellFungible} {isLoading}  bind:listingId={orderId} {edit} {imageSrc} {name}/>
+    <EditSidebar bind:sellPrice={sellPrice} bind:sellFungible={sellFungible} {isLoading} closeListModal={closeEditModal} bind:listingId={orderId} {edit} {imageSrc} {name}/>
   </SideModal>
 {/if}
 

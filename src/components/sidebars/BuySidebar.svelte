@@ -56,11 +56,6 @@
   Marketplace has allowance?
 </label>
 <button
-  class="text-white h-12 flex justify-center items-center bg-zilkroad-gray-dark p-5 rounded-lg w-full mb-5"
-  on:click={closeListModal}
-  >Cancel
-</button>
-<button
   class="text-zilkroad-text-light h-12 flex justify-center items-center bg-white rounded-lg w-full disabled:cursor-not-allowed disabled:opacity-50"
   on:click={increaseAllowance}
   disabled={isLoading || !walletHasFunds || marketplaceHasAllowance}
@@ -77,6 +72,11 @@
       <SvgLoader />
     </span>
   {/if}
+</button>
+<button
+  class="text-white h-12 flex justify-center items-center bg-zilkroad-gray-dark p-5 rounded-lg w-full mb-5 md:hidden"
+  on:click={closeListModal}
+>Cancel
 </button>
 
 <style type="text/scss">
