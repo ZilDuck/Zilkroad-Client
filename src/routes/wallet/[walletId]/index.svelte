@@ -47,7 +47,7 @@
 <script>
   import ScrollableSection from '$components/ScrollableSection.svelte'
   import Pagination from '$components/Pagination.svelte'
-  import UserActivityTable from '$components/UserActivityTable.svelte'
+  import UserActivityTable from '../../../lib/UserActivityTable/index.svelte'
   import wallet from '$store/wallet'
   import Detail from '$components/Detail.svelte'
   import NftCardList from '../../../lib/NftCardList/index.svelte'
@@ -114,21 +114,21 @@
 <ShapeImage />
 
 <main class="space-y-32 mx-5">
-  <div class="flex flex-col max-w-screen-xl mx-auto text-white mt-40 mb-[120px]">
-    <div class="max-w-[100%] p-5 bg-zilkroad-gray-dark rounded-md self-start">
+  <div class="flex flex-col max-w-screen-xl mx-auto text-white mt-10 md:mt-40 mb-[120px]">
+    <div class="max-w-[100%] w-full md:w-auto p-5 bg-zilkroad-gray-dark rounded-md self-start">
       <h1 class="flex text-4xl font-semibold h-14 border-b-[1px] border-zilkroad-gray-border">
         <span class="md:hidden">Your wallet</span>
         <a href={`https://viewblock.io/zilliqa/address/${walletId}`}>
           <span class="hidden md:!block max-w-s overflow-hidden text-ellipsis">{walletId}</span>
         </a>
       </h1>
-      <div class="flex space-x-5 pt-5 md:space-x-5">
-        <Detail description="Total NFTs" value={nftCount} border="right" />
-        <Detail description="NFTs Listed" value={listedNftCount} border="right" />
-        <Detail description="Total Purchases" value={totalPurchases} border="right" />
-        <Detail description="Total Sales" value={totalSales} border="right" />
-        <Detail description="Number of royalties" value={totalRoyalties} border="right" />
-        <Detail description="Royalty Revenue" value="${royalties}" border="right" />
+      <div class="flex flex-col md:flex-row md:space-x-5 md:pt-5">
+        <Detail description="Total NFTs" value={nftCount} border="right" columnMobile={true} />
+        <Detail description="NFTs Listed" value={listedNftCount} border="right" columnMobile={true} />
+        <Detail description="Total Purchases" value={totalPurchases} border="right" columnMobile={true} />
+        <Detail description="Total Sales" value={totalSales} border="right" columnMobile={true} />
+        <Detail description="Number of royalties" value={totalRoyalties} border="right" columnMobile={true} />
+        <Detail description="Royalty Revenue" value="${royalties}" border="right" columnMobile={true} />
       </div>
     </div>
   </div>

@@ -1,7 +1,7 @@
 <script lang="ts">
   import LinkButton from '$components/LinkButton.svelte'
-  import { onMount } from "svelte";
-  import SweepingGradient from "./SweepingGradient.svelte";
+  import { onMount } from 'svelte'
+  import SweepingGradient from './SweepingGradient.svelte'
   export let className = ''
   export let adtitle = 'Collection name'
   export let description = 'Enter your advert description here.'
@@ -14,8 +14,8 @@
   let valid = true
 
   onMount(async () => {
-    const res = await fetch(`/banner.json`);
-    advert = await res.json();
+    const res = await fetch(`/banner.json`)
+    advert = await res.json()
     if (advert?.advertise_start_unixtime === '') {
       valid = false
     }
@@ -27,37 +27,41 @@
       background = advert.desktop_image_uri ?? advert.mobile_image_uri
     }
     loaded = true
-  });
-  
+  })
 </script>
-{#if valid} 
-<section
-  class="md:w-full h-[420px] bg-cover rounded-lg flex flex-col space-y-5 px-4 md:pr-0 md:pl-20 justify-center relative {className}"
-  style="background-image: url('{background}')"
->
-  {#if loaded}
-  <div class="absolute top-0 left-0 w-full h-full bg-[rgba(0,0,0,0.2)]"></div>
-  <div class="relative z-10 flex flex-col space-y-5">
-      <h1 class="text-4xl font-medium">{adtitle}</h1>
-      <p class="max-w-4xl font-light text-white">{description}</p>
-      <LinkButton className="w-min whitespace-nowrap" {url}>
-        {buttonText}
-      </LinkButton>
-      {#if contractAddress}
-        <LinkButton className="w-min whitespace-nowrap" url="/collections/{contractAddress}">View the collection</LinkButton>
-      {/if}
-  </div>
+
+{#if valid}
+  <section
+    class="md:w-full h-[420px] bg-cover rounded-lg flex flex-col space-y-5 px-4 md:pr-0 md:pl-20 justify-center relative {className}"
+    style="background-image: url('{background}')"
+  >
+    {#if loaded}
+      <div class="absolute top-0 left-0 w-full h-full bg-[rgba(0,0,0,0.2)]" />
+      <div class="relative z-10 flex flex-col space-y-5">
+        <h1 class="text-4xl font-medium">{adtitle}</h1>
+        <p class="max-w-xl font-light text-white">{description}</p>
+        <div class="flex items-center justify-start gap-5">
+          <LinkButton className="w-min whitespace-nowrap" {url}>
+            {buttonText}
+          </LinkButton>
+          {#if contractAddress}
+            <LinkButton className="w-min whitespace-nowrap" url="/collections/{contractAddress}"
+              >View the collection</LinkButton
+            >
+          {/if}
+        </div>
+      </div>
     {/if}
-  {#if !loaded}
-    <div class="h-16 w-48 rounded-lg overflow-hidden">
-      <SweepingGradient/>
-    </div>
-    <div class="h-12 w-56 rounded-lg overflow-hidden">
-      <SweepingGradient/>
-    </div>
-    <div class="h-12 w-36 rounded-lg overflow-hidden">
-      <SweepingGradient/>
-    </div>
-  {/if}
-</section>
-  {/if}
+    {#if !loaded}
+      <div class="h-16 w-48 rounded-lg overflow-hidden">
+        <SweepingGradient />
+      </div>
+      <div class="h-12 w-56 rounded-lg overflow-hidden">
+        <SweepingGradient />
+      </div>
+      <div class="h-12 w-36 rounded-lg overflow-hidden">
+        <SweepingGradient />
+      </div>
+    {/if}
+  </section>
+{/if}

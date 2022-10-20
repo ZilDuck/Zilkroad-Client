@@ -1,5 +1,6 @@
 <script>
 import wallet from "../../store/wallet";
+import TokenPrice from "../../components/TokenPrice.svelte";
 
   export let currencies = [
     {
@@ -22,6 +23,15 @@ import wallet from "../../store/wallet";
     }
   ]
   export let wallets = []
+  wallets.forEach(cleanWallet)
+
+  function cleanWallet(wallet) {
+    for (const [key, value] of Object.entries(wallet)) {
+      if ( key != "address"  && key != "total_usd") {
+        wallet[key] = parseInt(value, 10)
+      }
+    }
+  }
 </script>
 
 <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-1 gap-x-3 lg:gap-x-0 gap-y-3">
@@ -51,8 +61,7 @@ import wallet from "../../store/wallet";
         {#each currencies as currency}
           <p class="overflow-x-hidden lg:w-2/12 overflow-ellipsis p-4 bg-gray-900 whitespace-pre hover:overflow-x-visible">
             <img alt="{currency.name} Token Logo" class="inline w-4" src="/images/tokens/{currency.name.toUpperCase()}.png" />
-            {wallet[currency.name.toLowerCase()]}
-            <span class="lg:hidden"> {currency.name}</span>
+            <span class="ml-2"><TokenPrice price={wallet[currency.name.toLowerCase()]} fungibleAddressOrSymbol={currency.name} reverse="false" /></span>
           </p>
         {/each}
         <p class="flex-grow rounded-b-lg lg:rounded-bl-none lg:rounded-r-lg  pb-3 lg:pr-3 bg-gray-900"></p>
