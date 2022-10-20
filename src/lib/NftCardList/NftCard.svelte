@@ -18,6 +18,7 @@
   import SellSidebar from '$components/sidebars/SellSidebar.svelte'
   import BuySidebar from '$components/sidebars/BuySidebar.svelte'
   import { toast } from '../../store/toast'
+  import { transaction } from '../../store/transaction'
   import { pollTx } from '../../zilpay/poll-tx'
   import TokenPrice from '../../components/TokenPrice.svelte'
   import BurnModal from '../../components/modals/BurnModal.svelte'
@@ -117,12 +118,14 @@
     let { editTx } = await marketplace.editListedNft(orderId, sellFungible, convertedSellPrice)
     if (editTx) {
       toast.add({ message: 'Editing Listing', type: 'info' })
+      transaction.add({ message: 'Editing Listing', type: 'pending', tx: editTx, nftContract:nft.contract_address_b16, nftTokenId:nft.token_id })
       await pollTx(editTx)
     } else {
-      toast.add({ message: 'Listed Failed', type: 'error' })
+      toast.add({ message: 'Listing Edit Failed', type: 'error' })
       return
     }
-    toast.add({ message: 'NFT Listed', type: 'success' })
+    toast.add({ message: 'Listing Updated', type: 'success' })
+    transaction.add({ message: 'Listing Edit Success', type: 'pending', tx: editTx, nftContract:nft.contract_address_b16, nftTokenId:nft.token_id })
   }
 
   function view() {
