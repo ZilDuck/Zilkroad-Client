@@ -17,7 +17,7 @@ export const setSpender = async (
       },
       {
         vname: 'token_id',
-        value: tokenId,
+        value: tokenId.toString(),
         type: 'Uint256'
       }
     ],
