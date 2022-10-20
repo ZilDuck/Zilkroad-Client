@@ -23,7 +23,7 @@ export const userList = async (
       {
         vname: 'token_id',
         type: 'Uint256',
-        value: tokenId
+        value: tokenId.toString()
       },
       {
         vname: 'fungible',
