@@ -68,5 +68,7 @@
       >
     {/if}
   </div>
-  <TransactionList />
+  <div class="pt-5">
+    <TransactionList />
+  </div>
 </div>

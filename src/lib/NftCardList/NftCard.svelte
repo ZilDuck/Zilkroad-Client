@@ -91,6 +91,7 @@
     let { spenderTx } = await marketplace.approveNftSpender(nft.contract_address_b16, nft.token_id)
     if (spenderTx) {
       toast.add({ message: 'Approving Zilkroad as Nft Spender', type: 'info' })
+      transaction.add({ message: 'Approving NFT Spender', type: 'pending', tx: spenderTx, nftContract:nft.contract_address_b16, nftTokenId:nft.token_id })
       await pollTx(spenderTx)
     } else {
       toast.add({ message: 'Approval Failed', type: 'error' })
@@ -104,6 +105,7 @@
     let { listTx } = await marketplace.listNft(nft.contract_address_b16, nft.token_id, sellFungible, convertedSellPrice)
     if (listTx) {
       toast.add({ message: 'Listing NFT', type: 'info' })
+      transaction.add({ message: 'Listing NFT', type: 'pending', tx: listTx, nftContract:nft.contract_address_b16, nftTokenId:nft.token_id })
       await pollTx(listTx)
     } else {
       toast.add({ message: 'Listed Failed', type: 'error' })
@@ -122,14 +124,13 @@
     let { editTx } = await marketplace.editListedNft(orderId, sellFungible, convertedSellPrice)
     if (editTx) {
       toast.add({ message: 'Editing Listing', type: 'info' })
-      transaction.add({ message: 'Editing Listing', type: 'pending', tx: editTx, nftContract:nft.contract_address_b16, nftTokenId:nft.token_id })
+      transaction.add({ message: `Editing ${name}`, type: 'pending', tx: editTx, nftContract:nft.contract_address_b16, nftTokenId:nft.token_id })
       await pollTx(editTx)
     } else {
       toast.add({ message: 'Listing Edit Failed', type: 'error' })
       return
     }
     toast.add({ message: 'Listing Updated', type: 'success' })
-    transaction.add({ message: 'Listing Edit Success', type: 'pending', tx: editTx, nftContract:nft.contract_address_b16, nftTokenId:nft.token_id })
   }
 
   function view() {

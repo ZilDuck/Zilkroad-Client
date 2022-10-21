@@ -2,6 +2,7 @@
 
   import type { Transaction } from '$store/toast'
   import { variables } from "../variables";
+  import { pollTx } from "../../zilpay/poll-tx";
 
   export let item: Transaction
 
@@ -14,7 +15,18 @@
     item.callback && item.callback()
   }
   
-  console.log(item.tx)
+  async function watchTx() {
+    let tx: unknown = false
+    if (item.tx) {
+      tx = await pollTx(item.tx)
+    }
+    if (tx === true) {
+      item.type = 'success'
+    } else {
+      item.type = 'failed'
+    }
+  }
+  watchTx()
   
 </script>
 
@@ -27,16 +39,18 @@
   <div class="text-white">
     <h6 class="capitalize">{@html item.type}</h6>
     {@html item.message}
-    <a target="_blank" href="{viewblockURL}/0x{item.tx.ID}?network={network}">View on viewblock</a>
+    <p><a target="_blank" href="{viewblockURL}/0x{item.tx.ID}?network={network}">View on viewblock</a></p>
   </div>
-  <div
-    class="self-start pt-2 pr-2 text-white"
-    role="button"
-    tabindex="-1"
-    on:click={close}
-  >
-    <div class="bg-black p-2.5 py-1 rounded-lg">✕</div>
-  </div>
+  {#if item.type === 'success' || item.type === 'failed'}
+    <div
+      class="self-start pt-2 pr-2 text-white"
+      role="button"
+      tabindex="-1"
+      on:click={close}
+    >
+      <div class="bg-black p-2.5 py-1 rounded-lg">✕</div>
+    </div>
+  {/if}
 </div>
 
 <style type="text/scss">
