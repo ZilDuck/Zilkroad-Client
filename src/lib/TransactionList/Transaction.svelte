@@ -1,6 +1,6 @@
 <script lang="ts">
 
-  import type { Transaction } from '$store/toast'
+  import type { Transaction } from '$store/transaction'
   import { variables } from "../variables";
   import { pollTx } from "../../zilpay/poll-tx";
 
