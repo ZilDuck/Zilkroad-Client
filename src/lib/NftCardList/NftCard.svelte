@@ -35,7 +35,6 @@
   export let sellPrice = 0 // replace with floor price as default?
   export let sellFungible
   export let orderId = 0
-  export let orderId = nft?.order_id ?? 0
   export let buyFungible = nft?.fungible_address ?? nft?.listing?.fungible_address ?? ''
   export let listingPrice = nft.token_price ? nft.token_price : 0
   export let priceSymbol = nft?.token_symbol ? nft?.token_symbol.toUpperCase() : 'WZIL'
