@@ -18,6 +18,7 @@
   import SellSidebar from '$components/sidebars/SellSidebar.svelte'
   import BuySidebar from '$components/sidebars/BuySidebar.svelte'
   import { toast } from '../../store/toast'
+  import { transaction } from '../../store/transaction'
   import { pollTx } from '../../zilpay/poll-tx'
   import TokenPrice from '../../components/TokenPrice.svelte'
   import BurnModal from '../../components/modals/BurnModal.svelte'
@@ -34,9 +35,10 @@
   export let sellPrice = 0 // replace with floor price as default?
   export let sellFungible
   export let orderId = 0
-  export let buyFungible = nft.listing ? nft.listing.fungible_address : ''
+  export let orderId = nft?.order_id ?? 0
+  export let buyFungible = nft?.fungible_address ?? nft?.listing?.fungible_address ?? ''
   export let listingPrice = nft.token_price ? nft.token_price : 0
-  export let priceSymbol = nft.token_symbol ? nft.token_symbol.toUpperCase() : 'WZIL'
+  export let priceSymbol = nft?.token_symbol ? nft?.token_symbol.toUpperCase() : 'WZIL'
   export let verified = nft.verified ?? false
   export let royalty_bps = nft.royalty_bps ?? 0
 
@@ -73,6 +75,8 @@
     open = false
     sidebarOpen = false
     isLoading = false
+    const body = document.getElementsByTagName('body')[0]
+    body.classList.remove('lock')
   }
 
   function openEditModal() {
@@ -86,6 +90,8 @@
     open = false
     editSidebarOpen = false
     isLoading = false
+    const body = document.getElementsByTagName('body')[0]
+    body.classList.remove('lock')
   }
 
   async function approve() {
@@ -123,12 +129,14 @@
     let { editTx } = await marketplace.editListedNft(orderId, sellFungible, convertedSellPrice)
     if (editTx) {
       toast.add({ message: 'Editing Listing', type: 'info' })
+      transaction.add({ message: 'Editing Listing', type: 'pending', tx: editTx, nftContract:nft.contract_address_b16, nftTokenId:nft.token_id })
       await pollTx(editTx)
     } else {
-      toast.add({ message: 'Listed Failed', type: 'error' })
+      toast.add({ message: 'Listing Edit Failed', type: 'error' })
       return
     }
-    toast.add({ message: 'NFT Listed', type: 'success' })
+    toast.add({ message: 'Listing Updated', type: 'success' })
+    transaction.add({ message: 'Listing Edit Success', type: 'pending', tx: editTx, nftContract:nft.contract_address_b16, nftTokenId:nft.token_id })
   }
 
   function view() {
@@ -136,6 +144,11 @@
     goto(`/collections/${nft.contract_address_b32}/${nft.token_id}`)
   }
 
+  function increaseAllowance() {
+    open = false
+    marketplace.increaseFungibleAllowance(buyFungible, listingPrice)
+  }
+  
   function buy() {
     open = false
     marketplace.buyNft(buyFungible, listingPrice, orderId)
@@ -294,8 +307,10 @@
   <SideModal bind:show={sidebarOpen} title="Buy NFT">
     <BuySidebar
       bind:sellPrice={listingPrice}
-      bind:sellFungible={priceSymbol}
+      buyFungible={buyFungible}
+      buyFungibleSymbol={priceSymbol}
       {closeListModal}
+      {increaseAllowance}
       {buy}
       {isLoading}
       {nft}

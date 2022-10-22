@@ -61,7 +61,7 @@ const createMarketplaceStore = () => {
     return { listTx }
   }
 
-  const buyNft = async (fungibleAddress: string, listingPrice: string, listingId: string) => {
+  const increaseFungibleAllowance = async (fungibleAddress: string, listingPrice: string) => {
     const nonce = await wallet.getNonce()
     let userCancelled = false
 
@@ -76,6 +76,13 @@ const createMarketplaceStore = () => {
     }
     toast.add({ message: 'Request sent', type: 'success' })
 
+    return { increaseTx }
+  }
+
+  const buyNft = async (fungibleAddress: string, listingPrice: string, listingId: string) => {
+    const nonce = await wallet.getNonce()
+    let userCancelled = false
+
     const buyTx = await userBuy(listingId, { nonce: nonce + 2 }).catch((error) => {
       console.log(error)
       toast.add({ message: 'User rejected buy', type: 'error' })
@@ -87,7 +94,7 @@ const createMarketplaceStore = () => {
     wallet.increaseNonce()
     toast.add({ message: 'Request sent', type: 'success' })
 
-    return { increaseTx, buyTx }
+    return { buyTx }
   }
 
   const editListedNft = async (
@@ -150,6 +157,7 @@ const createMarketplaceStore = () => {
     approveNftSpender,
     listNft,
     delistNft,
+    increaseFungibleAllowance,
     buyNft,
     editListedNft,
     burnNft,
