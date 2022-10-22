@@ -7,7 +7,7 @@
     'Make your collection stand out by becoming a featured collection on Zilkroad. You will get featured banners, the featured tick and more by featuring your collection.'
   export let buttonText = 'Feature your collection'
   export let backgroundImage = '/images/launchpad.png'
-  export let url = 'https://docs-testnet.zilkroad.io/docs/features/adverts'
+  export let url = 'https://docs-testnet.zilkroad.io/features/adverts'
   const background = backgroundImage !== '' ? backgroundImage : 'images/launchpad.jpg'
 </script>
 
