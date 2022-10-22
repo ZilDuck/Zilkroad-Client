@@ -35,6 +35,10 @@ spec:
               value: {{ .Values.env.wzilAddress | quote }}
             - name: VITE_CDN_BASE_URL
               value: {{ .Values.env.cdnBase | quote }}
+            - name: VITE_TAX_AMOUNT
+              value: {{ .Values.env.taxAmount | quote }}
+            - name: VITE_MAX_ROYALTY_BPS
+              value: {{ .Values.env.maxRoyaltyBps | quote }}
           resources:
             limits:
               cpu: {{ .Values.resources.limits.cpu | quote }}
