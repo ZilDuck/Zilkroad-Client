@@ -20,6 +20,8 @@
 
   export let max_royalty_bps = Number(variables.maxRoyaltyBps)
   export let tax_amount = Number(variables.taxAmount)
+  console.log("v mrb: %s, mbp: %d", variables.maxRoyaltyBps, max_royalty_bps)
+  console.log("v ta: %s, ta: %d", variables.taxAmount, tax_amount)
   export let royalty_bps = 0
 
   export let royalty_percentage = Number((royalty_bps / max_royalty_bps) * 100).toFixed(2) ?? 0.0
