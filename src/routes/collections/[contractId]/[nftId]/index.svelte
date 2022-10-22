@@ -15,14 +15,10 @@
         .catch((error) => console.log(error))
         .then((r) => r.json())
     ])
-    // console.table(collection)
-    // console.table(nft)
-    // console.table(collectionNfts)
+
     let nfts = collectionNfts.nfts ?? []
     let listedNfts = collectionListedNfts.nfts ?? []
     let pagination = JSON.parse(collectionNfts?.pagination ?? '{}')
-
-    console.log('nft', nft)
 
     return {
       props: {
@@ -43,6 +39,7 @@
   import Button from '$components/Button.svelte'
   import marketplace from '$store/marketplace'
   import Chart from '$components/Chart.svelte'
+  import Checkmark from '$components/icons/Checkmark.svelte'
   import NftCardList from '../../../../lib/NftCardList/index.svelte'
   import { cdnBaseUrl } from '../../../../lib/cdn'
   import wallet from '$store/wallet'
@@ -65,24 +62,13 @@
   export let listing: SingleListing | false // i set it as string cuz undefined no work wtf
   
   export let max_royalty_bps = Number(variables.maxRoyaltyBps)
-  console.log("Max royalty bps: ", max_royalty_bps)
-  export let currentPrice = nft.listing?.fungible_amount ?? 0
-  export let tokenSymbol = nft.listing?.fungible_symbol ?? ''
+  export let royalty_bps = collection?.royalty_bps ?? 0
+  export let royalty_percentage = Number((royalty_bps / max_royalty_bps) * 100).toFixed(2) ?? 0.0
+  export let tax_amount = Number(variables.taxAmount)
+  export let tax_percentage = Number((tax_amount / max_royalty_bps) * 100).toFixed(2) ?? 0.0
+
   export let sales = nft.sales_count ?? 0
   export let volume = nft.sales_volume ?? 0
-
-  // Royalties
-  export let royalty_bps = collection.royalty_bps ?? 0
-  export let royalty_percentage = Number((royalty_bps / max_royalty_bps) * 100).toFixed(2) ?? 0.0
-  export let royalty_amount = (currentPrice * royalty_bps) / max_royalty_bps ?? 0
-  export let price_after_royalty = currentPrice - royalty_amount
-
-  // Tax 
-  export let tax_amount = Number(variables.taxAmount)
-  console.log("Tax bps: ", tax_amount)
-  export let tax_percentage = Number((tax_amount / max_royalty_bps) * 100).toFixed(2) ?? 0.0
-  export let final_price = (price_after_royalty * tax_amount) / max_royalty_bps ?? 0
-
 
   const nftDescription = nft.desc ? nft.desc : `This is an NFT for ${nft.collection_name}.`
 
@@ -105,7 +91,7 @@
   export let listingPrice = nft.listing ? nft.listing.fungible_amount : 0
   export let nftActivity = nft.sales_history ?? []
   export let graphData = nft.graph_data ?? []
-  
+  export let verified = nft.verified ? nft.verified : false
   
   async function approve() {
     let { spenderTx } = await marketplace.approveNftSpender(nft.contract_address_b16, nft.token_id)
@@ -174,6 +160,7 @@
     const body = document.getElementsByTagName('body')[0]
     body.classList.add('lock')
   }
+
   function closeModal() {
     buySidebarOpen = false
     listSidebarOpen = false
@@ -185,6 +172,7 @@
   const handleImageError = (image) => {
     image.target.src = nftPlaceholder
   }
+  console.log("NFT xx: ", nft)
 </script>
 
 <Header />
@@ -199,13 +187,19 @@
       <h1 class="text-[40px] lg:text-4xl font-semibold mt-5 self-auto mb-5">
         {name}
       </h1>
+      <!-- {#if verified }
+      <h4 class="flex items-center ml-10">
+        <Checkmark className="mr-2" />
+        Verified
+      </h4>
+      {/if} -->
       <p class="text-white">
         {nft.contract_symbol}
       </p>
 
       <div class="grid grid-flow-col auto-cols-max gap-5 mt-5 rounded-lg bg-zilkroad-gray-dark p-5">
-        {#if currentPrice !== 0}
-          <Detail description="Current price" value="{convertWithDecimals($marketplace.approvedFungibles, buyFungible, listingPrice, true)} {tokenSymbol}" border="right" />
+        {#if listingPrice !== 0}
+          <Detail description="Current price" value="{convertWithDecimals($marketplace.approvedFungibles, buyFungible, listingPrice, true)} {fungibleSymbol}" border="right" />
         {/if}
         <Detail description="Sales" value={sales} border="right" />
         <Detail description="Volume" value="${volume}" border="right" />
@@ -303,12 +297,26 @@
       bind:tax_amount
       bind:royalty_percentage
       bind:tax_percentage
-      bind:final_price
-      closeListModal={closeModal} {list} {approve} {isLoading} {imageSrc} {name} tokenContract={nft.contract_address_b16} tokenID={nft.token_id}
+      closeListModal={closeModal}
+      {list}
+      {approve}
+      {isLoading}
+      {imageSrc}
+      {name}
+      tokenContract={nft.contract_address_b16}
+      tokenID={nft.token_id}
     />
   </SideModal>
   <SideModal bind:show={editSidebarOpen} title="Edit">
-    <EditSidebar bind:sellPrice={sellPrice} bind:sellFungible={sellFungible} closeListModal={closeModal} {isLoading}  bind:listingId={orderId} {edit}/>
+    <EditSidebar
+    bind:sellPrice={sellPrice}
+    bind:sellFungible={sellFungible}
+    bind:royalty_bps
+    closeListModal={closeModal}
+    {isLoading}
+    bind:listingId={orderId}
+    {edit}
+  />
   </SideModal>
   <SideModal bind:show={buySidebarOpen} title="Buy NFT">
     <BuySidebar
