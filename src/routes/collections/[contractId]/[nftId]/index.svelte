@@ -26,7 +26,7 @@
         nft,
         nfts,
         listedNfts,
-        pagination,
+        pagination
       }
     }
   }
@@ -50,17 +50,17 @@
   import SellSidebar from '$components/sidebars/SellSidebar.svelte'
   import { toast } from '../../../../store/toast'
   import { pollTx } from '../../../../zilpay/poll-tx'
-  import { convertWithDecimals } from "../../../../lib/fungibles";
-  import TokenPrice from "../../../../components/TokenPrice.svelte";
-  import EditSidebar from "../../../../components/sidebars/EditSidebar.svelte";
-  import BuySidebar from "../../../../components/sidebars/BuySidebar.svelte";
-  import { variables } from "../../../../lib/variables"
+  import { convertWithDecimals } from '../../../../lib/fungibles'
+  import TokenPrice from '../../../../components/TokenPrice.svelte'
+  import EditSidebar from '../../../../components/sidebars/EditSidebar.svelte'
+  import BuySidebar from '../../../../components/sidebars/BuySidebar.svelte'
+  import { variables } from '../../../../lib/variables'
 
   export let nft
   export let collection
   export let listedNfts
   export let listing: SingleListing | false // i set it as string cuz undefined no work wtf
-  
+
   export let max_royalty_bps = Number(variables.maxRoyaltyBps)
   export let royalty_bps = collection?.royalty_bps ?? 0
   export let royalty_percentage = Number((royalty_bps / max_royalty_bps) * 100).toFixed(2) ?? 0.0
@@ -92,7 +92,7 @@
   export let nftActivity = nft.sales_history ?? []
   export let graphData = nft.graph_data ?? []
   export let verified = nft.verified ? nft.verified : false
-  
+
   async function approve() {
     let { spenderTx } = await marketplace.approveNftSpender(nft.contract_address_b16, nft.token_id)
     if (spenderTx) {
@@ -104,7 +104,7 @@
     }
     toast.add({ message: 'Approval Confirmed', type: 'success' })
   }
-  
+
   async function list() {
     const convertedSellPrice = convertWithDecimals($marketplace.approvedFungibles, sellFungible, sellPrice)
     let { listTx } = await marketplace.listNft(nft.contract_address_b16, nft.token_id, sellFungible, convertedSellPrice)
@@ -148,7 +148,7 @@
   let buySidebarOpen = false
   let isLoading = false
 
-  function openModal( modalName ) {
+  function openModal(modalName) {
     switch (modalName) {
       case 'buy':
         buySidebarOpen = true
@@ -175,7 +175,7 @@
   const handleImageError = (image) => {
     image.target.src = nftPlaceholder
   }
-  console.log("NFT xx: ", nft)
+  console.log('NFT xx: ', nft)
 </script>
 
 <Header />
@@ -184,25 +184,36 @@
 <main class="mx-5">
   <div class="flex flex-col md:flex-row justify-between mt-5 lg:max-w-screen-xl lg:mx-auto lg:mt-[120px] gap-10">
     <div class="lg:col-start-1 max-w-full md:max-w-[600px] w-full">
-      <h2 class="mt-10 text-white lg:mt-0 underline">
-        <a href="/collections/{nft.contract_address_b32}/">{nft.contract_name}</a>
-      </h2>
+      <div class="flex mt-10">
+        <h2 class="text-white lg:mt-0 underline">
+          <a href="/collections/{nft.contract_address_b32}/">{nft.contract_name}</a>
+        </h2>
+        {#if verified}
+          <h4 class="flex items-center ml-10">
+            <Checkmark className="mr-2" />
+            Verified
+          </h4>
+        {/if}
+      </div>
       <h1 class="text-[40px] lg:text-4xl font-semibold mt-5 self-auto mb-5">
         {name}
       </h1>
-      <!-- {#if verified }
-      <h4 class="flex items-center ml-10">
-        <Checkmark className="mr-2" />
-        Verified
-      </h4>
-      {/if} -->
       <p class="text-white">
         {nft.contract_symbol}
       </p>
 
       <div class="grid grid-flow-col auto-cols-max gap-5 mt-5 rounded-lg bg-zilkroad-gray-dark p-5">
         {#if listingPrice !== 0}
-          <Detail description="Current price" value="{convertWithDecimals($marketplace.approvedFungibles, buyFungible, listingPrice, true)} {fungibleSymbol}" border="right" />
+          <Detail
+            description="Current price"
+            value="{convertWithDecimals(
+              $marketplace.approvedFungibles,
+              buyFungible,
+              listingPrice,
+              true
+            )} {fungibleSymbol}"
+            border="right"
+          />
         {/if}
         <Detail description="Sales" value={sales} border="right" />
         <Detail description="Volume" value="${volume}" border="right" />
@@ -216,9 +227,10 @@
             Owned by you
           {:else}
             Owned by <a href="/wallet/{nft.owner_address_b32}">
-                      <mark class="bg-transparent border-b border-b-zilkroad-gray-light text-white"
-              >{nft.owner_address_b32}</mark
-            > </a>
+              <mark class="bg-transparent border-b border-b-zilkroad-gray-light text-white"
+                >{nft.owner_address_b32}</mark
+              >
+            </a>
           {/if}
         </h3>
       </div>
@@ -226,14 +238,16 @@
       {#if nft.listing && !userWalletIsOwner}
         <div in:fade>
           <Button on:click={() => openModal('buy')} className="w-full mt-14 lg:mt-5 lg:w-auto ">
-            Purchase <TokenPrice price={listingPrice} fungibleAddressOrSymbol={buyFungible} reverse='true'/> {fungibleSymbol}
+            Purchase <TokenPrice price={listingPrice} fungibleAddressOrSymbol={buyFungible} reverse="true" />
+            {fungibleSymbol}
           </Button>
         </div>
       {/if}
       {#if userWalletIsOwner}
         {#if !nft.listing}
           <div in:fade class="flex items-center space-x-2">
-            <Button on:click={() => openModal('list')} className="w-full mt-14 lg:mt-5 lg:w-auto ">Sell this NFT</Button>
+            <Button on:click={() => openModal('list')} className="w-full mt-14 lg:mt-5 lg:w-auto ">Sell this NFT</Button
+            >
           </div>
         {/if}
         {#if nft.listing}
@@ -312,21 +326,21 @@
   </SideModal>
   <SideModal bind:show={editSidebarOpen} title="Edit">
     <EditSidebar
-    bind:sellPrice={sellPrice}
-    bind:sellFungible={sellFungible}
-    bind:royalty_bps
-    closeListModal={closeModal}
-    {isLoading}
-    bind:listingId={orderId}
-    {edit}
-  />
+      bind:sellPrice
+      bind:sellFungible
+      bind:royalty_bps
+      closeListModal={closeModal}
+      {isLoading}
+      bind:listingId={orderId}
+      {edit}
+    />
   </SideModal>
   <SideModal bind:show={buySidebarOpen} title="Buy NFT">
     <BuySidebar
       bind:sellPrice={listingPrice}
-      bind:buyFungible={buyFungible}
+      bind:buyFungible
       buyFungibleSymbol={fungibleSymbol}
-      closeListModal = {closeModal}
+      closeListModal={closeModal}
       {increaseAllowance}
       {buy}
       {isLoading}
