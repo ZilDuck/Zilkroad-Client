@@ -5,6 +5,7 @@
   import marketplace from "$store/marketplace";
   import { hasSpender } from "../../zilpay/nonfungible";
   import { onMount } from "svelte";
+  import { variables } from "../../lib/variables"
   
   export let isLoading = false
   export let sellPrice = 0
@@ -16,11 +17,13 @@
   export let name
   export let tokenContract
   export let tokenID
-  export let royalty_bps
-  export let max_royalty_bps
-  export let tax_amount
-  export let royalty_percentage
-  export let tax_percentage
+
+  export let max_royalty_bps = Number(variables.maxRoyaltyBps)
+  export let tax_amount = Number(variables.taxAmount)
+  export let royalty_bps = 0
+
+  export let royalty_percentage = Number((royalty_bps / max_royalty_bps) * 100).toFixed(2) ?? 0.0
+  export let tax_percentage = Number((tax_amount / max_royalty_bps) * 100).toFixed(2) ?? 0.0
 
   export let final_price = 0
 
@@ -50,7 +53,7 @@
   }
 
   function handleRoyaltiesAndTax(){
-    let price_after_royalty = sellPrice - ((sellPrice * royalty_bps) / max_royalty_bps ?? 0)
+    let price_after_royalty = sellPrice - ((sellPrice * royalty_bps) / max_royalty_bps) ?? 0
     let tax = (price_after_royalty * tax_amount) / max_royalty_bps ?? 0
     final_price = price_after_royalty - tax
   }

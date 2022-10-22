@@ -3,6 +3,7 @@
   import { fly } from 'svelte/transition'
   import SvgLoader from '$components/SvgLoader.svelte'
   import marketplace from "$store/marketplace";
+  import { variables } from "../../lib/variables"
 
   export let isLoading = false
   export let sellPrice = 0
@@ -11,6 +12,15 @@
   export let edit
   export let imageSrc
   export let name = 'Edit your listing'
+
+  export let max_royalty_bps = Number(variables.maxRoyaltyBps)
+  export let tax_amount = Number(variables.taxAmount)
+  export let royalty_bps = 0
+
+  export let royalty_percentage = Number((royalty_bps / max_royalty_bps) * 100).toFixed(2) ?? 0.0
+  export let tax_percentage = Number((tax_amount / max_royalty_bps) * 100).toFixed(2) ?? 0.0
+
+  export let final_price = 0
 
   let fungibles = $marketplace.approvedFungibles.filter((fungible) => fungible.fungible_address !== '')
   let fungiblesSelect = fungibles.map((fungible) => {
@@ -27,13 +37,16 @@
     value = event.detail
     sellFungible = event.detail.value
   }
+
+  function handleRoyaltiesAndTax(){
+    let price_after_royalty = sellPrice - ((sellPrice * royalty_bps) / max_royalty_bps) ?? 0
+    let tax = (price_after_royalty * tax_amount) / max_royalty_bps ?? 0
+    final_price = price_after_royalty - tax
+  }
 </script>
 
 <h4 class="text-[20px] font-[600] mb-5">{name}</h4>
 <img src={imageSrc} alt="NFT you're selling" class="w-full pb-5" />
-<p class="flex justify-between items-center w-full text-[20px] text-zilkroad-text-normal mb-5">
-  Total after royalties<span class="text-white">{sellPrice} {value.label}</span>
-</p>
 <label for="edit-price" class="text-white">New listing price</label>
 <div
   class="text-white bg-zilkroad-gray-dark p-5 mb-5 rounded-lg w-full flex max-w-full flex-nowrap flex-row justify-between items-center h-auto
@@ -44,6 +57,7 @@
     type="text"
     placeholder={sellPrice}
     bind:value={sellPrice}
+    on:input={handleRoyaltiesAndTax}
     id="edit-price"
   />
   <div class="select-field w-40">
@@ -61,7 +75,13 @@
   Total received<span class="text-white">{sellPrice} {value.label}</span>
 </p>
 <p class="flex justify-between items-center w-full text-[20px] text-zilkroad-text-normal mb-5">
-  Total after royalties<span class="text-white">{sellPrice} {value.label}</span>
+  Royalty %<span class="text-white">{royalty_percentage}%</span>
+</p>
+<p class="flex justify-between items-center w-full text-[20px] text-zilkroad-text-normal mb-5">
+  Tax %<span class="text-white">{tax_percentage}%</span>
+</p>
+<p class="flex justify-between items-center w-full text-[20px] text-zilkroad-text-normal mb-5">
+  Total after royalties & Tax<span class="text-white">{final_price} {value.label}</span>
 </p>
 <button
   class="text-white h-12 flex justify-center items-center bg-zilkroad-gray-dark p-5 rounded-lg w-full mb-5"

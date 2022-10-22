@@ -33,12 +33,18 @@
 
   export let sellPrice = 0 // replace with floor price as default?
   export let sellFungible
-  export let orderId = nft?.order_id ?? 0
+  export let orderId = 0
   export let buyFungible = nft.listing ? nft.listing.fungible_address : ''
   export let listingPrice = nft.token_price ? nft.token_price : 0
   export let priceSymbol = nft.token_symbol ? nft.token_symbol.toUpperCase() : 'WZIL'
   export let verified = nft.verified ?? false
-  console.log('NFT: ', nft)
+  export let royalty_bps = nft.royalty_bps ?? 0
+
+  if ( nft.listing ) {
+    orderId = nft.listing.static_order_id
+  } else if ( nft.order_id ) {
+    orderId = nft.order_id
+  }
 
   let open = false
   let sidebarOpen = false
@@ -261,6 +267,7 @@
     <SellSidebar
       bind:sellPrice
       bind:sellFungible
+      bind:royalty_bps
       {closeListModal}
       {list} 
       {approve}
@@ -272,7 +279,14 @@
     />
   </SideModal>
   <SideModal bind:show={editSidebarOpen} title="Edit">
-    <EditSidebar bind:sellPrice={sellPrice} bind:sellFungible={sellFungible} {isLoading}  bind:listingId={orderId} {edit}/>
+    <EditSidebar
+    bind:sellPrice={sellPrice}
+    bind:sellFungible={sellFungible}
+    bind:royalty_bps
+    {isLoading}
+    bind:listingId={orderId}
+    {edit}
+  />
   </SideModal>
 {/if}
 
