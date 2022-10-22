@@ -21,7 +21,9 @@
 <ShapeImage />
 <PageHeader title="View collections" description="View all of the collections that are available on Zilkroad." />
 
-<main class="max-w-screen-xl mx-5 xl:mx-auto mt-40 space-y-5">
-  <CollectionSectionList {collections} />
+<main class="max-w-screen-xl mx-5 xl:mx-auto mt-40">
+  <div class="mb-[120px] space-y-5">
+    <CollectionSectionList {collections} />
+  </div>
   <AdBanner className="md:mx-auto max-w-screen-xl" />
 </main>

@@ -9,7 +9,7 @@
     volume: 0,
     royalty: 0,
     royalty_usd: 0,
-    count: 0,
+    count: 0
   }
 
   export let cdnBaseUrl
@@ -47,7 +47,7 @@
     </div>
   </div>
   <div class="grid grid-cols-4 lg:flex lg:ml-auto">
-    <div class="my-5 mr-0 pr-5 lg:m-5 pl-5 border-r-[1px] border-gray-600">
+    <div class="my-5 mr-0 pr-5 pl-5 border-r-[1px] border-gray-600">
       <p class="text-zilkroad-text-light">Listed</p>
       <p class="">{collection.listed || 0}/{collection.minted}</p>
     </div>

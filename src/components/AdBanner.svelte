@@ -32,9 +32,12 @@
 
 {#if valid}
   <section
-    class="md:w-full h-[420px] bg-cover rounded-lg flex flex-col space-y-5 px-4 md:pr-0 md:pl-20 justify-center relative {className}"
-    style="background-image: url('{background}')"
+    class="md:w-full h-[420px] rounded-lg flex flex-col px-4 md:pr-0 md:pl-20 justify-center relative {className} overflow-hidden"
   >
+    <div
+      class="absolute top-0 left-0 w-full h-full blur-xl bg-cover mt-0"
+      style="background-image: url('{background}')"
+    />
     {#if loaded}
       <div class="absolute top-0 left-0 w-full h-full bg-[rgba(0,0,0,0.2)]" />
       <div class="relative z-10 flex flex-col space-y-5">
