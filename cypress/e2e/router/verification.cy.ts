@@ -7,7 +7,7 @@ describe('On verified pages, a verified tick appears', () => {
 
 describe('On non verified pages, a no verified tick appears', () => {
     it('passes', () => {
-        cy.visit(`http://localhost:3000/collections/zil1are7e6t7258ksdl55y7hgpv6vurcyhtnk9098r`)
+        cy.visit(`http://localhost:3000/collections/zil1j9w9yz4ee88r27e54ezzj6tf4jxg9qgtqpglme`)
         cy.get('[data-cy=verified-check]').should('not.exist');
     })
 })
