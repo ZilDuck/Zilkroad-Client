@@ -5,6 +5,7 @@
   import marketplace from '$store/marketplace'
   import { hasSpender } from '../../zilpay/nonfungible'
   import { onMount } from 'svelte'
+  import { variables } from '../../lib/variables'
 
   export let isLoading = false
   export let sellPrice = 0
@@ -16,6 +17,15 @@
   export let name
   export let tokenContract
   export let tokenID
+
+  export let max_royalty_bps = Number(variables.maxRoyaltyBps)
+  export let tax_amount = Number(variables.taxAmount)
+  export let royalty_bps = 0
+
+  export let royalty_percentage = Number((royalty_bps / max_royalty_bps) * 100).toFixed(2) ?? 0.0
+  export let tax_percentage = Number((tax_amount / max_royalty_bps) * 100).toFixed(2) ?? 0.0
+
+  export let final_price = 0
 
   let spenderButtonText = 'Approve'
   let nftHasSpender = false
@@ -41,6 +51,12 @@
     value = event.detail
     sellFungible = event.detail.value
   }
+
+  function handleRoyaltiesAndTax() {
+    let price_after_royalty = sellPrice - (sellPrice * royalty_bps) / max_royalty_bps ?? 0
+    let tax = (price_after_royalty * tax_amount) / max_royalty_bps ?? 0
+    final_price = price_after_royalty - tax
+  }
 </script>
 
 <h4 class="text-[20px] font-[600] mb-5">{name}</h4>
@@ -54,6 +70,7 @@
     type="text"
     placeholder={sellPrice}
     bind:value={sellPrice}
+    on:input={handleRoyaltiesAndTax}
   />
   <div class="select-field w-40">
     <Select
@@ -70,7 +87,13 @@
   Total received<span class="text-white">{sellPrice} {value.label}</span>
 </p>
 <p class="flex justify-between items-center w-full text-[20px] text-zilkroad-text-normal mb-5">
-  Total after royalties<span class="text-white">{sellPrice} {value.label}</span>
+  Royalty %<span class="text-white">{royalty_percentage}%</span>
+</p>
+<p class="flex justify-between items-center w-full text-[20px] text-zilkroad-text-normal mb-5">
+  Tax %<span class="text-white">{tax_percentage}%</span>
+</p>
+<p class="flex justify-between items-center w-full text-[20px] text-zilkroad-text-normal mb-5">
+  Total after royalties & Tax<span class="text-white">{final_price} {value.label}</span>
 </p>
 <div class="space-y-5">
   <button

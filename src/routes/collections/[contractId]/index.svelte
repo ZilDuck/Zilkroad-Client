@@ -38,6 +38,7 @@
         })
         .then((r) => r.json())
     ])
+    console.log("Metadata: ", metadata)
     let nfts = collectionNfts.nfts
     let pagination = JSON.parse(collectionNfts.pagination)
     return {
@@ -86,6 +87,7 @@
   export let sales_volume = collection.stats?.volume
 
   const image_uri = `${cdnBaseUrl}${collection.contract_address_b16}?optimizer=image&width=650`
+  console.log("Image uri: ", image_uri)
 
   async function handlePageChange(event) {
     const page = event.detail.currentPage
@@ -110,23 +112,16 @@
         toast.add({ message: 'Collection reported, this will be reviewed by the Zilkroad Team', type: 'success' })
       })
   }
-
-  console.log(pagination)
-  const poo = collection.verified
-  const willy = collection.is_verified
-  console.log("Verified: %s, Is Verified: %s", poo, willy)
 </script>
 
 <ShapeImage />
 <div class="flex flex-col h-full mt-40 space-y-5 md:items-center">
   <div class="max-w-screen-xl mx-5 xl:mx-auto xl:px-0 lg:grid lg:grid-cols-2 lg:grid-flow-col-dense w-full">
-    {#if collection.verified ?? collection.is_verified}
       <img
         class="w-full max-w-[600px] h-auto rounded-lg lg:col-start-2 ml-auto"
         src={image_uri}
         alt="{collection.name ?? collection.contract_name} hero"
       />
-    {/if}
     <section class="mr-5 lg:col-start-1">
       <div class="flex mt-10 lg:mt-0 items-center">
         <a href={`https://viewblock.io/zilliqa/address/${collection.contract_address_b32}`} class="w-[100px]">
