@@ -1,9 +1,10 @@
 import type { Writable } from 'svelte/store'
 import { writable } from 'svelte/store'
+import type { Transaction as ZilTransaction } from '@zilliqa-js/account'
 
 export type TransactionOptions = {
   type: 'success' | 'warning' | 'failed' | 'pending'
-  tx?: object
+  tx?: ZilTransaction
   callback?: () => unknown
   message: string
   nftContract: string
@@ -40,7 +41,17 @@ const createTransaction = () => {
     return count
   }
 
-  return { subscribe, add, remove }
+  const updateType = (id: number, type: TransactionOptions['type']) => {
+    update((transactions) => {
+      return transactions.map((transaction) => {
+        if (transaction.id === id) {
+          transaction.type = type
+        }
+        return transaction
+      })
+    })
+  }
+  return { subscribe, add, remove, updateType }
 }
 
 export const transaction = createTransaction()

@@ -2,7 +2,6 @@
 
   import type { Transaction } from '$store/transaction'
   import { variables } from "../variables";
-  import { pollTx } from "../../zilpay/poll-tx";
 
   export let item: Transaction
 
@@ -14,19 +13,6 @@
     item.remove()
     item.callback && item.callback()
   }
-  
-  async function watchTx() {
-    let tx: unknown = false
-    if (item.tx) {
-      tx = await pollTx(item.tx)
-    }
-    if (tx === true) {
-      item.type = 'success'
-    } else {
-      item.type = 'failed'
-    }
-  }
-  watchTx()
   
 </script>
 

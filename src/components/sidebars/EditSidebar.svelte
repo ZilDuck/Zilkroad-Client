@@ -106,7 +106,7 @@
 </button>
 
 <h2>Transactions</h2>
-{#each transactionsPending as item (item.id)}
+{#each $transaction as item (item.id)}
   <p>{item.id}</p>
   <p>{item.type}</p>
   <p>{item.nftTokenId}</p>

@@ -115,8 +115,8 @@
     let { editTx } = await marketplace.editListedNft(orderId, sellFungible, convertedSellPrice)
     if (editTx) {
       toast.add({ message: 'Editing Listing', type: 'info' })
-      transaction.add({ message: `Editing ${name}`, type: 'pending', tx: editTx, nftContract:nft.contract_address_b32, nftTokenId:nft.token_id })
-      await pollTx(editTx)
+      const transactionID = transaction.add({ message: `Editing ${name}`, type: 'pending', tx: editTx, nftContract:nft.contract_address_b32, nftTokenId:nft.token_id })
+      await pollTx(editTx) ? transaction.updateType(transactionID, 'success') : transaction.updateType(transactionID, 'failed')
     } else {
       toast.add({ message: 'Listing Edit Failed', type: 'error' })
       return
