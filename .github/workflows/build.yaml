@@ -44,7 +44,7 @@ jobs:
         id: previousTag
         uses: WyriHaximus/github-action-get-previous-tag@v1
         with:
-          fallback: 0.0.0
+          fallback: 0.0.0-fallback
 
       - name: Get next semantic version
         id: semVars
