@@ -266,7 +266,7 @@
       bind:sellPrice
       bind:sellFungible
       bind:royalty_bps
-      {closeSidebar}
+      closeListModal={closeSidebar}
       {list} 
       {approve}
       {isLoading}
@@ -282,11 +282,12 @@
     bind:sellFungible={sellFungible}
     bind:royalty_bps
     {isLoading}
-    bind:listingId={orderId}
     {edit}
     closeListModal={closeSidebar}
     {imageSrc}
     {name}
+    contract_address_b32={nft.contract_address_b32}
+    token_id={nft.token_id}
   />
   </SideModal>
 {/if}
