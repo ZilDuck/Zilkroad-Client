@@ -51,7 +51,6 @@
   let sidebarOpen = false
   let burnModalOpen = false
   let transferModalOpen = false
-  let editSidebarOpen = false
   let isLoading = false
   let showNftImage = true
 
@@ -63,14 +62,14 @@
     open = false
   }
 
-  function openListModal() {
+  function openSidebar() {
     open = false
     sidebarOpen = true
     const body = document.getElementsByTagName('body')[0]
     body.classList.add('lock')
   }
 
-  function closeListModal() {
+  function closeSidebar() {
     open = false
     sidebarOpen = false
     isLoading = false
@@ -78,26 +77,12 @@
     body.classList.remove('lock')
   }
 
-  function openEditModal() {
-    open = false
-    editSidebarOpen = true
-    const body = document.getElementsByTagName('body')[0]
-    body.classList.add('lock')
-  }
-
-  function closeEditModal() {
-    open = false
-    editSidebarOpen = false
-    isLoading = false
-    const body = document.getElementsByTagName('body')[0]
-    body.classList.remove('lock')
-  }
-
+  
   async function approve() {
     let { spenderTx } = await marketplace.approveNftSpender(nft.contract_address_b16, nft.token_id)
     if (spenderTx) {
       toast.add({ message: 'Approving Zilkroad as Nft Spender', type: 'info' })
-      transaction.add({ message: 'Approving NFT Spender', type: 'pending', tx: spenderTx, nftContract:nft.contract_address_b16, nftTokenId:nft.token_id })
+      transaction.add({ message: 'Approving NFT Spender', type: 'pending', tx: spenderTx, nftContract:nft.contract_address_b32, nftTokenId:nft.token_id })
       await pollTx(spenderTx)
     } else {
       toast.add({ message: 'Approval Failed', type: 'error' })
@@ -111,7 +96,7 @@
     let { listTx } = await marketplace.listNft(nft.contract_address_b16, nft.token_id, sellFungible, convertedSellPrice)
     if (listTx) {
       toast.add({ message: 'Listing NFT', type: 'info' })
-      transaction.add({ message: 'Listing NFT', type: 'pending', tx: listTx, nftContract:nft.contract_address_b16, nftTokenId:nft.token_id })
+      transaction.add({ message: 'Listing NFT', type: 'pending', tx: listTx, nftContract:nft.contract_address_b32, nftTokenId:nft.token_id })
       await pollTx(listTx)
     } else {
       toast.add({ message: 'Listed Failed', type: 'error' })
@@ -130,8 +115,8 @@
     let { editTx } = await marketplace.editListedNft(orderId, sellFungible, convertedSellPrice)
     if (editTx) {
       toast.add({ message: 'Editing Listing', type: 'info' })
-      transaction.add({ message: `Editing ${name}`, type: 'pending', tx: editTx, nftContract:nft.contract_address_b16, nftTokenId:nft.token_id })
-      await pollTx(editTx)
+      const transactionID = transaction.add({ message: `Editing ${name}`, type: 'pending', tx: editTx, nftContract:nft.contract_address_b32, nftTokenId:nft.token_id })
+      await pollTx(editTx) ? transaction.updateType(transactionID, 'success') : transaction.updateType(transactionID, 'failed')
     } else {
       toast.add({ message: 'Listing Edit Failed', type: 'error' })
       return
@@ -237,7 +222,7 @@
           <button>View NFT</button>
         </li>
         {#if orderId && !userWalletIsOwner}
-          <li class="flex items-center space-x-5 align-middle cursor-pointer" on:click={openListModal}>
+          <li class="flex items-center space-x-5 align-middle cursor-pointer" on:click={openSidebar}>
             <MoneyBill />
             <button>Buy</button>
           </li>
@@ -250,13 +235,13 @@
             </li>
           {/if}
           {#if orderId}
-            <li class="flex items-center space-x-5 cursor-pointer" on:click={openEditModal}>
+            <li class="flex items-center space-x-5 cursor-pointer" on:click={openSidebar}>
               <Pencil />
               <button>Edit listing</button>
             </li>
           {/if}
           {#if !orderId}
-            <li class="flex items-center space-x-5 align-middle cursor-pointer" on:click={openListModal}>
+            <li class="flex items-center space-x-5 align-middle cursor-pointer" on:click={openSidebar}>
               <MoneyBill />
               <button>Sell</button>
             </li>
@@ -281,7 +266,7 @@
       bind:sellPrice
       bind:sellFungible
       bind:royalty_bps
-      {closeListModal}
+      closeListModal={closeSidebar}
       {list} 
       {approve}
       {isLoading}
@@ -291,14 +276,18 @@
       tokenID={nft.token_id}
     />
   </SideModal>
-  <SideModal bind:show={editSidebarOpen} title="Edit">
+  <SideModal bind:show={sidebarOpen} title="Edit">
     <EditSidebar
     bind:sellPrice={sellPrice}
     bind:sellFungible={sellFungible}
     bind:royalty_bps
     {isLoading}
-    bind:listingId={orderId}
     {edit}
+    closeListModal={closeSidebar}
+    {imageSrc}
+    {name}
+    contract_address_b32={nft.contract_address_b32}
+    token_id={nft.token_id}
   />
   </SideModal>
 {/if}
@@ -309,7 +298,7 @@
       bind:sellPrice={listingPrice}
       buyFungible={buyFungible}
       buyFungibleSymbol={priceSymbol}
-      {closeListModal}
+      closeListModal={closeSidebar}
       {increaseAllowance}
       {buy}
       {isLoading}
