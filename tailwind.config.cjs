@@ -35,6 +35,9 @@ const config = {
           normal: '#C9C9C9'
         }
       },
+      blur: {
+        xl: '3px',
+      },
       screens: {
         xl: '1224px',
         '2xl': '1520px'

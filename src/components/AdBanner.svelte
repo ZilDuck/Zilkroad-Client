@@ -32,7 +32,7 @@
 
 {#if valid}
   <section
-    class="md:w-full h-[420px] rounded-lg flex flex-col px-4 md:pr-0 md:pl-20 justify-center relative {className} overflow-hidden"
+    class="md:w-full h-[420px] rounded-lg flex flex-col mt-20 px-4 md:pr-0 md:pl-20 justify-center relative {className} overflow-hidden"
   >
     <div
       class="absolute top-0 left-0 w-full h-full blur-xl bg-cover mt-0"

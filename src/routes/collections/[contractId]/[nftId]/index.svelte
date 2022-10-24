@@ -33,6 +33,7 @@
 </script>
 
 <script lang="ts">
+  import SvelteSeo from "svelte-seo";
   import Header from '$components/Header.svelte'
   import Detail from '$components/Detail.svelte'
   import Big from 'big.js'
@@ -177,6 +178,32 @@
   }
   console.log('NFT xx: ', nft)
 </script>
+
+<SvelteSeo
+  title="Zilkroad : NFT"
+  description="An NFT from a collection"
+  twitter={{
+    site: "@zilkroad_dex",
+    title: "Zilkroad NFT Marketplace",
+    description: "Buy, sell and trade Zilliqa NFTs",
+    image: "https://pbs.twimg.com/profile_banners/1456394194650550272/1636067337/1500x500", // replace me
+    imageAlt: "Zilkroad NFT Marketplace",
+  }}
+  openGraph={{
+    title: "Zilkroad : NFT",
+    description: "An NFT from a collection",
+    url: 'https:/zilkroad.io',
+    type: 'website',
+    images: [
+      {
+        url: 'https://pbs.twimg.com/profile_banners/1456394194650550272/1636067337/1500x500', // replace me
+        width: 909,
+        height: 90,
+        alt: 'Zilkroad NFT Marketplace',
+      }
+     ]
+  }}
+/>
 
 <Header />
 
