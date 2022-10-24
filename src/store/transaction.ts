@@ -8,7 +8,6 @@ export type TransactionOptions = {
   message: string
   nftContract: string
   nftTokenId: string
-  placeAtEnd?: boolean
 }
 
 export type Transaction = {
@@ -37,7 +36,7 @@ const createTransaction = () => {
       remove: () => remove(id)
     }
 
-    update((transactions) => (transaction.placeAtEnd ? [...transactions, transaction] : [transaction, ...transactions]))
+    update((transactions) => ([...transactions, transaction]))
     return count
   }
 
