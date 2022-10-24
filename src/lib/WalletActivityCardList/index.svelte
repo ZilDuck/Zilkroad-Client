@@ -20,6 +20,9 @@ import TokenPrice from "../../components/TokenPrice.svelte";
     },
     {
       name: 'gZIL',
+    },
+    {
+      name: 'DUCK'
     }
   ]
   export let wallets = []
