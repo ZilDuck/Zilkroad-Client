@@ -3,8 +3,8 @@
   import { fly } from 'svelte/transition'
   import SvgLoader from '$components/SvgLoader.svelte'
   import marketplace from "$store/marketplace";
-  import { variables } from "../../lib/variables"
-
+  import { transaction } from "$store/transaction";
+  
   export let isLoading = false
   export let sellPrice = 0
   export let sellFungible
@@ -12,6 +12,8 @@
   export let edit
   export let imageSrc
   export let name = 'Edit your listing'
+  export let contract_address_b32
+  export let token_id
 
   export let max_royalty_bps = 10000
   export let tax_amount = 200
@@ -43,6 +45,9 @@
     let tax = (price_after_royalty * tax_amount) / max_royalty_bps ?? 0
     final_price = price_after_royalty - tax
   }
+
+  $:transactionsPending = $transaction.filter((transaction) => transaction.nftContract === contract_address_b32 && transaction.nftTokenId === token_id  && transaction.type === 'pending')
+
 </script>
 
 <h4 class="text-[20px] font-[600] mb-5">{name}</h4>
@@ -86,9 +91,9 @@
 <button
   class="text-zilkroad-text-light h-12 flex justify-center items-center bg-white rounded-lg w-full disabled:cursor-not-allowed disabled:opacity-50"
   on:click={edit}
-  disabled={isLoading}
+  disabled={transactionsPending.length > 0}
   >Edit Listing Price
-  {#if isLoading}
+  {#if transactionsPending.length > 0}
     <span in:fly={{ y: -10 }}>
       <SvgLoader />
     </span>
@@ -99,6 +104,15 @@
   on:click={closeListModal}
 >Cancel
 </button>
+
+<h2>Transactions</h2>
+{#each $transaction as item (item.id)}
+  <p>{item.id}</p>
+  <p>{item.type}</p>
+  <p>{item.nftTokenId}</p>
+  <p>{item.nftContract}</p>
+{/each}
+
 
 <style type="text/scss">
   .select-field {
