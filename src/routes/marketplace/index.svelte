@@ -18,6 +18,7 @@
 </script>
 
 <script>
+  import SvelteSeo from "svelte-seo";
   import Select from 'svelte-select'
   import NftCardList from '$lib/NftCardList/index.svelte'
   import ShapeImage from '$components/ShapeImage.svelte'
@@ -76,6 +77,31 @@
     currentPage = page
   }
 </script>
+<SvelteSeo
+  title="Zilkroad : Marketplace"
+  description="All of the currently listed tokens available"
+  twitter={{
+    site: "@zilkroad_dex",
+    title: "Zilkroad NFT Marketplace",
+    description: "Buy, sell and trade Zilliqa NFTs",
+    image: "https://pbs.twimg.com/profile_banners/1456394194650550272/1636067337/1500x500", // replace me
+    imageAlt: "Zilkroad NFT Marketplace",
+  }}
+  openGraph={{
+    title: 'Zilkroad : Marketplace',
+    description: "All of the currently listed tokens available",
+    url: 'https:/zilkroad.io',
+    type: 'website',
+    images: [
+      {
+        url: 'https://pbs.twimg.com/profile_banners/1456394194650550272/1636067337/1500x500', // replace me
+        width: 909,
+        height: 90,
+        alt: 'Zilkroad NFT Marketplace',
+      }
+     ]
+  }}
+/>
 
 <ShapeImage />
 <PageHeader title="The marketplace" description="View nfts available on the marketplace now." />
