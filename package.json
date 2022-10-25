@@ -16,6 +16,7 @@
     "unit-tests": "jest"
   },
   "devDependencies": {
+    "@resvg/resvg-js": "^2.1.0",
     "@sveltejs/adapter-node": "^1.0.0-next.67",
     "@sveltejs/kit": "^1.0.0-next.257",
     "@testing-library/jest-dom": "^5.16.5",
@@ -39,6 +40,8 @@
     "rollup-plugin-inline-svg": "^2.0.0",
     "rxjs": "^7.5.2",
     "sass": "^1.49.7",
+    "satori": "^0.0.43",
+    "satori-html": "^0.3.0",
     "svelte": "^3.46.3",
     "svelte-check": "^2.4.1",
     "svelte-jester": "^2.3.2",
