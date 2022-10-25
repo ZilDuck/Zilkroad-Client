@@ -108,6 +108,13 @@ export const zilkroad = (fetch: (info: RequestInfo, init?: RequestInit) => Promi
     return data.result
   }
 
+  // contract data - db
+  async function getContractActivity (contract: string) {
+    const response = await fetch(`https://test-api.zilkroad.io/collections/${contract}/activity`)
+    const data = await response.json() as { result: ContractActivity[]}
+    return data.result
+  }
+
   type BalanceFungible = {
     address: string
     name: string
@@ -160,6 +167,7 @@ export const zilkroad = (fetch: (info: RequestInfo, init?: RequestInit) => Promi
     getNftOwner,
     getVerifiedContracts,
     getUserActivity,
+    getContractActivity,
     getApprovedFungibles
   }
 }
