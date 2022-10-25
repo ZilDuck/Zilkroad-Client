@@ -1,6 +1,6 @@
 {
   "name": "@zilkroad/client",
-  "version": "0.0.118",
+  "version": "0.0.1",
   "scripts": {
     "start": "PORT=8080 node dist/index.js",
     "dev": "svelte-kit dev",
