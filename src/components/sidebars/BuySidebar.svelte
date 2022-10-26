@@ -5,19 +5,27 @@
   import wallet from '$store/wallet'
   import { convertWithDecimals } from '../../lib/fungibles'
   import marketplace from '../../store/marketplace'
+  import { transaction } from '$store/transaction'
 
-  export let isLoading = false
   export let sellPrice = 0
-  export let buyFungible
   export let buyFungibleSymbol
   export let closeListModal
   export let buy
   export let increaseAllowance
   export let imageSrc
   export let name
+  export let contract_address_b32
+  export let token_id
 
   let walletHasFunds = false
   let marketplaceHasAllowance = false
+
+  $: transactionsPending = $transaction.filter(
+    (transaction) =>
+      transaction.nftContract === contract_address_b32 &&
+      transaction.nftTokenId === token_id &&
+      transaction.type === 'pending'
+  )
 
   console.log($wallet.balances)
 
@@ -60,16 +68,21 @@
   <button
     class="text-zilkroad-text-light h-12 flex justify-center items-center bg-white rounded-lg w-full disabled:cursor-not-allowed disabled:opacity-50"
     on:click={increaseAllowance}
-    disabled={isLoading || !walletHasFunds || marketplaceHasAllowance}
+    disabled={transactionsPending.length > 0 || !walletHasFunds || marketplaceHasAllowance}
     >Increase Allowance
+    {#if transactionsPending.length > 0}
+      <span in:fly={{ y: -10 }}>
+        <SvgLoader />
+      </span>
+    {/if}
   </button>
   <button
     class="text-zilkroad-text-light h-12 flex justify-center items-center bg-white rounded-lg w-full disabled:cursor-not-allowed disabled:opacity-50"
     on:click={buy}
-    disabled={isLoading || !walletHasFunds || !marketplaceHasAllowance}
+    disabled={transactionsPending.length > 0 || !walletHasFunds || !marketplaceHasAllowance}
     ><span class="mr-[10px] text-zilkroad-text-light">Purchase for</span>
     <TokenPrice price={sellPrice} fungibleAddressOrSymbol={buyFungibleSymbol} reverse="false" />
-    {#if isLoading}
+    {#if transactionsPending.length > 0}
       <span in:fly={{ y: -10 }}>
         <SvgLoader />
       </span>
@@ -105,6 +118,5 @@
     --placeholderColor: #cbcbcb;
 
     --multiItemActiveColor: #fff;
-    --itemIsActiveColor: #fff;
   }
 </style>
