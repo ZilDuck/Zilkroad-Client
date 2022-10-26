@@ -21,8 +21,7 @@
 
       <p>
         If you have additional questions or require more information about our Privacy Policy, do not hesitate to
-        contact us. Our Privacy Policy was generated with the help of <a href="https://www.gdprprivacynotice.com/"
-          >GDPR Privacy Policy Generator from GDPRPrivacyNotice.com</a
+        contact us.
         >
       </p>
 
@@ -102,14 +101,16 @@
       <h2>Children's Information</h2>
 
       <p>
-        Another part of our priority is adding protection for children while using the internet. We encourage parents
-        and guardians to observe, participate in, and/or monitor and guide their online activity.
+        The Services are not directed to children under 18 (or other age as required by local law), and we do not
+        knowingly collect personal information from children. 
       </p>
 
       <p>
-        Zilkroad does not knowingly collect any Personal Identifiable Information from children under the age of 13. If
-        you think that your child provided this kind of information on our website, we strongly encourage you to contact
-        us immediately and we will do our best efforts to promptly remove such information from our records.
+        If you are a parent or guardian and believe your child
+        has uploaded personal information to our site without your consent, you may contact us as described in
+        “Contact Us” below. If we become aware that a child has provided us with personal information in violation
+        of applicable law, we will delete any personal information we have collected, unless we have a legal
+        obligation to keep it, and terminate the child’s account if applicable.
       </p>
 
       <h2>Online Privacy Policy Only</h2>
