@@ -335,12 +335,10 @@
   <SideModal bind:show={sidebarOpen.buy} title="Buy NFT">
     <BuySidebar
       bind:sellPrice={listingPrice}
-      {buyFungible}
       buyFungibleSymbol={priceSymbol}
       closeListModal={closeSidebar}
       {increaseAllowance}
       {buy}
-      {nft}
       {imageSrc}
       {name}
       contract_address_b32={nft.contract_address_b32}

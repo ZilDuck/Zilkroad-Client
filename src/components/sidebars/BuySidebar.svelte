@@ -51,8 +51,11 @@
 <h4 class="text-[20px] font-[600] mb-5">{name}</h4>
 <img src={imageSrc} alt="NFT you're selling" class="w-full pb-5" />
 <p class="flex justify-between items-center w-full text-[20px] text-zilkroad-text-normal mb-5">
-  Total price <span class="text-white"
-    ><TokenPrice price={sellPrice} fungibleAddressOrSymbol={buyFungibleSymbol} reverse="false" />
+  Total price
+  <span class="font-light">
+    <img alt="{buyFungibleSymbol} Token Logo" class="w-5 h-5 mb-1 inline" src="/images/tokens/{buyFungibleSymbol}.png" />
+    <TokenPrice price={sellPrice} fungibleAddressOrSymbol={buyFungibleSymbol} reverse="false" />
+    {buyFungibleSymbol}
   </span>
 </p>
 <p class="mb-5">All purchases are final, and includes all royalties and fees for purchasing the NFT above.</p>
@@ -80,8 +83,8 @@
     class="text-zilkroad-text-light h-12 flex justify-center items-center bg-white rounded-lg w-full disabled:cursor-not-allowed disabled:opacity-50"
     on:click={buy}
     disabled={transactionsPending.length > 0 || !walletHasFunds || !marketplaceHasAllowance}
-    ><span class="mr-[10px] text-zilkroad-text-light">Purchase for</span>
-    <TokenPrice price={sellPrice} fungibleAddressOrSymbol={buyFungibleSymbol} reverse="false" />
+    ><span class="mr-1 text-zilkroad-text-light">Purchase for</span>
+    <TokenPrice price={sellPrice} fungibleAddressOrSymbol={buyFungibleSymbol} reverse="false" /> {buyFungibleSymbol}
     {#if transactionsPending.length > 0}
       <span in:fly={{ y: -10 }}>
         <SvgLoader />
