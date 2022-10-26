@@ -1,7 +1,8 @@
 <script type="ts">
   import { variables } from "../variables"
   import UserActivityRow from "./ContractActivityRow.svelte";
-  export let data: ContractActivity[]
+  export let data = []
+  // : ContractActivity[]
   let rows = []
 
   export const { network } = variables
