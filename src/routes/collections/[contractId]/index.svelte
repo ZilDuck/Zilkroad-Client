@@ -121,6 +121,7 @@
         class="w-full max-w-[600px] h-auto rounded-lg lg:col-start-2 ml-auto"
         src={image_uri}
         alt="{collection.name ?? collection.contract_name} hero"
+        data-cy="metadata-image"
       />
     <section class="mr-5 lg:col-start-1">
       <div class="flex mt-10 lg:mt-0 items-center">
@@ -132,7 +133,7 @@
         </a>
 
         {#if collection.verified ?? collection.is_verified}
-          <h4 class="flex items-center ml-10">
+          <h4 class="flex items-center ml-10" data-cy="verified-check">
             <Checkmark className="mr-2" />
             Verified
           </h4>
