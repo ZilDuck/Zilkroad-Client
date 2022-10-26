@@ -76,7 +76,7 @@
 
   export let collection = {}
   export let nfts = []
-  export let contractActivity = activity_data ?? []
+  export let activity_data = []
   export let pagination = {
     size: 16,
     page: 1,
@@ -201,7 +201,7 @@
     <Pagination numPages={pagination.total_pages} {currentPage} className="mx-auto" on:pageChange={handlePageChange} />
   </div>
   <div class="mb-20">
-    <ContractActivityTable bind:data={contractActivity} />
+    <ContractActivityTable bind:data={activity_data} />
   </div>
   <AdBanner className="md:mx-auto max-w-screen-xl" />
 </main>
