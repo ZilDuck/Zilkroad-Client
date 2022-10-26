@@ -55,7 +55,7 @@
           {/each}
         {:else}
         <tr>
-          <td class="text-center" colspan={headers.length}>You have no activity recorded on Zilkroad</td>
+          <td class="text-center" colspan={headers.length}>This contract has no activity yet.</td>
         </tr>
         {/if}
       </tbody>

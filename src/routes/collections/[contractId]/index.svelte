@@ -21,7 +21,7 @@
     }
     
     const page = url.searchParams.get('page') ?? 1
-    const [collection, collectionNfts, metadata, activity] = await Promise.all([
+    const [collection, collectionNfts, metadata, activity_data] = await Promise.all([
       fetch(`/collections/${contractId}.json`)
         .catch((error) => {
           console.log(error)
@@ -44,11 +44,11 @@
         .then((r) => r.json())
     ])
     console.log("Metadata: ", metadata)
-    console.log(`activity ${activity}`)
+    console.log(`activity ${activity_data}`)
     let nfts = collectionNfts.nfts
     let pagination = JSON.parse(collectionNfts.pagination)
     return {
-      props: { collection, nfts, pagination, metadata, activity }
+      props: { collection, nfts, pagination, metadata, activity_data }
     }
   }
 </script>
@@ -76,7 +76,7 @@
 
   export let collection = {}
   export let nfts = []
-  export let activity_data = []
+  export let contractActivity = activity_data ?? []
   export let pagination = {
     size: 16,
     page: 1,
@@ -201,7 +201,7 @@
     <Pagination numPages={pagination.total_pages} {currentPage} className="mx-auto" on:pageChange={handlePageChange} />
   </div>
   <div class="mb-20">
-    <ContractActivityTable bind:data={activity_data} />
+    <ContractActivityTable bind:data={contractActivity} />
   </div>
   <AdBanner className="md:mx-auto max-w-screen-xl" />
 </main>
