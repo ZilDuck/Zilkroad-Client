@@ -21,7 +21,7 @@
     }
     
     const page = url.searchParams.get('page') ?? 1
-    const [collection, collectionNfts, metadata] = await Promise.all([
+    const [collection, collectionNfts, metadata, activity] = await Promise.all([
       fetch(`/collections/${contractId}.json`)
         .catch((error) => {
           console.log(error)
@@ -36,13 +36,19 @@
         .catch((error) => {
           console.log(error)
         })
+        .then((r) => r.json()),
+      fetch(`/collections/${contractId}/activity.json`)
+        .catch((error) => {
+          console.log(error)
+        })
         .then((r) => r.json())
     ])
     console.log("Metadata: ", metadata)
+    console.log(`activity ${activity}`)
     let nfts = collectionNfts.nfts
     let pagination = JSON.parse(collectionNfts.pagination)
     return {
-      props: { collection, nfts, pagination, metadata }
+      props: { collection, nfts, pagination, metadata, activity }
     }
   }
 </script>
@@ -66,9 +72,11 @@
   import Telegram from '$icons/social/Telegram.svelte'
   import Website from '$icons/social/Website.svelte'
   import AdBanner from '../../../components/AdBanner.svelte'
+  import ContractActivityTable from '../../../lib/ContractActivityTable/index.svelte'
 
   export let collection = {}
   export let nfts = []
+  export let activity_data = []
   export let pagination = {
     size: 16,
     page: 1,
@@ -191,6 +199,9 @@
   <NftCardList {nfts} />
   <div class="w-full flex justify-center mt-20">
     <Pagination numPages={pagination.total_pages} {currentPage} className="mx-auto" on:pageChange={handlePageChange} />
+  </div>
+  <div class="mb-20">
+    <ContractActivityTable bind:data={activity_data} />
   </div>
   <AdBanner className="md:mx-auto max-w-screen-xl" />
 </main>
