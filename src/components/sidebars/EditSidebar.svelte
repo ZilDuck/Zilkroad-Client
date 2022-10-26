@@ -2,10 +2,9 @@
   import Select from 'svelte-select'
   import { fly } from 'svelte/transition'
   import SvgLoader from '$components/SvgLoader.svelte'
-  import marketplace from "$store/marketplace";
-  import { transaction } from "$store/transaction";
-  
-  export let isLoading = false
+  import marketplace from '$store/marketplace'
+  import { transaction } from '$store/transaction'
+
   export let sellPrice = 0
   export let sellFungible
   export let closeListModal
@@ -27,11 +26,11 @@
   let fungibles = $marketplace.approvedFungibles.filter((fungible) => fungible.fungible_address !== '')
   let fungiblesSelect = fungibles.map((fungible) => {
     return {
-      value:fungible.fungible_address,
+      value: fungible.fungible_address,
       label: fungible.fungible_symbol
     }
-  } )
-  
+  })
+
   let value = fungiblesSelect[0]
   sellFungible = fungiblesSelect[0].value
   function handleOrder(event) {
@@ -40,14 +39,18 @@
     sellFungible = event.detail.value
   }
 
-  function handleRoyaltiesAndTax(){
-    let price_after_royalty = sellPrice - ((sellPrice * royalty_bps) / max_royalty_bps) ?? 0
+  function handleRoyaltiesAndTax() {
+    let price_after_royalty = sellPrice - (sellPrice * royalty_bps) / max_royalty_bps ?? 0
     let tax = (price_after_royalty * tax_amount) / max_royalty_bps ?? 0
     final_price = price_after_royalty - tax
   }
 
-  $:transactionsPending = $transaction.filter((transaction) => transaction.nftContract === contract_address_b32 && transaction.nftTokenId === token_id  && transaction.type === 'pending')
-
+  $: transactionsPending = $transaction.filter(
+    (transaction) =>
+      transaction.nftContract === contract_address_b32 &&
+      transaction.nftTokenId === token_id &&
+      transaction.type === 'pending'
+  )
 </script>
 
 <h4 class="text-[20px] font-[600] mb-5">{name}</h4>
@@ -102,17 +105,8 @@
 <button
   class="text-white h-12 flex justify-center items-center bg-zilkroad-gray-dark p-5 rounded-lg w-full mb-5 md:hidden"
   on:click={closeListModal}
->Cancel
+  >Cancel
 </button>
-
-<h2>Transactions</h2>
-{#each $transaction as item (item.id)}
-  <p>{item.id}</p>
-  <p>{item.type}</p>
-  <p>{item.nftTokenId}</p>
-  <p>{item.nftContract}</p>
-{/each}
-
 
 <style type="text/scss">
   .select-field {

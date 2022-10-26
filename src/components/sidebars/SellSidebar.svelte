@@ -5,9 +5,8 @@
   import marketplace from '$store/marketplace'
   import { hasSpender } from '../../zilpay/nonfungible'
   import { onMount } from 'svelte'
-  import { variables } from '../../lib/variables'
+  import { transaction } from '$store/transaction'
 
-  export let isLoading = false
   export let sellPrice = 0
   export let sellFungible
   export let closeListModal
@@ -16,6 +15,7 @@
   export let imageSrc
   export let name
   export let tokenContract
+  export let contract_address_b32
   export let tokenID
 
   export let max_royalty_bps = 10000
@@ -57,6 +57,13 @@
     let tax = (price_after_royalty * tax_amount) / max_royalty_bps ?? 0
     final_price = price_after_royalty - tax
   }
+
+  $: transactionsPending = $transaction.filter(
+    (transaction) =>
+      transaction.nftContract === contract_address_b32 &&
+      transaction.nftTokenId === tokenID &&
+      transaction.type === 'pending'
+  )
 </script>
 
 <h4 class="text-[20px] font-[600] mb-5">{name}</h4>
@@ -99,9 +106,9 @@
   <button
     class="text-zilkroad-text-light h-12 flex justify-center items-center bg-white rounded-lg w-full disabled:cursor-not-allowed disabled:opacity-50"
     on:click={approve}
-    disabled={isLoading || nftHasSpender}
+    disabled={transactionsPending.length > 0 || nftHasSpender}
     >{spenderButtonText}
-    {#if isLoading}
+    {#if transactionsPending.length > 0}
       <span in:fly={{ y: -10 }}>
         <SvgLoader />
       </span>
@@ -110,9 +117,9 @@
   <button
     class="text-zilkroad-text-light h-12 flex justify-center items-center bg-white rounded-lg w-full disabled:cursor-not-allowed disabled:opacity-50"
     on:click={list}
-    disabled={isLoading || !nftHasSpender}
+    disabled={transactionsPending.length > 0 || !nftHasSpender}
     >List
-    {#if isLoading}
+    {#if transactionsPending.length > 0}
       <span in:fly={{ y: -10 }}>
         <SvgLoader />
       </span>
