@@ -47,7 +47,7 @@
 
   {#if showWalletOptions}
     <div>
-      <WalletOptions />
+      <WalletOptions bind:data={truncatedWallet} />
     </div>
   {/if}
 </div>
