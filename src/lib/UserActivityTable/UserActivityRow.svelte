@@ -14,7 +14,7 @@
   export let txHash = ''
   const viewblockURL = 'https://viewblock.io/zilliqa/tx'
 
-  const isSale = eventType === 'Bought' || eventType === 'Sold'
+  const isSale = eventType === 'Bought' || eventType === 'Sold' || eventType === 'Sale'
   const isRoyalties = eventType === 'Royalties'
 </script>
 
