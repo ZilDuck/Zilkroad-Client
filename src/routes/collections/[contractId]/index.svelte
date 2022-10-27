@@ -44,7 +44,7 @@
         .then((r) => r.json())
     ])
     console.log("Metadata: ", metadata)
-    console.log(`activity ${activity_data}`)
+    console.log(`activity ${JSON.stringify(activity_data)}`)
     let nfts = collectionNfts.nfts
     let pagination = JSON.parse(collectionNfts.pagination)
     return {
