@@ -5,19 +5,27 @@
   import wallet from '$store/wallet'
   import { convertWithDecimals } from '../../lib/fungibles'
   import marketplace from '../../store/marketplace'
+  import { transaction } from '$store/transaction'
 
-  export let isLoading = false
   export let sellPrice = 0
-  export let buyFungible
   export let buyFungibleSymbol
   export let closeListModal
   export let buy
   export let increaseAllowance
   export let imageSrc
   export let name
+  export let contract_address_b32
+  export let token_id
 
   let walletHasFunds = false
   let marketplaceHasAllowance = false
+
+  $: transactionsPending = $transaction.filter(
+    (transaction) =>
+      transaction.nftContract === contract_address_b32 &&
+      transaction.nftTokenId === token_id &&
+      transaction.type === 'pending'
+  )
 
   console.log($wallet.balances)
 
@@ -43,8 +51,11 @@
 <h4 class="text-[20px] font-[600] mb-5">{name}</h4>
 <img src={imageSrc} alt="NFT you're selling" class="w-full pb-5" />
 <p class="flex justify-between items-center w-full text-[20px] text-zilkroad-text-normal mb-5">
-  Total price <span class="text-white"
-    ><TokenPrice price={sellPrice} fungibleAddressOrSymbol={buyFungibleSymbol} reverse="false" />
+  Total price
+  <span class="font-light">
+    <img alt="{buyFungibleSymbol} Token Logo" class="w-5 h-5 mb-1 inline" src="/images/tokens/{buyFungibleSymbol}.png" />
+    <TokenPrice price={sellPrice} fungibleAddressOrSymbol={buyFungibleSymbol} reverse="false" />
+    {buyFungibleSymbol}
   </span>
 </p>
 <p class="mb-5">All purchases are final, and includes all royalties and fees for purchasing the NFT above.</p>
@@ -60,16 +71,21 @@
   <button
     class="text-zilkroad-text-light h-12 flex justify-center items-center bg-white rounded-lg w-full disabled:cursor-not-allowed disabled:opacity-50"
     on:click={increaseAllowance}
-    disabled={isLoading || !walletHasFunds || marketplaceHasAllowance}
+    disabled={transactionsPending.length > 0 || !walletHasFunds || marketplaceHasAllowance}
     >Increase Allowance
+    {#if transactionsPending.length > 0}
+      <span in:fly={{ y: -10 }}>
+        <SvgLoader />
+      </span>
+    {/if}
   </button>
   <button
     class="text-zilkroad-text-light h-12 flex justify-center items-center bg-white rounded-lg w-full disabled:cursor-not-allowed disabled:opacity-50"
     on:click={buy}
-    disabled={isLoading || !walletHasFunds || !marketplaceHasAllowance}
-    ><span class="mr-[10px] text-zilkroad-text-light">Purchase for</span>
-    <TokenPrice price={sellPrice} fungibleAddressOrSymbol={buyFungibleSymbol} reverse="false" />
-    {#if isLoading}
+    disabled={transactionsPending.length > 0 || !walletHasFunds || !marketplaceHasAllowance}
+    ><span class="mr-1 text-zilkroad-text-light">Purchase for</span>
+    <TokenPrice price={sellPrice} fungibleAddressOrSymbol={buyFungibleSymbol} reverse="false" /> {buyFungibleSymbol}
+    {#if transactionsPending.length > 0}
       <span in:fly={{ y: -10 }}>
         <SvgLoader />
       </span>
@@ -105,6 +121,5 @@
     --placeholderColor: #cbcbcb;
 
     --multiItemActiveColor: #fff;
-    --itemIsActiveColor: #fff;
   }
 </style>
