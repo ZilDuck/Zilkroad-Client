@@ -101,6 +101,7 @@
         message: 'Approving NFT Spender',
         type: 'pending',
         tx: spenderTx,
+        txType: 'SetSpender',
         nftContract: nft.contract_address_b32,
         nftTokenId: nft.token_id
       })
@@ -122,6 +123,7 @@
       const transactionID = transaction.add({
         message: 'Listing NFT',
         type: 'pending',
+        txType: 'UserList',
         tx: listTx,
         nftContract: nft.contract_address_b32,
         nftTokenId: nft.token_id
@@ -149,6 +151,7 @@
       const transactionID = transaction.add({
         message: `Editing ${name}`,
         type: 'pending',
+        txType: 'UserEditListingPrice',
         tx: editTx,
         nftContract: nft.contract_address_b32,
         nftTokenId: nft.token_id
@@ -174,12 +177,13 @@
     if (increaseTx) {
       toast.add({ message: 'Increasing Allowance', type: 'info' })
       const transactionID = transaction.add({
-          message: `Increasing Allowance`,
-          type: 'pending',
-          tx: increaseTx,
-          nftContract: nft.contract_address_b32,
-          nftTokenId: nft.token_id
-        })
+        message: `Increasing Allowance`,
+        type: 'pending',
+        txType: 'IncreaseAllowance',
+        tx: increaseTx,
+        nftContract: nft.contract_address_b32,
+        nftTokenId: nft.token_id
+      })
       ;(await pollTx(increaseTx))
         ? transaction.updateType(transactionID, 'success')
         : transaction.updateType(transactionID, 'failed')
@@ -196,12 +200,13 @@
     if (buyTx) {
       toast.add({ message: 'Purchasing Listing', type: 'info' })
       const transactionID = transaction.add({
-          message: `Purchasing ${name}`,
-          type: 'pending',
-          tx: buyTx,
-          nftContract: nft.contract_address_b32,
-          nftTokenId: nft.token_id
-        })
+        message: `Purchasing ${name}`,
+        type: 'pending',
+        tx: buyTx,
+        txType: 'UserBuy',
+        nftContract: nft.contract_address_b32,
+        nftTokenId: nft.token_id
+      })
       ;(await pollTx(buyTx))
         ? transaction.updateType(transactionID, 'success')
         : transaction.updateType(transactionID, 'failed')
@@ -296,7 +301,7 @@
           <button>View NFT</button>
         </li>
         {#if orderId && !userWalletIsOwner}
-          <li class="flex items-center space-x-5 align-middle cursor-pointer" on:click={() =>openSidebar('buy')}>
+          <li class="flex items-center space-x-5 align-middle cursor-pointer" on:click={() => openSidebar('buy')}>
             <MoneyBill />
             <button>Buy</button>
           </li>
@@ -309,7 +314,7 @@
             </li>
           {/if}
           {#if orderId}
-            <li class="flex items-center space-x-5 cursor-pointer" on:click={() =>openSidebar('edit')}>
+            <li class="flex items-center space-x-5 cursor-pointer" on:click={() => openSidebar('edit')}>
               <Pencil />
               <button>Edit listing</button>
             </li>

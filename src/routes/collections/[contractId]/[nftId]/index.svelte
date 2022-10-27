@@ -55,7 +55,7 @@
   import EditSidebar from '../../../../components/sidebars/EditSidebar.svelte'
   import BuySidebar from '../../../../components/sidebars/BuySidebar.svelte'
   import { variables } from '../../../../lib/variables'
-  import { transaction } from "$store/transaction";
+  import { transaction } from '$store/transaction'
 
   export let nft
   export let collection
@@ -99,12 +99,13 @@
     if (spenderTx) {
       toast.add({ message: 'Approving Zilkroad as Nft Spender', type: 'info' })
       const transactionID = transaction.add({
-          message: 'Approving NFT Spender',
-          type: 'pending',
-          tx: spenderTx,
-          nftContract: nft.contract_address_b32,
-          nftTokenId: nft.token_id
-        })
+        message: 'Approving NFT Spender',
+        type: 'pending',
+        txType: 'SetSpender',
+        tx: spenderTx,
+        nftContract: nft.contract_address_b32,
+        nftTokenId: nft.token_id
+      })
       ;(await pollTx(spenderTx))
         ? transaction.updateType(transactionID, 'success')
         : transaction.updateType(transactionID, 'failed')
@@ -121,12 +122,13 @@
     if (listTx) {
       toast.add({ message: 'Listing NFT', type: 'info' })
       const transactionID = transaction.add({
-          message: 'Listing NFT',
-          type: 'pending',
-          tx: listTx,
-          nftContract: nft.contract_address_b32,
-          nftTokenId: nft.token_id
-        })
+        message: 'Listing NFT',
+        type: 'pending',
+        txType: 'UserList',
+        tx: listTx,
+        nftContract: nft.contract_address_b32,
+        nftTokenId: nft.token_id
+      })
       ;(await pollTx(listTx))
         ? transaction.updateType(transactionID, 'success')
         : transaction.updateType(transactionID, 'failed')
@@ -143,12 +145,13 @@
     if (editTx) {
       toast.add({ message: 'Editing Listing', type: 'info' })
       const transactionID = transaction.add({
-          message: `Editing ${name}`,
-          type: 'pending',
-          tx: editTx,
-          nftContract: nft.contract_address_b32,
-          nftTokenId: nft.token_id
-        })
+        message: `Editing ${name}`,
+        type: 'pending',
+        txType: 'UserEditListingPrice',
+        tx: editTx,
+        nftContract: nft.contract_address_b32,
+        nftTokenId: nft.token_id
+      })
       ;(await pollTx(editTx))
         ? transaction.updateType(transactionID, 'success')
         : transaction.updateType(transactionID, 'failed')
@@ -164,12 +167,13 @@
     if (increaseTx) {
       toast.add({ message: 'Increasing Allowance', type: 'info' })
       const transactionID = transaction.add({
-          message: `Increasing Allowance`,
-          type: 'pending',
-          tx: increaseTx,
-          nftContract: nft.contract_address_b32,
-          nftTokenId: nft.token_id
-        })
+        message: `Increasing Allowance`,
+        type: 'pending',
+        tx: increaseTx, 
+        txType: 'IncreaseAllowance',
+        nftContract: nft.contract_address_b32,
+        nftTokenId: nft.token_id
+      })
       ;(await pollTx(increaseTx))
         ? transaction.updateType(transactionID, 'success')
         : transaction.updateType(transactionID, 'failed')
@@ -185,12 +189,13 @@
     if (buyTx) {
       toast.add({ message: 'Purchasing Listing', type: 'info' })
       const transactionID = transaction.add({
-          message: `Purchasing ${name}`,
-          type: 'pending',
-          tx: buyTx,
-          nftContract: nft.contract_address_b32,
-          nftTokenId: nft.token_id
-        })
+        message: `Purchasing ${name}`,
+        type: 'pending',
+        txType: 'UserBuy',
+        tx: buyTx,
+        nftContract: nft.contract_address_b32,
+        nftTokenId: nft.token_id
+      })
       ;(await pollTx(buyTx))
         ? transaction.updateType(transactionID, 'success')
         : transaction.updateType(transactionID, 'failed')
