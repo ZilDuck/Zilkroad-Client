@@ -168,14 +168,48 @@
     goto(`/collections/${nft.contract_address_b32}/${nft.token_id}`)
   }
 
-  function increaseAllowance() {
+  async function increaseAllowance() {
     open = false
-    marketplace.increaseFungibleAllowance(buyFungible, listingPrice)
+    let { increaseTx } = await marketplace.increaseFungibleAllowance(buyFungible, listingPrice)
+    if (increaseTx) {
+      toast.add({ message: 'Increasing Allowance', type: 'info' })
+      const transactionID = transaction.add({
+          message: `Increasing Allowance`,
+          type: 'pending',
+          tx: increaseTx,
+          nftContract: nft.contract_address_b32,
+          nftTokenId: nft.token_id
+        })
+      ;(await pollTx(increaseTx))
+        ? transaction.updateType(transactionID, 'success')
+        : transaction.updateType(transactionID, 'failed')
+    } else {
+      toast.add({ message: 'Allowance Increase Failed', type: 'error' })
+      return
+    }
+    toast.add({ message: 'Allowance Increased', type: 'success' })
   }
 
-  function buy() {
+  async function buy() {
     open = false
-    marketplace.buyNft(buyFungible, listingPrice, orderId)
+    let { buyTx } = await marketplace.buyNft(buyFungible, listingPrice, orderId)
+    if (buyTx) {
+      toast.add({ message: 'Purchasing Listing', type: 'info' })
+      const transactionID = transaction.add({
+          message: `Purchasing ${name}`,
+          type: 'pending',
+          tx: buyTx,
+          nftContract: nft.contract_address_b32,
+          nftTokenId: nft.token_id
+        })
+      ;(await pollTx(buyTx))
+        ? transaction.updateType(transactionID, 'success')
+        : transaction.updateType(transactionID, 'failed')
+    } else {
+      toast.add({ message: 'Purchase Failed', type: 'error' })
+      return
+    }
+    toast.add({ message: 'Purchase Successful', type: 'success' })
   }
 
   function openBurnModal() {
