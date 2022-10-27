@@ -8,6 +8,7 @@
   import TransactionList from "../lib/TransactionList/index.svelte";
 
   let showTokenSwap = false
+  export let data = []
 
   function toggleTokenSWAP() {
     showTokenSwap = !showTokenSwap
@@ -24,8 +25,8 @@
   <div class="wallet-options-header flex justify-between items-center border-b-[1px] border-zilkroad-gray-border pb-5">
     <h6 class="font-medium">Options</h6>
     <div class="wallet-options-header-user flex">
-      <img src="/images/user-avatar.png" alt="Wallet avatar" class="mr-[10px]" />
-      <p>zil16wg79q...</p>
+      <img src="https://i.pickadummy.com/index.php?imgsize=25x25&cache={data}" alt="Wallet avatar" class="mr-[10px] rounded-full " />
+      <p>{data}</p>
     </div>
   </div>
   <div class="wallet-options-menu py-5 border-b-[1px] border-zilkroad-gray-border">
