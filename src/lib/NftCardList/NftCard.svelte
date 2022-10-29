@@ -245,15 +245,15 @@
               <MoneyBill />
               <button>Sell</button>
             </li>
+            <li class="flex items-center space-x-5 align-middle cursor-pointer" on:click={openTransferModal}>
+              <Transfer />
+              <button>Transfer</button>
+            </li>
+            <li class="flex items-center space-x-5 align-middle cursor-pointer" on:click={openBurnModal}>
+              <Burn />
+              <button>Burn</button>
+            </li>
           {/if}
-          <li class="flex items-center space-x-5 align-middle cursor-pointer" on:click={openTransferModal}>
-            <Transfer />
-            <button>Transfer</button>
-          </li>
-          <li class="flex items-center space-x-5 align-middle cursor-pointer" on:click={openBurnModal}>
-            <Burn />
-            <button>Burn</button>
-          </li>
         {/if}
       </ul>
     </div>
