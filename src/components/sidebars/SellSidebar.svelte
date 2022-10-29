@@ -15,7 +15,6 @@
   export let imageSrc
   export let name
   export let tokenContract
-  export let contract_address_b32
   export let tokenID
 
   export let max_royalty_bps = 10000
@@ -58,14 +57,22 @@
     final_price = price_after_royalty - tax
   }
 
-  $: transactionsPending = $transaction.filter(
+  $: transactionsPendingApproval = $transaction.filter(
     (transaction) =>
-      transaction.nftContract === contract_address_b32 &&
+      transaction.nftContract === tokenContract &&
       transaction.nftTokenId === tokenID &&
-      transaction.type === 'pending'
+      transaction.txType === 'SetSpender' &&
+      transaction.status === 'pending'
+  )
+
+  $: transactionsPendingListing = $transaction.filter(
+    (transaction) =>
+      transaction.nftContract === tokenContract &&
+      transaction.nftTokenId === tokenID &&
+      transaction.txType === 'UserList' &&
+      transaction.status === 'pending'
   )
 </script>
-
 <h4 class="text-[20px] font-[600] mb-5">{name}</h4>
 <img src={imageSrc} alt="NFT you're selling" class="w-full pb-5" />
 <div
@@ -106,9 +113,9 @@
   <button
     class="text-zilkroad-text-light h-12 flex justify-center items-center bg-white rounded-lg w-full disabled:cursor-not-allowed disabled:opacity-50"
     on:click={approve}
-    disabled={transactionsPending.length > 0 || nftHasSpender}
+    disabled={transactionsPendingApproval.length > 0 || nftHasSpender}
     >{spenderButtonText}
-    {#if transactionsPending.length > 0}
+    {#if transactionsPendingApproval.length > 0}
       <span in:fly={{ y: -10 }}>
         <SvgLoader />
       </span>
@@ -117,9 +124,9 @@
   <button
     class="text-zilkroad-text-light h-12 flex justify-center items-center bg-white rounded-lg w-full disabled:cursor-not-allowed disabled:opacity-50"
     on:click={list}
-    disabled={transactionsPending.length > 0 || !nftHasSpender}
+    disabled={(transactionsPendingListing.length > 0 && !nftHasSpender) || !transactionsPendingApproval.length > 0}
     >List
-    {#if transactionsPending.length > 0}
+    {#if transactionsPendingListing.length > 0}
       <span in:fly={{ y: -10 }}>
         <SvgLoader />
       </span>

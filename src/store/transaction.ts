@@ -3,7 +3,7 @@ import { writable } from 'svelte/store'
 import type { Transaction as ZilTransaction } from '@zilliqa-js/account'
 
 export type TransactionOptions = {
-  type: 'success' | 'warning' | 'failed' | 'pending'
+  status: 'success' | 'warning' | 'failed' | 'pending'
   txType: 'UserList' | 'UserEditListingPrice' | 'UserBuy' | 'UserReturn' | 'IncreaseAllowance' | 'Mint' | 'Burn' | 'SetSpender'
   tx?: ZilTransaction
   callback?: () => unknown
@@ -42,17 +42,17 @@ const createTransaction = () => {
     return count
   }
 
-  const updateType = (id: number, type: TransactionOptions['type']) => {
+  const updateStatus = (id: number, newStatus: TransactionOptions['status']) => {
     update((transactions) => {
       return transactions.map((transaction) => {
         if (transaction.id === id) {
-          transaction.type = type
+          transaction.status = newStatus
         }
         return transaction
       })
     })
   }
-  return { subscribe, add, remove, updateType }
+  return { subscribe, add, remove, updateStatus }
 }
 
 export const transaction = createTransaction()
