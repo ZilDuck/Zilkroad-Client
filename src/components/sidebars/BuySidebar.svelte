@@ -20,16 +20,28 @@
   let walletHasFunds = false
   let marketplaceHasAllowance = false
 
-  $: transactionsPending = $transaction.filter(
+  $: transactionsPendingIncreaseAllowance = $transaction.filter(
     (transaction) =>
       transaction.nftContract === contract_address_b32 &&
       transaction.nftTokenId === token_id &&
-      transaction.type === 'pending'
+      transaction.status === 'pending' &&
+      transaction.txType === 'IncreaseAllowance'
+  )
+
+  $: transactionsPendingUserBuy = $transaction.filter(
+    (transaction) =>
+      transaction.nftContract === contract_address_b32 &&
+      transaction.nftTokenId === token_id &&
+      transaction.status === 'pending' &&
+      transaction.txType === 'UserBuy'
   )
 
   console.log($wallet.balances)
 
   const checkWalletForFunds = () => {
+    if (!$wallet.isConnected) {
+      return
+    }
     const walletAmount = $wallet.balances[`${buyFungibleSymbol.toLowerCase()}_amount`]
     const convertedSellPrice = convertWithDecimals($marketplace.approvedFungibles, buyFungibleSymbol, sellPrice, true)
     if (walletAmount >= convertedSellPrice) {
@@ -38,6 +50,9 @@
   }
 
   const checkMarketplaceAllowanceForFunds = async () => {
+    if (!$wallet.isConnected) {
+      return
+    }
     const buyFungibleAllowance = Number($wallet.balances[`${buyFungibleSymbol.toLowerCase()}_allowance`])
     const convertedSellPrice = Number(
       convertWithDecimals($marketplace.approvedFungibles, buyFungibleSymbol, sellPrice, true)
@@ -71,9 +86,9 @@
   <button
     class="text-zilkroad-text-light h-12 flex justify-center items-center bg-white rounded-lg w-full disabled:cursor-not-allowed disabled:opacity-50"
     on:click={increaseAllowance}
-    disabled={transactionsPending.length > 0 || !walletHasFunds || marketplaceHasAllowance}
+    disabled={transactionsPendingIncreaseAllowance.length > 0 || !walletHasFunds || marketplaceHasAllowance}
     >Increase Allowance
-    {#if transactionsPending.length > 0}
+    {#if transactionsPendingIncreaseAllowance.length > 0}
       <span in:fly={{ y: -10 }}>
         <SvgLoader />
       </span>
@@ -82,10 +97,10 @@
   <button
     class="text-zilkroad-text-light h-12 flex justify-center items-center bg-white rounded-lg w-full disabled:cursor-not-allowed disabled:opacity-50"
     on:click={buy}
-    disabled={transactionsPending.length > 0 || !walletHasFunds || !marketplaceHasAllowance}
+    disabled={(transactionsPendingUserBuy.length > 0 && marketplaceHasAllowance) || transactionsPendingIncreaseAllowance.length > 0}
     ><span class="mr-1 text-zilkroad-text-light">Purchase for</span>
     <TokenPrice price={sellPrice} fungibleAddressOrSymbol={buyFungibleSymbol} reverse="false" /> {buyFungibleSymbol}
-    {#if transactionsPending.length > 0}
+    {#if transactionsPendingUserBuy.length > 0}
       <span in:fly={{ y: -10 }}>
         <SvgLoader />
       </span>

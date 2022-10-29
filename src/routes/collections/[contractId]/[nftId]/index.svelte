@@ -132,25 +132,7 @@
   }
 
   async function buy() {
-    let { buyTx } = await marketplace.buyNft(buyFungible, listingPrice, orderId)
-    if (buyTx) {
-      toast.add({ message: 'Purchasing Listing', type: 'info' })
-      const transactionID = transaction.add({
-        message: `Purchasing ${name}`,
-        type: 'pending',
-        txType: 'UserBuy',
-        tx: buyTx,
-        nftContract: nft.contract_address_b32,
-        nftTokenId: nft.token_id
-      })
-      ;(await pollTx(buyTx))
-        ? transaction.updateStatus(transactionID, 'success')
-        : transaction.updateStatus(transactionID, 'failed')
-    } else {
-      toast.add({ message: 'Purchase Failed', type: 'error' })
-      return
-    }
-    toast.add({ message: 'Purchase Successful', type: 'success' })
+    await marketplace.buyNft(buyFungible, listingPrice, orderId, name, nft.contract_address_b32, nft.token_id)
   }
 
   function delist() {

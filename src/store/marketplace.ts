@@ -36,12 +36,10 @@ const createMarketplaceStore = () => {
         nftTokenId: tokenId
       })
       const txResponse = await pollTx(spenderTx).catch(() => {
-        console.log('transactionid: ', transactionId)
         transaction.updateStatus(transactionId, 'failed')
         toast.add({ message: 'Approval Failed', type: 'error' })
       })
       if (txResponse) {
-        console.log('transactionid: ', transactionId)
         transaction.updateStatus(transactionId, 'success')
         toast.add({ message: 'Approval Confirmed', type: 'success' })
       }
@@ -70,12 +68,10 @@ const createMarketplaceStore = () => {
         nftTokenId: tokenId
       })
       const txResponse = await pollTx(listTx).catch(() => {
-        console.log('transactionid: ', transactionId)
         transaction.updateStatus(transactionId, 'failed')
         toast.add({ message: 'Listing Failed', type: 'error' })
       })
       if (txResponse) {
-        console.log('transactionid: ', transactionId)
         transaction.updateStatus(transactionId, 'success')
         toast.add({ message: 'Listing Confirmed', type: 'success' })
       }
@@ -96,7 +92,7 @@ const createMarketplaceStore = () => {
     return { listTx }
   }
 
-  const increaseFungibleAllowance = async (fungibleAddress: string, listingPrice: string) => {
+  const increaseFungibleAllowance = async (fungibleAddress: string, listingPrice: string, nftContract: string, tokenId: string) => {
     const nonce = await wallet.getNonce()
     let userCancelled = false
 
@@ -109,12 +105,38 @@ const createMarketplaceStore = () => {
     if (userCancelled) {
       return
     }
-    toast.add({ message: 'Request sent', type: 'success' })
+    if (increaseTx) {
+      toast.add({ message: 'Increasing Allowance', type: 'info' })
+      const transactionId = transaction.add({
+        message: 'Increasing Allowance',
+        status: 'pending',
+        txType: 'IncreaseAllowance',
+        tx: increaseTx,
+        nftContract,
+        nftTokenId: tokenId
+      })
+      const txResponse = await pollTx(increaseTx).catch(() => {
+        transaction.updateStatus(transactionId, 'failed')
+        toast.add({ message: 'Allowance Increase Failed', type: 'error' })
+      })
+      if (txResponse) {
+        transaction.updateStatus(transactionId, 'success')
+        toast.add({ message: 'Allowance Increase Confirmed', type: 'success' })
+      }
+    }
+    wallet.increaseNonce()
 
     return { increaseTx }
   }
 
-  const buyNft = async (fungibleAddress: string, listingPrice: string, listingId: string) => {
+  const buyNft = async (
+    fungibleAddress: string,
+    listingPrice: string,
+    listingId: string,
+    name: string,
+    nftContract: string,
+    tokenId: string
+  ) => {
     const nonce = await wallet.getNonce()
     let userCancelled = false
 
@@ -126,13 +148,37 @@ const createMarketplaceStore = () => {
     if (userCancelled) {
       return
     }
-    wallet.increaseNonce()
-    toast.add({ message: 'Request sent', type: 'success' })
+    if (buyTx) {
+      toast.add({ message: 'Buying NFT', type: 'info' })
+      const transactionId = transaction.add({
+        message: `Purchasing ${name}`,
+        status: 'pending',
+        tx: buyTx,
+        txType: 'UserBuy',
+        nftContract,
+        nftTokenId: tokenId
+      })
+      const txResponse = await pollTx(buyTx).catch(() => {
+        transaction.updateStatus(transactionId, 'failed')
+        toast.add({ message: 'Buy Failed', type: 'error' })
+      })
+      if (txResponse) {
+        transaction.updateStatus(transactionId, 'success')
+        toast.add({ message: 'Buy Confirmed', type: 'success' })
+      }
 
-    return { buyTx }
+      return { buyTx }
+    }
   }
 
-  const editListedNft = async (orderId: string, fungible: string, sellPrice: string, name: string, nftContract: string, tokenId: string) => {
+  const editListedNft = async (
+    orderId: string,
+    fungible: string,
+    sellPrice: string,
+    name: string,
+    nftContract: string,
+    tokenId: string
+  ) => {
     const nonce = await wallet.getNonce()
 
     const editTx = await userEditListing(orderId, fungible, sellPrice, {

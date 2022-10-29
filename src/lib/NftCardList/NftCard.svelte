@@ -109,7 +109,7 @@
 
   async function edit() {
     const convertedSellPrice = convertWithDecimals($marketplace.approvedFungibles, sellFungible, sellPrice)
-    await marketplace.editListedNft(orderId, sellFungible, convertedSellPrice, name,  nft.contract_address_b32, nft.token_id)
+    await marketplace.editListedNft(orderId, sellFungible, convertedSellPrice, name, nft.contract_address_b32, nft.token_id)
   }
 
   function view() {
@@ -119,48 +119,12 @@
 
   async function increaseAllowance() {
     open = false
-    let { increaseTx } = await marketplace.increaseFungibleAllowance(buyFungible, listingPrice)
-    if (increaseTx) {
-      toast.add({ message: 'Increasing Allowance', type: 'info' })
-      const transactionID = transaction.add({
-        message: `Increasing Allowance`,
-        status: 'pending',
-        txType: 'IncreaseAllowance',
-        tx: increaseTx,
-        nftContract: nft.contract_address_b32,
-        nftTokenId: nft.token_id
-      })
-      ;(await pollTx(increaseTx))
-        ? transaction.updateStatus(transactionID, 'success')
-        : transaction.updateStatus(transactionID, 'failed')
-    } else {
-      toast.add({ message: 'Allowance Increase Failed', type: 'error' })
-      return
-    }
-    toast.add({ message: 'Allowance Increased', type: 'success' })
+    await marketplace.increaseFungibleAllowance(buyFungible, listingPrice, nft.contract_address_b32, nft.token_id)
   }
 
   async function buy() {
     open = false
-    let { buyTx } = await marketplace.buyNft(buyFungible, listingPrice, orderId)
-    if (buyTx) {
-      toast.add({ message: 'Purchasing Listing', type: 'info' })
-      const transactionID = transaction.add({
-        message: `Purchasing ${name}`,
-        status: 'pending',
-        tx: buyTx,
-        txType: 'UserBuy',
-        nftContract: nft.contract_address_b32,
-        nftTokenId: nft.token_id
-      })
-      ;(await pollTx(buyTx))
-        ? transaction.updateStatus(transactionID, 'success')
-        : transaction.updateStatus(transactionID, 'failed')
-    } else {
-      toast.add({ message: 'Purchase Failed', type: 'error' })
-      return
-    }
-    toast.add({ message: 'Purchase Successful', type: 'success' })
+    await marketplace.buyNft(buyFungible, listingPrice, orderId, name, nft.contract_address_b32, nft.token_id)
   }
 
   function openBurnModal() {

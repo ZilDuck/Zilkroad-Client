@@ -19,11 +19,11 @@
 <div
   class="w-full min-h-[2.5rem] p-0 flex relative rounded-lg shadow-md overflow-hidden items-center will-change-transform bg-gray-900"
 >
-  <div class="w-5 px-2 mr-4 min-h-[5.5rem] {item.type}">
+  <div class="w-5 px-2 mr-4 min-h-[5.5rem] {item.status}">
     
   </div>
   <div class="text-white">
-    <h6 class="capitalize">{@html item.type}</h6>
+    <h6 class="capitalize">{@html item.status}</h6>
     {@html item.message}
     <p><a target="_blank" href="{viewblockURL}/0x{item.tx.ID}?network={network}">View on viewblock</a></p>
   </div>
