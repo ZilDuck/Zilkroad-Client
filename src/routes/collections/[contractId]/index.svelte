@@ -43,8 +43,6 @@
         })
         .then((r) => r.json())
     ])
-    console.log("Metadata: ", metadata)
-    console.log(`activity ${JSON.stringify(activity_data)}`)
     let nfts = collectionNfts.nfts
     let pagination = JSON.parse(collectionNfts.pagination)
     return {
@@ -95,7 +93,6 @@
   export let sales_volume = collection.stats?.volume
 
   const image_uri = `${cdnBaseUrl}${collection.contract_address_b16}?optimizer=image&width=650`
-  console.log("Image uri: ", image_uri)
 
   async function handlePageChange(event) {
     const page = event.detail.currentPage
@@ -116,7 +113,6 @@
         toast.add({ message: 'Issue with reporting collection, please try again later', type: 'error' })
       })
       .then((r) => {
-        console.log('User %s successfully reported collection %s', user, contractId)
         toast.add({ message: 'Collection reported, this will be reviewed by the Zilkroad Team', type: 'success' })
       })
   }
@@ -136,7 +132,7 @@
         <a href={`https://viewblock.io/zilliqa/address/${collection.contract_address_b32}`} class="w-[100px]">
           <h3 class="mr-5 text-zilkroad-teal contract w-[100px] break-normal">
             <!-- TODO: Change to bech32 -->
-            {collection.contract_address_b16 ?? collection.contract_address_b32}
+            {collection.contract_address_b32}
           </h3>
         </a>
 
