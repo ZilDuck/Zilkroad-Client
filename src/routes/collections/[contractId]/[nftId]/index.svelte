@@ -96,71 +96,17 @@
   export let verified = nft.verified ? nft.verified : false
 
   async function approve() {
-    let { spenderTx } = await marketplace.approveNftSpender(nft.contract_address_b16, nft.token_id)
-    if (spenderTx) {
-      toast.add({ message: 'Approving Zilkroad as Nft Spender', type: 'info' })
-      const transactionID = transaction.add({
-        message: 'Approving NFT Spender',
-        type: 'pending',
-        txType: 'SetSpender',
-        tx: spenderTx,
-        nftContract: nft.contract_address_b32,
-        nftTokenId: nft.token_id
-      })
-      ;(await pollTx(spenderTx))
-        ? transaction.updateStatus(transactionID, 'success')
-        : transaction.updateStatus(transactionID, 'failed')
-    } else {
-      toast.add({ message: 'Approval Failed', type: 'error' })
-      return
-    }
-    toast.add({ message: 'Approval Confirmed', type: 'success' })
+    await marketplace.approveNftSpender(nft.contract_address_b16, nft.token_id)
   }
 
   async function list() {
     const convertedSellPrice = convertWithDecimals($marketplace.approvedFungibles, sellFungible, sellPrice)
-    let { listTx } = await marketplace.listNft(nft.contract_address_b16, nft.token_id, sellFungible, convertedSellPrice)
-    if (listTx) {
-      toast.add({ message: 'Listing NFT', type: 'info' })
-      const transactionID = transaction.add({
-        message: 'Listing NFT',
-        type: 'pending',
-        txType: 'UserList',
-        tx: listTx,
-        nftContract: nft.contract_address_b32,
-        nftTokenId: nft.token_id
-      })
-      ;(await pollTx(listTx))
-        ? transaction.updateStatus(transactionID, 'success')
-        : transaction.updateStatus(transactionID, 'failed')
-    } else {
-      toast.add({ message: 'Listed Failed', type: 'error' })
-      return
-    }
-    toast.add({ message: 'NFT Listed', type: 'success' })
+    await marketplace.listNft(nft.contract_address_b16, nft.token_id, sellFungible, convertedSellPrice)
   }
 
   async function edit() {
     const convertedSellPrice = convertWithDecimals($marketplace.approvedFungibles, sellFungible, sellPrice)
-    let { editTx } = await marketplace.editListedNft(orderId, sellFungible, convertedSellPrice)
-    if (editTx) {
-      toast.add({ message: 'Editing Listing', type: 'info' })
-      const transactionID = transaction.add({
-        message: `Editing ${name}`,
-        type: 'pending',
-        txType: 'UserEditListingPrice',
-        tx: editTx,
-        nftContract: nft.contract_address_b32,
-        nftTokenId: nft.token_id
-      })
-      ;(await pollTx(editTx))
-        ? transaction.updateStatus(transactionID, 'success')
-        : transaction.updateStatus(transactionID, 'failed')
-    } else {
-      toast.add({ message: 'Listing Edit Failed', type: 'error' })
-      return
-    }
-    toast.add({ message: 'Listing Updated', type: 'success' })
+    await marketplace.editListedNft(orderId, sellFungible, convertedSellPrice, name, nft.contract_address_b32, nft.token_id)
   }
 
   async function increaseAllowance() {
