@@ -1,7 +1,7 @@
 <script>
   export let collection = {
-    id: 0,
-    idb32: 0,
+    contract_address_b16: 0,
+    contract_address_b32: 0,
     name: '',
     description: '',
     listed: 0,
@@ -12,7 +12,6 @@
     royalty_usd: 0,
     count: 0
   }
-  console.log("Penis: ", collection)
 
   export let cdnBaseUrl
 
