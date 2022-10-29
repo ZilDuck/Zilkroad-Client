@@ -49,7 +49,8 @@
     (transaction) =>
       transaction.nftContract === contract_address_b32 &&
       transaction.nftTokenId === token_id &&
-      transaction.type === 'pending'
+      transaction.status === 'pending' &&
+      transaction.txType === 'UserEditListingPrice'
   )
 </script>
 

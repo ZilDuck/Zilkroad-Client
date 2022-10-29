@@ -94,48 +94,12 @@
   }
 
   async function approve() {
-    let { spenderTx } = await marketplace.approveNftSpender(nft.contract_address_b16, nft.token_id)
-    if (spenderTx) {
-      toast.add({ message: 'Approving Zilkroad as Nft Spender', type: 'info' })
-      const transactionID = transaction.add({
-        message: 'Approving NFT Spender',
-        type: 'pending',
-        tx: spenderTx,
-        txType: 'SetSpender',
-        nftContract: nft.contract_address_b32,
-        nftTokenId: nft.token_id
-      })
-      ;(await pollTx(spenderTx))
-        ? transaction.updateType(transactionID, 'success')
-        : transaction.updateType(transactionID, 'failed')
-    } else {
-      toast.add({ message: 'Approval Failed', type: 'error' })
-      return
-    }
-    toast.add({ message: 'Approval Confirmed', type: 'success' })
+    await marketplace.approveNftSpender(nft.contract_address_b16, nft.token_id)
   }
 
   async function list() {
     const convertedSellPrice = convertWithDecimals($marketplace.approvedFungibles, sellFungible, sellPrice)
-    let { listTx } = await marketplace.listNft(nft.contract_address_b16, nft.token_id, sellFungible, convertedSellPrice)
-    if (listTx) {
-      toast.add({ message: 'Listing NFT', type: 'info' })
-      const transactionID = transaction.add({
-        message: 'Listing NFT',
-        type: 'pending',
-        txType: 'UserList',
-        tx: listTx,
-        nftContract: nft.contract_address_b32,
-        nftTokenId: nft.token_id
-      })
-      ;(await pollTx(listTx))
-        ? transaction.updateType(transactionID, 'success')
-        : transaction.updateType(transactionID, 'failed')
-    } else {
-      toast.add({ message: 'Listed Failed', type: 'error' })
-      return
-    }
-    toast.add({ message: 'NFT Listed', type: 'success' })
+    await marketplace.listNft(nft.contract_address_b16, nft.token_id, sellFungible, convertedSellPrice)
   }
 
   function delist() {
@@ -145,25 +109,7 @@
 
   async function edit() {
     const convertedSellPrice = convertWithDecimals($marketplace.approvedFungibles, sellFungible, sellPrice)
-    let { editTx } = await marketplace.editListedNft(orderId, sellFungible, convertedSellPrice)
-    if (editTx) {
-      toast.add({ message: 'Editing Listing', type: 'info' })
-      const transactionID = transaction.add({
-        message: `Editing ${name}`,
-        type: 'pending',
-        txType: 'UserEditListingPrice',
-        tx: editTx,
-        nftContract: nft.contract_address_b32,
-        nftTokenId: nft.token_id
-      })
-      ;(await pollTx(editTx))
-        ? transaction.updateType(transactionID, 'success')
-        : transaction.updateType(transactionID, 'failed')
-    } else {
-      toast.add({ message: 'Listing Edit Failed', type: 'error' })
-      return
-    }
-    toast.add({ message: 'Listing Updated', type: 'success' })
+    await marketplace.editListedNft(orderId, sellFungible, convertedSellPrice, name, nft.contract_address_b32, nft.token_id)
   }
 
   function view() {
@@ -173,48 +119,12 @@
 
   async function increaseAllowance() {
     open = false
-    let { increaseTx } = await marketplace.increaseFungibleAllowance(buyFungible, listingPrice)
-    if (increaseTx) {
-      toast.add({ message: 'Increasing Allowance', type: 'info' })
-      const transactionID = transaction.add({
-        message: `Increasing Allowance`,
-        type: 'pending',
-        txType: 'IncreaseAllowance',
-        tx: increaseTx,
-        nftContract: nft.contract_address_b32,
-        nftTokenId: nft.token_id
-      })
-      ;(await pollTx(increaseTx))
-        ? transaction.updateType(transactionID, 'success')
-        : transaction.updateType(transactionID, 'failed')
-    } else {
-      toast.add({ message: 'Allowance Increase Failed', type: 'error' })
-      return
-    }
-    toast.add({ message: 'Allowance Increased', type: 'success' })
+    await marketplace.increaseFungibleAllowance(buyFungible, listingPrice, nft.contract_address_b32, nft.token_id)
   }
 
   async function buy() {
     open = false
-    let { buyTx } = await marketplace.buyNft(buyFungible, listingPrice, orderId)
-    if (buyTx) {
-      toast.add({ message: 'Purchasing Listing', type: 'info' })
-      const transactionID = transaction.add({
-        message: `Purchasing ${name}`,
-        type: 'pending',
-        tx: buyTx,
-        txType: 'UserBuy',
-        nftContract: nft.contract_address_b32,
-        nftTokenId: nft.token_id
-      })
-      ;(await pollTx(buyTx))
-        ? transaction.updateType(transactionID, 'success')
-        : transaction.updateType(transactionID, 'failed')
-    } else {
-      toast.add({ message: 'Purchase Failed', type: 'error' })
-      return
-    }
-    toast.add({ message: 'Purchase Successful', type: 'success' })
+    await marketplace.buyNft(buyFungible, listingPrice, orderId, name, nft.contract_address_b32, nft.token_id)
   }
 
   function openBurnModal() {
@@ -351,7 +261,6 @@
       {imageSrc}
       {name}
       tokenContract={nft.contract_address_b16}
-      contract_address_b32={nft.contract_address_b32}
       tokenID={nft.token_id}
     />
   </SideModal>
