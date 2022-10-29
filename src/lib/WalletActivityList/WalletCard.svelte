@@ -9,7 +9,7 @@
       class="inline w-4 rounded-xl self-center"
       src="https://i.pickadummy.com/100x100?cache="
     />
-    <a href="/wallet/{wallet.address}" class="text-white pl-[10px] underline overflow-x-hidden overflow-ellipsis">{wallet.address}</a>
+    <a href="/wallet/{wallet.wallet_address_b32}" class="text-white pl-[10px] underline overflow-x-hidden overflow-ellipsis">{wallet.wallet_address_b32}</a>
   </div>
   <hr class="border-zilkroad-gray-border" />
   <p class="pt-5 ">
