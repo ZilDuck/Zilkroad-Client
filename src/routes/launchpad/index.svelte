@@ -16,6 +16,7 @@
 </script>
 
 <script>
+  import SvelteSeo from "svelte-seo";
   import MintNftCardList from '../../lib/MintNftCardList/index.svelte'
   import Header from '../../components/Header.svelte'
   import FeaturedMintNftCard from '../../lib/MintNftCardList/FeaturedMintNftCard.svelte'
@@ -25,6 +26,31 @@
   export let newlyMintableCollections = []
   export let endingMintableCollections = []
 </script>
+<SvelteSeo
+  title="Zilkroad : Launchpad"
+  description="Buy the hottest new tokens launched from Zilkroad"
+  twitter={{
+    site: "@zilkroad_dex",
+    title: "Zilkroad NFT Marketplace",
+    description: "Buy, sell and trade Zilliqa NFTs",
+    image: "https://staging.zilkroad.io/images/og-image.jpg", // replace me
+    imageAlt: "Zilkroad NFT Marketplace",
+  }}
+  openGraph={{
+    title: "Zilkroad : Launchpad",
+    description: "Buy the hottest new tokens launched from Zilkroad",
+    url: 'https:/zilkroad.io',
+    type: 'website',
+    images: [
+      {
+        url: 'https://staging.zilkroad.io/images/og-image.jpg', // replace me
+        width: 909,
+        height: 90,
+        alt: 'Zilkroad NFT Marketplace',
+      }
+     ]
+  }}
+/>
 
 <ShapeImage />
 <Header className="bg-liquid-metal bg-cover bg-center" light={true} />

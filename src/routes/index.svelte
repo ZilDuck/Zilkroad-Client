@@ -20,6 +20,7 @@
 </script>
 
 <script>
+  import SvelteSeo from "svelte-seo";
   import LinkButton from '$components/LinkButton.svelte'
   import ShapeImage from '$components/ShapeImage.svelte'
   import CallToActionSection from '$components/CallToActionSection.svelte'
@@ -37,6 +38,31 @@
   export let featuredCollections = []
   export let wallets = []
 </script>
+<SvelteSeo
+  title="Zilkroad : Home"
+  description="Buy, sell and trade Zilliqa NFTs"
+  twitter={{
+    site: "@zilkroad_dex",
+    title: "Zilkroad NFT Marketplace",
+    description: "Buy, sell and trade Zilliqa NFTs",
+    image: "https://staging.zilkroad.io/images/og-image.jpg", // replace me
+    imageAlt: "Zilkroad NFT Marketplace",
+  }}
+  openGraph={{
+    title: 'Zilkroad NFT Marketplace',
+    description: 'Buy, sell and trade Zilliqa NFTs',
+    url: 'https:/zilkroad.io',
+    type: 'website',
+    images: [
+      {
+        url: 'https://staging.zilkroad.io/images/og-image.jpg', // replace me
+        width: 909,
+        height: 90,
+        alt: 'Zilkroad NFT Marketplace',
+      }
+     ]
+  }}
+/>
 
 <ShapeImage />
 <Header className="bg-liquid-metal bg-cover bg-center" light={true} />

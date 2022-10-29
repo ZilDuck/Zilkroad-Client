@@ -52,6 +52,7 @@
 </script>
 
 <script>
+  import SvelteSeo from "svelte-seo";
   import Header from '$components/Header.svelte'
   import Detail from '$components/Detail.svelte'
   import ShapeImage from '$components/ShapeImage.svelte'
@@ -117,6 +118,31 @@
       })
   }
 </script>
+<SvelteSeo
+  title="Zilkroad : Collection"
+  description="An NFT collection"
+  twitter={{
+    site: "@zilkroad_dex",
+    title: "Zilkroad NFT Marketplace",
+    description: "Buy, sell and trade Zilliqa NFTs",
+    image: "https://staging.zilkroad.io/images/og-image.jpg", // replace me
+    imageAlt: "Zilkroad NFT Marketplace",
+  }}
+  openGraph={{
+    title: "Zilkroad : Collections",
+    description: "An NFT collection",
+    url: 'https:/zilkroad.io',
+    type: 'website',
+    images: [
+      {
+        url: 'https://staging.zilkroad.io/images/og-image.jpg', // replace me
+        width: 909,
+        height: 90,
+        alt: 'Zilkroad NFT Marketplace',
+      }
+     ]
+  }}
+/>
 
 <ShapeImage />
 <div class="flex flex-col h-full mt-40 space-y-5 md:items-center">

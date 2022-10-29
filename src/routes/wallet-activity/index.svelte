@@ -19,6 +19,7 @@
 </script>
 
 <script>
+  import SvelteSeo from "svelte-seo";
   import WalletActivityCardList from '../../lib/WalletActivityCardList/index.svelte'
   import ShapeImage from '../../components/ShapeImage.svelte'
   import AdBanner from '../../components/AdBanner.svelte'
@@ -29,6 +30,31 @@
   export let sellerWallets = []
   export let royaltyWallets = []
 </script>
+<SvelteSeo
+  title="Zilkroad : Wallet Activity"
+  description="Top wallet activity"
+  twitter={{
+    site: "@zilkroad_dex",
+    title: "Zilkroad NFT Marketplace",
+    description: "Buy, sell and trade Zilliqa NFTs",
+    image: "https://staging.zilkroad.io/images/og-image.jpg", // replace me
+    imageAlt: "Zilkroad NFT Marketplace",
+  }}
+  openGraph={{
+    title: "Zilkroad : Wallet Activity",
+    description: "Top wallet activity",
+    url: 'https:/zilkroad.io',
+    type: 'website',
+    images: [
+      {
+        url: 'https://staging.zilkroad.io/images/og-image.jpg', // replace me
+        width: 909,
+        height: 90,
+        alt: 'Zilkroad NFT Marketplace',
+      }
+     ]
+  }}
+/>
 
 <ShapeImage />
 
