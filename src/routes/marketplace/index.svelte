@@ -48,7 +48,6 @@
   let selectedCollection
 
   async function handleSelect(event) {
-    console.log('selected item', event.detail)
     selectedCollection = event.detail.value
     filter = 'contract-listed'
     let collectionNfts = await fetch(`/marketplace/marketplace.json?filter=${filter}&collection=${selectedCollection}`)
@@ -60,7 +59,6 @@
   }
 
   function handleOrder(event) {
-    console.log('selected item', event.detail)
     value = event.detail
   }
 

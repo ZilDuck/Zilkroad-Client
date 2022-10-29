@@ -8,7 +8,7 @@ const config = {
   theme: {
     extend: {
       colors: {
-        gray: colors.trueGray,
+        gray: colors.neutral,
         zilliqa: {
           50: '#f2fcfc',
           100: '#e6f9fa',

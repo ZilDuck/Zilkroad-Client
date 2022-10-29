@@ -66,7 +66,7 @@
         featured tick and more by featuring your collection.
       </p>
       <a
-        href="https://docs-testnet.zilkroad.io/docs/features/adverts"
+        href="https://docs-testnet.zilkroad.io/features/adverts"
         class="bg-white text-[#989898] px-5 rounded-xl h-12 inline-flex items-center self-start"
         >Feature your collection</a
       >

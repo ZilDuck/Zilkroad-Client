@@ -2,11 +2,11 @@ import * as api from '../../../lib/api.js'
 
 export async function get({ params, url: { searchParams } }) {
   const { contractId } = params
-  let metadata = []
+  let data = []
 
-  metadata = await api.get(`metadata/${contractId}`).catch((error) => console.log(error))
+  data = await api.get(`collections/${contractId}/activity`).catch((error) => console.log(error))
 
   return {
-    body: metadata
+    body: data
   }
 }

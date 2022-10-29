@@ -1,6 +1,7 @@
 <script>
   export let collection = {
-    id: 0,
+    contract_address_b16: 0,
+    contract_address_b32: 0,
     name: '',
     description: '',
     listed: 0,
@@ -33,14 +34,14 @@
 <div class="lg:flex lg:h-24 bg-gray-900 rounded-lg" on:mouseenter={enter} on:mouseleave={leave}>
   <div class="m-5 mb-0 lg:m-0 col-span-4 flex pb-5 lg:pb-0 border-b border-gray-600 lg:border-b-0">
     <img
-      src="{cdnBaseUrl}/{collection.id}?optimizer=image&width=800"
+      src="{cdnBaseUrl}/{collection.contract_address_b16}?optimizer=image&width=800"
       alt={collection.name}
       class="rounded-lg lg:rounded-r-none w-24 mt-5 lg:mt-0"
       width="300"
       height="400"
     />
     <div class="m-5 flex flex-col justify-center">
-      <a class="text-white underline" href="/collections/{collection.id}">{collection.name}</a>
+      <a class="text-white underline" href="/collections/{collection.contract_address_b32}">{collection.name}</a>
       <p class="overflow-x-hidden overflow-ellipsis whitespace-nowrap text-zilkroad-text-light">
         {collection.description}
       </p>

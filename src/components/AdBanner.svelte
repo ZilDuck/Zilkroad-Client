@@ -7,7 +7,7 @@
   export let description = 'Enter your advert description here.'
   export let buttonText = 'Vist our link'
   export let background = '/images/ad-background.png'
-  export let url = 'https://docs-testnet.zilkroad.io/docs/features/adverts'
+  export let url = 'https://docs-testnet.zilkroad.io/features/adverts'
   export let contractAddress
   export let advert
   let loaded = false
@@ -32,6 +32,7 @@
 
 {#if valid}
   <section
+    data-cy="banner-image"
     class="md:w-full h-[420px] rounded-lg flex flex-col mt-20 px-4 md:pr-0 md:pl-20 justify-center relative {className} overflow-hidden"
   >
     <div

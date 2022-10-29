@@ -1,7 +1,7 @@
 <script type="ts">
   import { variables } from "../variables"
-  import UserActivityRow from "./UserActivityRow.svelte";
-  export let data: UserActivity[]
+  import UserActivityRow from "./ContractActivityRow.svelte";
+  export let data = []
   let rows = []
 
   export const { network } = variables
@@ -37,7 +37,7 @@
 </script>
 
 <div class="max-w-screen-xl mx-auto space-y-10 ">
-  <h2 class="text-2xl font-medium">Wallet Activity</h2>
+  <h2 class="text-2xl font-medium">Contract Activity</h2>
   <div class="overflow-x-auto border-[1px] border-zilkroad-gray-dark rounded-lg">
     <table class="items-center w-full bg-transparent border-collapse">
       <thead>
@@ -55,7 +55,7 @@
           {/each}
         {:else}
         <tr>
-          <td class="text-center" colspan={headers.length}>You have no activity recorded on Zilkroad</td>
+          <td class="text-center" colspan={headers.length}>This contract has no activity yet.</td>
         </tr>
         {/if}
       </tbody>

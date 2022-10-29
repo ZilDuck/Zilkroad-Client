@@ -21,7 +21,7 @@
     }
     
     const page = url.searchParams.get('page') ?? 1
-    const [collection, collectionNfts, metadata] = await Promise.all([
+    const [collection, collectionNfts, metadata, activity_data] = await Promise.all([
       fetch(`/collections/${contractId}.json`)
         .catch((error) => {
           console.log(error)
@@ -36,13 +36,17 @@
         .catch((error) => {
           console.log(error)
         })
+        .then((r) => r.json()),
+      fetch(`/collections/${contractId}/activity.json`)
+        .catch((error) => {
+          console.log(error)
+        })
         .then((r) => r.json())
     ])
-    console.log("Metadata: ", metadata)
     let nfts = collectionNfts.nfts
     let pagination = JSON.parse(collectionNfts.pagination)
     return {
-      props: { collection, nfts, pagination, metadata }
+      props: { collection, nfts, pagination, metadata, activity_data }
     }
   }
 </script>
@@ -67,9 +71,11 @@
   import Telegram from '$icons/social/Telegram.svelte'
   import Website from '$icons/social/Website.svelte'
   import AdBanner from '../../../components/AdBanner.svelte'
+  import ContractActivityTable from '../../../lib/ContractActivityTable/index.svelte'
 
   export let collection = {}
   export let nfts = []
+  export let activity_data = []
   export let pagination = {
     size: 16,
     page: 1,
@@ -88,7 +94,6 @@
   export let sales_volume = collection.stats?.volume
 
   const image_uri = `${cdnBaseUrl}${collection.contract_address_b16}?optimizer=image&width=650`
-  console.log("Image uri: ", image_uri)
 
   async function handlePageChange(event) {
     const page = event.detail.currentPage
@@ -109,7 +114,6 @@
         toast.add({ message: 'Issue with reporting collection, please try again later', type: 'error' })
       })
       .then((r) => {
-        console.log('User %s successfully reported collection %s', user, contractId)
         toast.add({ message: 'Collection reported, this will be reviewed by the Zilkroad Team', type: 'success' })
       })
   }
@@ -147,18 +151,19 @@
         class="w-full max-w-[600px] h-auto rounded-lg lg:col-start-2 ml-auto"
         src={image_uri}
         alt="{collection.name ?? collection.contract_name} hero"
+        data-cy="metadata-image"
       />
     <section class="mr-5 lg:col-start-1">
       <div class="flex mt-10 lg:mt-0 items-center">
         <a href={`https://viewblock.io/zilliqa/address/${collection.contract_address_b32}`} class="w-[100px]">
           <h3 class="mr-5 text-zilkroad-teal contract w-[100px] break-normal">
             <!-- TODO: Change to bech32 -->
-            {collection.id ?? collection.contract_address_b32}
+            {collection.contract_address_b32}
           </h3>
         </a>
 
         {#if collection.verified ?? collection.is_verified}
-          <h4 class="flex items-center ml-10">
+          <h4 class="flex items-center ml-10" data-cy="verified-check">
             <Checkmark className="mr-2" />
             Verified
           </h4>
@@ -217,6 +222,9 @@
   <NftCardList {nfts} />
   <div class="w-full flex justify-center mt-20">
     <Pagination numPages={pagination.total_pages} {currentPage} className="mx-auto" on:pageChange={handlePageChange} />
+  </div>
+  <div class="mb-20">
+    <ContractActivityTable bind:data={activity_data} />
   </div>
   <AdBanner className="md:mx-auto max-w-screen-xl" />
 </main>

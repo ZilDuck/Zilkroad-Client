@@ -176,7 +176,6 @@
   const handleImageError = (image) => {
     image.target.src = nftPlaceholder
   }
-  console.log('NFT xx: ', nft)
 </script>
 
 <SvelteSeo
