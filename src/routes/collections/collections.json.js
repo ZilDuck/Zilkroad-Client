@@ -7,7 +7,8 @@ export async function get() {
 
   collections = collections.map((collection) => {
     const {
-      nonfungible_address: id,
+      nonfungible_address: contract_address_b16,
+      contract_address_b32: contract_address_b32,
       nonfungible_name: name,
       nonfungible_symbol: description,
       royalty_bps: royalty,
@@ -23,7 +24,7 @@ export async function get() {
         listed_tokens: listed
       }
     } = collection
-    return { id, name, description, listed, minted, volume, royalty, royalty_usd, count }
+    return { contract_address_b16, contract_address_b32, name, description, listed, minted, volume, royalty, royalty_usd, count }
   })
 
   return {
