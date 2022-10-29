@@ -33,6 +33,7 @@
 </script>
 
 <script lang="ts">
+  import SvelteSeo from "svelte-seo";
   import Header from '$components/Header.svelte'
   import Detail from '$components/Detail.svelte'
   import Big from 'big.js'
@@ -243,6 +244,31 @@
     image.target.src = nftPlaceholder
   }
 </script>
+
+<SvelteSeo
+  title="Zilkroad : NFT"
+  description="An NFT from a collection"
+  twitter={{
+    site: "@zilkroad_dex",
+    title: "Zilkroad NFT Marketplace",
+    description: "Buy, sell and trade Zilliqa NFTs",
+    image: "https://staging.zilkroad.io/images/og-image.jpg", // replace me
+    imageAlt: "Zilkroad NFT Marketplace",
+  }}
+  openGraph={{
+    title: "Zilkroad : NFT",
+    description: "An NFT from a collection",
+    url: 'https:/zilkroad.io',
+    type: 'website',
+    images: [
+      {
+        url: 'https://staging.zilkroad.io/images/og-image.jpg', // replace me
+
+        alt: 'Zilkroad NFT Marketplace',
+      }
+     ]
+  }}
+/>
 
 <Header />
 
