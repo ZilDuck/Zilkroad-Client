@@ -94,48 +94,12 @@
   }
 
   async function approve() {
-    let { spenderTx } = await marketplace.approveNftSpender(nft.contract_address_b16, nft.token_id)
-    if (spenderTx) {
-      toast.add({ message: 'Approving Zilkroad as Nft Spender', type: 'info' })
-      const transactionID = transaction.add({
-        message: 'Approving NFT Spender',
-        type: 'pending',
-        tx: spenderTx,
-        txType: 'SetSpender',
-        nftContract: nft.contract_address_b32,
-        nftTokenId: nft.token_id
-      })
-      ;(await pollTx(spenderTx))
-        ? transaction.updateType(transactionID, 'success')
-        : transaction.updateType(transactionID, 'failed')
-    } else {
-      toast.add({ message: 'Approval Failed', type: 'error' })
-      return
-    }
-    toast.add({ message: 'Approval Confirmed', type: 'success' })
+    await marketplace.approveNftSpender(nft.contract_address_b16, nft.token_id)
   }
 
   async function list() {
     const convertedSellPrice = convertWithDecimals($marketplace.approvedFungibles, sellFungible, sellPrice)
-    let { listTx } = await marketplace.listNft(nft.contract_address_b16, nft.token_id, sellFungible, convertedSellPrice)
-    if (listTx) {
-      toast.add({ message: 'Listing NFT', type: 'info' })
-      const transactionID = transaction.add({
-        message: 'Listing NFT',
-        type: 'pending',
-        txType: 'UserList',
-        tx: listTx,
-        nftContract: nft.contract_address_b32,
-        nftTokenId: nft.token_id
-      })
-      ;(await pollTx(listTx))
-        ? transaction.updateType(transactionID, 'success')
-        : transaction.updateType(transactionID, 'failed')
-    } else {
-      toast.add({ message: 'Listed Failed', type: 'error' })
-      return
-    }
-    toast.add({ message: 'NFT Listed', type: 'success' })
+    await marketplace.listNft(nft.contract_address_b16, nft.token_id, sellFungible, convertedSellPrice)
   }
 
   function delist() {
@@ -150,15 +114,15 @@
       toast.add({ message: 'Editing Listing', type: 'info' })
       const transactionID = transaction.add({
         message: `Editing ${name}`,
-        type: 'pending',
+        status: 'pending',
         txType: 'UserEditListingPrice',
         tx: editTx,
         nftContract: nft.contract_address_b32,
         nftTokenId: nft.token_id
       })
       ;(await pollTx(editTx))
-        ? transaction.updateType(transactionID, 'success')
-        : transaction.updateType(transactionID, 'failed')
+        ? transaction.updateStatus(transactionID, 'success')
+        : transaction.updateStatus(transactionID, 'failed')
     } else {
       toast.add({ message: 'Listing Edit Failed', type: 'error' })
       return
@@ -178,15 +142,15 @@
       toast.add({ message: 'Increasing Allowance', type: 'info' })
       const transactionID = transaction.add({
         message: `Increasing Allowance`,
-        type: 'pending',
+        status: 'pending',
         txType: 'IncreaseAllowance',
         tx: increaseTx,
         nftContract: nft.contract_address_b32,
         nftTokenId: nft.token_id
       })
       ;(await pollTx(increaseTx))
-        ? transaction.updateType(transactionID, 'success')
-        : transaction.updateType(transactionID, 'failed')
+        ? transaction.updateStatus(transactionID, 'success')
+        : transaction.updateStatus(transactionID, 'failed')
     } else {
       toast.add({ message: 'Allowance Increase Failed', type: 'error' })
       return
@@ -201,15 +165,15 @@
       toast.add({ message: 'Purchasing Listing', type: 'info' })
       const transactionID = transaction.add({
         message: `Purchasing ${name}`,
-        type: 'pending',
+        status: 'pending',
         tx: buyTx,
         txType: 'UserBuy',
         nftContract: nft.contract_address_b32,
         nftTokenId: nft.token_id
       })
       ;(await pollTx(buyTx))
-        ? transaction.updateType(transactionID, 'success')
-        : transaction.updateType(transactionID, 'failed')
+        ? transaction.updateStatus(transactionID, 'success')
+        : transaction.updateStatus(transactionID, 'failed')
     } else {
       toast.add({ message: 'Purchase Failed', type: 'error' })
       return
@@ -351,7 +315,6 @@
       {imageSrc}
       {name}
       tokenContract={nft.contract_address_b16}
-      contract_address_b32={nft.contract_address_b32}
       tokenID={nft.token_id}
     />
   </SideModal>

@@ -6,9 +6,11 @@ import { writable } from 'svelte/store'
 import { increaseAllowance } from '../zilpay/fungible'
 import { zilkroad } from '../apis/zilkroad'
 import { toast } from './toast'
+import { transaction } from './transaction'
+import { pollTx } from '../zilpay/poll-tx'
 
 export type Marketplace = {
-  verifiedContracts: string[],
+  verifiedContracts: string[]
   approvedFungibles: Fungible[]
 }
 
@@ -16,27 +18,39 @@ const createMarketplaceStore = () => {
   const { subscribe, update }: Writable<Marketplace> = writable({ verifiedContracts: [], approvedFungibles: [] })
   const api = zilkroad(fetch)
 
-
-  const approveNftSpender = async (
-    nftContract: string,
-    tokenId: string
-  ) => {
+  const approveNftSpender = async (nftContract: string, tokenId: string) => {
     const nonce = await wallet.getNonce()
 
     const spenderTx = await setSpender(nftContract, tokenId, { nonce: nonce + 1 }).catch((error) => {
       console.log(error)
       toast.add({ message: 'User rejected spender set', type: 'error' })
     })
+    if (spenderTx) {
+      toast.add({ message: 'Approving Zilkroad as Nft Spender', type: 'info' })
+      const transactionId = transaction.add({
+        message: 'Approving NFT Spender',
+        status: 'pending',
+        tx: spenderTx,
+        txType: 'SetSpender',
+        nftContract,
+        nftTokenId: tokenId
+      })
+      const txResponse = await pollTx(spenderTx).catch(() => {
+        console.log('transactionid: ', transactionId)
+        transaction.updateStatus(transactionId, 'failed')
+        toast.add({ message: 'Approval Failed', type: 'error' })
+      })
+      if (txResponse) {
+        console.log('transactionid: ', transactionId)
+        transaction.updateStatus(transactionId, 'success')
+        toast.add({ message: 'Approval Confirmed', type: 'success' })
+      }
+    }
     wallet.increaseNonce()
     return { spenderTx }
   }
 
-  const listNft = async (
-    nftContract: string,
-    tokenId: string,
-    fungible: string,
-    sellPrice: number
-  ) => {
+  const listNft = async (nftContract: string, tokenId: string, fungible: string, sellPrice: number) => {
     const nonce = await wallet.getNonce()
 
     const listTx = await userList(nftContract, tokenId, fungible, sellPrice, {
@@ -45,6 +59,27 @@ const createMarketplaceStore = () => {
       console.log(error)
       toast.add({ message: 'User rejected listing', type: 'error' })
     })
+    if (listTx) {
+      toast.add({ message: 'Listing NFT', type: 'info' })
+      const transactionId = transaction.add({
+        message: 'Listing NFT',
+        status: 'pending',
+        txType: 'UserList',
+        tx: listTx,
+        nftContract,
+        nftTokenId: tokenId
+      })
+      const txResponse = await pollTx(listTx).catch(() => {
+        console.log('transactionid: ', transactionId)
+        transaction.updateStatus(transactionId, 'failed')
+        toast.add({ message: 'Listing Failed', type: 'error' })
+      })
+      if (txResponse) {
+        console.log('transactionid: ', transactionId)
+        transaction.updateStatus(transactionId, 'success')
+        toast.add({ message: 'Listing Confirmed', type: 'success' })
+      }
+    }
     wallet.increaseNonce()
 
     return { listTx }
@@ -97,11 +132,7 @@ const createMarketplaceStore = () => {
     return { buyTx }
   }
 
-  const editListedNft = async (
-    orderId: string,
-    fungible: string,
-    sellPrice: string
-  ) => {
+  const editListedNft = async (orderId: string, fungible: string, sellPrice: string) => {
     const nonce = await wallet.getNonce()
 
     const editTx = await userEditListing(orderId, fungible, sellPrice, {
@@ -115,10 +146,7 @@ const createMarketplaceStore = () => {
     return { editTx }
   }
 
-  const burnNft = async (
-    nftContract: string,
-    tokenId: string
-  ) => {
+  const burnNft = async (nftContract: string, tokenId: string) => {
     const nonce = await wallet.getNonce()
 
     const burnTx = await burn(nftContract, tokenId, { nonce: nonce + 1 }).catch((error) => {
@@ -129,11 +157,7 @@ const createMarketplaceStore = () => {
     return { burnTx }
   }
 
-  const transferNft = async (
-    nftContract: string,
-    to: string,
-    tokenId: string
-  ) => {
+  const transferNft = async (nftContract: string, to: string, tokenId: string) => {
     const nonce = await wallet.getNonce()
 
     const transferFromTx = await transferFrom(nftContract, to, tokenId, { nonce: nonce + 1 }).catch((error) => {

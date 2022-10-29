@@ -107,8 +107,8 @@
         nftTokenId: nft.token_id
       })
       ;(await pollTx(spenderTx))
-        ? transaction.updateType(transactionID, 'success')
-        : transaction.updateType(transactionID, 'failed')
+        ? transaction.updateStatus(transactionID, 'success')
+        : transaction.updateStatus(transactionID, 'failed')
     } else {
       toast.add({ message: 'Approval Failed', type: 'error' })
       return
@@ -130,8 +130,8 @@
         nftTokenId: nft.token_id
       })
       ;(await pollTx(listTx))
-        ? transaction.updateType(transactionID, 'success')
-        : transaction.updateType(transactionID, 'failed')
+        ? transaction.updateStatus(transactionID, 'success')
+        : transaction.updateStatus(transactionID, 'failed')
     } else {
       toast.add({ message: 'Listed Failed', type: 'error' })
       return
@@ -153,8 +153,8 @@
         nftTokenId: nft.token_id
       })
       ;(await pollTx(editTx))
-        ? transaction.updateType(transactionID, 'success')
-        : transaction.updateType(transactionID, 'failed')
+        ? transaction.updateStatus(transactionID, 'success')
+        : transaction.updateStatus(transactionID, 'failed')
     } else {
       toast.add({ message: 'Listing Edit Failed', type: 'error' })
       return
@@ -175,8 +175,8 @@
         nftTokenId: nft.token_id
       })
       ;(await pollTx(increaseTx))
-        ? transaction.updateType(transactionID, 'success')
-        : transaction.updateType(transactionID, 'failed')
+        ? transaction.updateStatus(transactionID, 'success')
+        : transaction.updateStatus(transactionID, 'failed')
     } else {
       toast.add({ message: 'Allowance Increase Failed', type: 'error' })
       return
@@ -197,8 +197,8 @@
         nftTokenId: nft.token_id
       })
       ;(await pollTx(buyTx))
-        ? transaction.updateType(transactionID, 'success')
-        : transaction.updateType(transactionID, 'failed')
+        ? transaction.updateStatus(transactionID, 'success')
+        : transaction.updateStatus(transactionID, 'failed')
     } else {
       toast.add({ message: 'Purchase Failed', type: 'error' })
       return
