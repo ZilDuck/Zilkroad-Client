@@ -11,6 +11,7 @@
 </script>
 
 <script>
+  import SvelteSeo from "svelte-seo";
   import CollectionSectionList from '../../lib/CollectionSectionList/index.svelte'
   import PageHeader from '$components/PageHeader.svelte'
   import ShapeImage from '$components/ShapeImage.svelte'
@@ -18,6 +19,31 @@
 
   export let collections = []
 </script>
+
+<SvelteSeo
+  title="Zilkroad : Collection Stats"
+  description="View all of the NFT collections traded on Zilkroad"
+  twitter={{
+    site: "@zilkroad_dex",
+    title: "Zilkroad NFT Marketplace",
+    description: "Buy, sell and trade Zilliqa NFTs",
+    image: "https://staging.zilkroad.io/images/og-image.jpg", // replace me
+    imageAlt: "Zilkroad NFT Marketplace",
+  }}
+  openGraph={{
+    title: "Zilkroad : Collection Stats",
+    description: "View all of the NFT collections traded on Zilkroad",
+    url: 'https:/zilkroad.io',
+    type: 'website',
+    images: [
+      {
+        url: 'https://staging.zilkroad.io/images/og-image.jpg', // replace me
+
+        alt: 'Zilkroad NFT Marketplace',
+      }
+     ]
+  }}
+/>
 
 <ShapeImage />
 <PageHeader title="View collections" description="View all of the collections that are available on Zilkroad." />
