@@ -56,8 +56,7 @@
     images: [
       {
         url: 'https://staging.zilkroad.io/images/og-image.jpg', // replace me
-        width: 909,
-        height: 90,
+
         alt: 'Zilkroad NFT Marketplace',
       }
      ]
