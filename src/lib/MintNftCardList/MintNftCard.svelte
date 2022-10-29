@@ -25,7 +25,7 @@
 <div class="grid grid-cols-4 lg:flex lg:h-24 bg-gray-900 rounded-lg" on:mouseenter={enter} on:mouseleave={leave}>
   <div class="m-5 lg:m-0 col-span-4 flex">
     <img
-      src="https://i.pickadummy.com/300x300?cache={collection.id}"
+      src="https://i.pickadummy.com/300x300?cache={collection.contract_address_b16}"
       alt={collection.name}
       class="lg:rounded-l-lg w-24"
       width="300"
@@ -54,7 +54,7 @@
     <MintCount
       hoverable
       {isHovering}
-      nftToMint={collection.id}
+      nftToMint={collection.contract_address_b16}
       count={collection.mintCount}
       minted={collection.mintedTotal}
       mintPrice={collection.mintPrice}
@@ -62,7 +62,7 @@
   </div>
   <div class="mx-5 py-5 flex-grow col-span-4 lg:hidden border-t-[1px] border-gray-600">
     <MintCount
-      nftToMint={collection.id}
+      nftToMint={collection.contract_address_b16}
       count={collection.mintCount}
       minted={collection.mintedTotal}
       mintPrice={collection.mintPrice}

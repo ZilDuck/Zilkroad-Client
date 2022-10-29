@@ -160,7 +160,7 @@
   }
 </script>
 <article class="group flex flex-col w-full relative" use:clickOutside on:click_outside={closeOptions}>
-  <a href="/collections/{nft.contract_address_b16}/{nft.token_id}" class="mb-1">
+  <a href="/collections/{nft.contract_address_b32}/{nft.token_id}" class="mb-1">
     <div
       class="object-cover overflow-hidden w-full h-auto rounded-lg bg-zilkroad-gray-dark flex items-center justify-center"
     >
@@ -272,7 +272,7 @@
       {isLoading}
       {imageSrc}
       {name}
-      tokenContract={nft.contract_address_b16}
+      tokenContract={nft.contract_address_b32}
       tokenID={nft.token_id}
     />
   </SideModal>
