@@ -110,25 +110,7 @@
   }
 
   async function increaseAllowance() {
-    let { increaseTx } = await marketplace.increaseFungibleAllowance(buyFungible, listingPrice)
-    if (increaseTx) {
-      toast.add({ message: 'Increasing Allowance', type: 'info' })
-      const transactionID = transaction.add({
-        message: `Increasing Allowance`,
-        type: 'pending',
-        tx: increaseTx, 
-        txType: 'IncreaseAllowance',
-        nftContract: nft.contract_address_b32,
-        nftTokenId: nft.token_id
-      })
-      ;(await pollTx(increaseTx))
-        ? transaction.updateStatus(transactionID, 'success')
-        : transaction.updateStatus(transactionID, 'failed')
-    } else {
-      toast.add({ message: 'Allowance Increase Failed', type: 'error' })
-      return
-    }
-    toast.add({ message: 'Allowance Increased', type: 'success' })
+    await marketplace.increaseFungibleAllowance(buyFungible, listingPrice, nft.contract_address_b32, nft.token_id)
   }
 
   async function buy() {
