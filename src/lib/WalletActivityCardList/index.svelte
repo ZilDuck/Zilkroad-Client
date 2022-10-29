@@ -30,7 +30,7 @@ import TokenPrice from "../../components/TokenPrice.svelte";
 
   function cleanWallet(wallet) {
     for (const [key, value] of Object.entries(wallet)) {
-      if ( key != "address"  && key != "total_usd") {
+      if ( key != "address"  && key != "total_usd" && key != "wallet_address_b32") {
         wallet[key] = parseInt(value, 10)
       }
     }
@@ -53,7 +53,7 @@ import TokenPrice from "../../components/TokenPrice.svelte";
       <div class="flex flex-auto flex-col lg:flex-row">
         <p class="rounded-t-lg lg:rounded-tr-none lg:rounded-l-lg lg:w-3/12 overflow-x-hidden overflow-ellipsis p-4 bg-gray-900 whitespace-pre">
           <img alt="Wallets Avatar" class="inline w-4 rounded-xl" src="https://i.pickadummy.com/100x100?cache={wallet.address}" />
-          <a href="/wallet/{wallet.address}"> {wallet.address} </a>
+          <a href="/wallet/{wallet.wallet_address_b32}"> {wallet.wallet_address_b32} </a>
         </p>
         <div class="bg-gray-900 px-4 lg:hidden"><hr class="border-gray-700"/></div>
         <p class="overflow-x-hidden lg:w-2/12 overflow-ellipsis p-4 bg-gray-900">
