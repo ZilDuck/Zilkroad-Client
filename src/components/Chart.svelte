@@ -8,8 +8,6 @@
   let chartElement
   let chart
 
-  console.log('Data is', data.length)
-
   if (data) {
     data.forEach((row) => {
       rows.push({
