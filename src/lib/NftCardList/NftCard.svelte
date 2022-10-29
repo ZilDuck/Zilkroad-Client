@@ -109,25 +109,7 @@
 
   async function edit() {
     const convertedSellPrice = convertWithDecimals($marketplace.approvedFungibles, sellFungible, sellPrice)
-    let { editTx } = await marketplace.editListedNft(orderId, sellFungible, convertedSellPrice)
-    if (editTx) {
-      toast.add({ message: 'Editing Listing', type: 'info' })
-      const transactionID = transaction.add({
-        message: `Editing ${name}`,
-        status: 'pending',
-        txType: 'UserEditListingPrice',
-        tx: editTx,
-        nftContract: nft.contract_address_b32,
-        nftTokenId: nft.token_id
-      })
-      ;(await pollTx(editTx))
-        ? transaction.updateStatus(transactionID, 'success')
-        : transaction.updateStatus(transactionID, 'failed')
-    } else {
-      toast.add({ message: 'Listing Edit Failed', type: 'error' })
-      return
-    }
-    toast.add({ message: 'Listing Updated', type: 'success' })
+    await marketplace.editListedNft(orderId, sellFungible, convertedSellPrice, name,  nft.contract_address_b32, nft.token_id)
   }
 
   function view() {

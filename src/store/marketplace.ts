@@ -132,7 +132,7 @@ const createMarketplaceStore = () => {
     return { buyTx }
   }
 
-  const editListedNft = async (orderId: string, fungible: string, sellPrice: string) => {
+  const editListedNft = async (orderId: string, fungible: string, sellPrice: string, name: string, nftContract: string, tokenId: string) => {
     const nonce = await wallet.getNonce()
 
     const editTx = await userEditListing(orderId, fungible, sellPrice, {
@@ -141,6 +141,28 @@ const createMarketplaceStore = () => {
       console.log(error)
       toast.add({ message: 'User rejected edit', type: 'error' })
     })
+
+    if (editTx) {
+      toast.add({ message: 'Editing Listing', type: 'info' })
+      const transactionId = transaction.add({
+        message: `Editing ${name}`,
+        status: 'pending',
+        txType: 'UserEditListingPrice',
+        tx: editTx,
+        nftContract,
+        nftTokenId: tokenId
+      })
+      const txResponse = await pollTx(editTx).catch(() => {
+        console.log('transactionid: ', transactionId)
+        transaction.updateStatus(transactionId, 'failed')
+        toast.add({ message: 'Edit Failed', type: 'error' })
+      })
+      if (txResponse) {
+        console.log('transactionid: ', transactionId)
+        transaction.updateStatus(transactionId, 'success')
+        toast.add({ message: 'Edit Confirmed', type: 'success' })
+      }
+    }
     wallet.increaseNonce()
 
     return { editTx }
