@@ -45,7 +45,7 @@
     site: "@zilkroad_dex",
     title: "Zilkroad NFT Marketplace",
     description: "Buy, sell and trade Zilliqa NFTs",
-    image: "https://pbs.twimg.com/profile_banners/1456394194650550272/1636067337/1500x500", // replace me
+    image: "https://staging.zilkroad.io/images/og-image.jpg", // replace me
     imageAlt: "Zilkroad NFT Marketplace",
   }}
   openGraph={{
@@ -55,7 +55,7 @@
     type: 'website',
     images: [
       {
-        url: 'https://pbs.twimg.com/profile_banners/1456394194650550272/1636067337/1500x500', // replace me
+        url: 'https://staging.zilkroad.io/images/og-image.jpg', // replace me
         width: 909,
         height: 90,
         alt: 'Zilkroad NFT Marketplace',
