@@ -4,6 +4,7 @@ import type { Transaction as ZilTransaction } from '@zilliqa-js/account'
 
 export type TransactionOptions = {
   type: 'success' | 'warning' | 'failed' | 'pending'
+  txType: 'UserList' | 'UserEditListingPrice' | 'UserBuy' | 'UserReturn' | 'IncreaseAllowance' | 'Mint' | 'Burn' | 'SetSpender'
   tx?: ZilTransaction
   callback?: () => unknown
   message: string
