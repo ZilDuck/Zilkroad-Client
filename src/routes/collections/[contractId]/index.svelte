@@ -136,7 +136,7 @@
         <a href={`https://viewblock.io/zilliqa/address/${collection.contract_address_b32}`} class="w-[100px]">
           <h3 class="mr-5 text-zilkroad-teal contract w-[100px] break-normal">
             <!-- TODO: Change to bech32 -->
-            {collection.id ?? collection.contract_address_b32}
+            {collection.contract_address_b16 ?? collection.contract_address_b32}
           </h3>
         </a>
 

@@ -24,7 +24,7 @@
         Event: row.activity,
         Date: formattedDate,
         NFTTokenID: row.token_id,
-        NFTContract: row.contract,
+        NFTContract: row.contract_address_b32,
         Price: row.price,
         PriceSymbol: row.price_symbol,
         NFTRoyalty: row.royalty_amount,

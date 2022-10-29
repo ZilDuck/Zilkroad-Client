@@ -33,7 +33,7 @@
 >
   <img
     class="w-full mb-10 lg:mb-0 lg:h-fit rounded-lg lg:col-start-2"
-    src="https://i.pickadummy.com/600x400?cache={featuredMintableCollection.id}"
+    src="https://i.pickadummy.com/600x400?cache={featuredMintablecollection.contract_address_b16}"
     alt="{featuredMintableCollection.name} hero"
     width="400"
     height="300"
