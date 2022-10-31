@@ -9,6 +9,7 @@ on:
         type:        choice
         options:
           - testnet
+          - beta
           - mainnet
       tag:
         required:    true
