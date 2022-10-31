@@ -6,7 +6,7 @@ env:
   taxAmount: "200"
   maxRoyaltyBps: "10000"
   
-namespace: zilkroad-testnet
+namespace: zilkroad-beta
 
 image:
   app:
