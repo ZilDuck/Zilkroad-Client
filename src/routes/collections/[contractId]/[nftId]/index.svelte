@@ -49,14 +49,11 @@
   import NftActivityTable from '../../../../lib/NftActivityTable/index.svelte'
   import SideModal from '$components/SideModal.svelte'
   import SellSidebar from '$components/sidebars/SellSidebar.svelte'
-  import { toast } from '../../../../store/toast'
-  import { pollTx } from '../../../../zilpay/poll-tx'
   import { convertWithDecimals } from '../../../../lib/fungibles'
   import TokenPrice from '../../../../components/TokenPrice.svelte'
   import EditSidebar from '../../../../components/sidebars/EditSidebar.svelte'
   import BuySidebar from '../../../../components/sidebars/BuySidebar.svelte'
   import { variables } from '../../../../lib/variables'
-  import { transaction } from '$store/transaction'
 
   export let nft
   export let collection
@@ -106,7 +103,10 @@
 
   async function edit() {
     const convertedSellPrice = convertWithDecimals($marketplace.approvedFungibles, sellFungible, sellPrice)
-    await marketplace.editListedNft(orderId, sellFungible, convertedSellPrice, name, nft.contract_address_b32, nft.token_id)
+    const {txSuccess} = await marketplace.editListedNft(orderId, sellFungible, convertedSellPrice, name, nft.contract_address_b32, nft.token_id)
+    if (txSuccess){
+      listingPrice = convertedSellPrice
+    }
   }
 
   async function increaseAllowance() {
@@ -114,7 +114,10 @@
   }
 
   async function buy() {
-    await marketplace.buyNft(buyFungible, listingPrice, orderId, name, nft.contract_address_b32, nft.token_id)
+    const { txSuccess } = marketplace.buyNft(buyFungible, listingPrice, orderId, name, nft.contract_address_b32, nft.token_id)
+    if (txSuccess) {
+      nft = getNftData(nft.contract_address_b32, nft.token_id)
+    }
   }
 
   function delist() {
@@ -152,6 +155,10 @@
 
   const handleImageError = (image) => {
     image.target.src = nftPlaceholder
+  }
+  
+  async function getNftData(contractId, nftId) {
+   nft = await fetch(`/collections/${contractId}/${nftId}.json`)
   }
 </script>
 

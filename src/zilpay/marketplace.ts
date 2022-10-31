@@ -1,6 +1,7 @@
 import type { TxParams } from '@zilliqa-js/account'
 import { contract } from './contract'
 import { variables } from '../lib/variables.js'
+import type { Transaction } from '@zilliqa-js/account'
 
 export const { marketplaceAddress } = variables
 
@@ -40,7 +41,7 @@ export const userList = async (
   )
 }
 
-export const userEditListing = async (
+export const userEditListing: (orderId: string, fungible: string, sellPrice: string, params?: Partial<TxParams>) => Promise<Transaction> = async (
   orderId: string,
   fungible: string,
   sellPrice: string,
