@@ -15,7 +15,7 @@ image:
 ingress:
   host: staging.zilkroad.io
 
-replicas: 2
+replicas: 1
 
 # filebeat requirements
 logPath: /app/logs
