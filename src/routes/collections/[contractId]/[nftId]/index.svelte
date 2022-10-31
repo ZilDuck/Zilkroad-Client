@@ -114,7 +114,10 @@
   }
 
   async function buy() {
-    await marketplace.buyNft(buyFungible, listingPrice, orderId, name, nft.contract_address_b32, nft.token_id)
+    const { txSuccess } = marketplace.buyNft(buyFungible, listingPrice, orderId, name, nft.contract_address_b32, nft.token_id)
+    if (txSuccess) {
+      nft = getNftData(nft.contract_address_b32, nft.token_id)
+    }
   }
 
   function delist() {
@@ -152,6 +155,10 @@
 
   const handleImageError = (image) => {
     image.target.src = nftPlaceholder
+  }
+  
+  async function getNftData(contractId, nftId) {
+   nft = await fetch(`/collections/${contractId}/${nftId}.json`)
   }
 </script>
 

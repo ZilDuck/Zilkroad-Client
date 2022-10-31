@@ -139,6 +139,7 @@ const createMarketplaceStore = () => {
   ) => {
     const nonce = await wallet.getNonce()
     let userCancelled = false
+    let txSuccess = false
 
     const buyTx = await userBuy(listingId, { nonce: nonce + 2 }).catch((error) => {
       console.log(error)
@@ -165,9 +166,10 @@ const createMarketplaceStore = () => {
       if (txResponse) {
         transaction.updateStatus(transactionId, 'success')
         toast.add({ message: 'Buy Confirmed', type: 'success' })
+        txSuccess = true
       }
 
-      return { buyTx }
+      return { buyTx, txSuccess }
     }
   }
 
