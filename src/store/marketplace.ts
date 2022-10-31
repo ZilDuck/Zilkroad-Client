@@ -180,6 +180,7 @@ const createMarketplaceStore = () => {
     tokenId: string
   ) => {
     const nonce = await wallet.getNonce()
+    let txSuccess = false
 
     const editTx = await userEditListing(orderId, fungible, sellPrice, {
       nonce: nonce + 2
@@ -199,19 +200,18 @@ const createMarketplaceStore = () => {
         nftTokenId: tokenId
       })
       const txResponse = await pollTx(editTx).catch(() => {
-        console.log('transactionid: ', transactionId)
         transaction.updateStatus(transactionId, 'failed')
         toast.add({ message: 'Edit Failed', type: 'error' })
       })
       if (txResponse) {
-        console.log('transactionid: ', transactionId)
         transaction.updateStatus(transactionId, 'success')
         toast.add({ message: 'Edit Confirmed', type: 'success' })
+        txSuccess = true
       }
     }
     wallet.increaseNonce()
 
-    return { editTx }
+    return { editTx, txSuccess }
   }
 
   const burnNft = async (nftContract: string, tokenId: string) => {
