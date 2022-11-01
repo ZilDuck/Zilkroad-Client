@@ -1,4 +1,4 @@
-<a href="https://discord.com/invite/zilduck">
+<a href="https://discord.gg/CJbgkYyPXB">
   <svg
     width="21"
     height="16"
