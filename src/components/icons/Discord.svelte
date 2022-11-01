@@ -1,4 +1,4 @@
-<a href="discord.gg/CJbgkYyPXB">
+<a href="https://discord.gg/CJbgkYyPXB">
   <svg
     width="21"
     height="16"
