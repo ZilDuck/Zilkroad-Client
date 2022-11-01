@@ -124,7 +124,7 @@
   <button
     class="text-zilkroad-text-light h-12 flex justify-center items-center bg-white rounded-lg w-full disabled:cursor-not-allowed disabled:opacity-50"
     on:click={list}
-    disabled={(transactionsPendingListing.length > 0 && !nftHasSpender) || !transactionsPendingApproval.length > 0}
+    disabled={(transactionsPendingListing.length > 0 && !nftHasSpender) || (!transactionsPendingApproval.length > 0 && !nftHasSpender) || (transactionsPendingListing.length > 0 && nftHasSpender) }
     >List
     {#if transactionsPendingListing.length > 0}
       <span in:fly={{ y: -10 }}>
