@@ -98,7 +98,10 @@
 
   async function list() {
     const convertedSellPrice = convertWithDecimals($marketplace.approvedFungibles, sellFungible, sellPrice)
-    await marketplace.listNft(nft.contract_address_b16, nft.token_id, sellFungible, convertedSellPrice)
+    const {txSuccess} = await marketplace.listNft(nft.contract_address_b16, nft.token_id, sellFungible, convertedSellPrice)
+    if (txSuccess) {
+      nft = getNftData(nft.contract_address_b32, nft.token_id)
+    }
   }
 
   async function edit() {
