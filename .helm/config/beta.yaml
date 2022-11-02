@@ -6,16 +6,16 @@ env:
   taxAmount: "200"
   maxRoyaltyBps: "10000"
   
-namespace: zilkroad-testnet
+namespace: zilkroad-beta
 
 image:
   app:
     pullSecret: aws-registry
 
 ingress:
-  host: staging.zilkroad.io
+  host: testnet.zilkroad.io
 
-replicas: 1
+replicas: 2
 
 # filebeat requirements
 logPath: /app/logs
