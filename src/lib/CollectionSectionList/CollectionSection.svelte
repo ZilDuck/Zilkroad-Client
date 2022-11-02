@@ -36,7 +36,7 @@
     <img
       src="{cdnBaseUrl}/{collection.contract_address_b16}?optimizer=image&width=800"
       alt={collection.name}
-      class="rounded-lg lg:rounded-r-none w-24 mt-5 lg:mt-0"
+      class="rounded-lg lg:rounded-r-none w-24 mt-5 lg:mt-0 object-cover border-gray-900 border"
       width="300"
       height="400"
     />

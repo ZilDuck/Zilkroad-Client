@@ -19,7 +19,7 @@
         <div class="flex items-center mb-3">
           <Collections /><span class="ml-2">Collections</span>
         </div>
-        <p class="text-[14px] leading-[1.5] text-zilkroad-gray-lighter">View all of the NFT collections on Zilkroad.</p>
+        <p class="text-[14px] leading-[1.5]">View all of the NFT collections on Zilkroad.</p>
       </a>
 
       <a
@@ -29,9 +29,7 @@
         <div class="flex items-center mb-3">
           <WalletActivity /><span class="ml-2">Wallet activity</span>
         </div>
-        <p class="text-[14px] leading-[1.5] text-zilkroad-gray-lighter">
-          Track wallet activity for buyers, sellers and royalty recipients.
-        </p>
+        <p class="text-[14px] leading-[1.5]">Track wallet activity for buyers, sellers and royalty recipients.</p>
       </a>
 
       <!-- <a
@@ -41,7 +39,7 @@
         <div class="flex items-center mb-3">
           <Launchpad /><span class="ml-2">Launchpad</span>
         </div>
-        <p class="text-[14px] leading-[1.5] text-zilkroad-gray-lighter">
+        <p class="text-[14px] leading-[1.5]">
           See all the new projects minting on Zilkroad.
         </p>
       </a> -->
@@ -53,7 +51,7 @@
         <div class="flex items-center mb-3">
           <Docs /><span class="ml-2">Docs</span>
         </div>
-        <p class="text-[14px] leading-[1.5] text-zilkroad-gray-lighter">Learn more about the Zilkroad platform.</p>
+        <p class="text-[14px] leading-[1.5]">Learn more about the Zilkroad platform.</p>
       </a>
     </div>
 
@@ -61,7 +59,7 @@
       class="rounded-lg min-h-[256px] w-full bg-[url('/images/cta-background.jpg')] bg-cover flex flex-col flex-1 ml-5 p-10"
     >
       <h3 class="text-white text-2xl mb-5">Feature your collection</h3>
-      <p class="w-full mb-5">
+      <p class="text-white w-full mb-5">
         Make your collection stand out by becoming a featured collection on Zilkroad. You will get featured banners, the
         featured tick and more by featuring your collection.
       </p>
