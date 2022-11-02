@@ -3,7 +3,8 @@
   
   export let event = ''
   export let date = 0
-  export let wallet = ''
+  export let seller = ''
+  export let buyer = ''
   export let price = 0
   export let priceSymbol = ''
   let formattedDate = new Date(Number(date)).toLocaleDateString('en-GB', { year: '2-digit', day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' });
@@ -13,7 +14,8 @@
 <tr>
   <td>{event}</td>
   <td>{formattedDate}</td>
-  <td><a class="underline contract" href="#">{wallet}</a></td>
+  <td><a class="underline contract" href="/wallets/{seller}">{seller}</a></td>
+  <td><a class="underline contract" href="/wallets/{buyer}">{buyer}</a></td>
   <td><div class="flex items-center">
     <img
       src="/images/tokens/{priceSymbol.toUpperCase()}.png"
