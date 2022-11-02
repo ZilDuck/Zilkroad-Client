@@ -4,6 +4,8 @@
   import Telegram from './icons/Telegram.svelte'
   import Twitter from './icons/Twitter.svelte'
   export let className = 'mt-28'
+  
+  const thisYear = new Date().getFullYear()
 </script>
 
 <CoolLine top={true} bottom={true} {className}>
@@ -44,7 +46,7 @@
   </div>
 </CoolLine>
 
-<div class="mx-5"><p class="py-10 mx-auto max-w-screen-xl">© 2021 Zilkroad</p></div>
+<div class="mx-5"><p class="py-10 mx-auto max-w-screen-xl">© {thisYear} Zilkroad</p></div>
 
 <style lang="postcss">
   footer > div:first-of-type {
