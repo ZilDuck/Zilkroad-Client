@@ -17,9 +17,6 @@
   import SideModal from '../../components/SideModal.svelte'
   import SellSidebar from '$components/sidebars/SellSidebar.svelte'
   import BuySidebar from '$components/sidebars/BuySidebar.svelte'
-  import { toast } from '../../store/toast'
-  import { transaction } from '../../store/transaction'
-  import { pollTx } from '../../zilpay/poll-tx'
   import TokenPrice from '../../components/TokenPrice.svelte'
   import BurnModal from '../../components/modals/BurnModal.svelte'
   import TransferModal from '../../components/modals/TransferModal.svelte'
@@ -109,7 +106,10 @@
 
   async function edit() {
     const convertedSellPrice = convertWithDecimals($marketplace.approvedFungibles, sellFungible, sellPrice)
-    await marketplace.editListedNft(orderId, sellFungible, convertedSellPrice, name, nft.contract_address_b32, nft.token_id)
+    const {txSuccess} = await marketplace.editListedNft(orderId, sellFungible, convertedSellPrice, name, nft.contract_address_b32, nft.token_id)
+    if (txSuccess){
+      listingPrice = convertedSellPrice
+    }
   }
 
   function view() {
