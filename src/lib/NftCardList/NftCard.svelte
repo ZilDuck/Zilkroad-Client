@@ -106,7 +106,10 @@
 
   async function edit() {
     const convertedSellPrice = convertWithDecimals($marketplace.approvedFungibles, sellFungible, sellPrice)
-    await marketplace.editListedNft(orderId, sellFungible, convertedSellPrice, name, nft.contract_address_b32, nft.token_id)
+    const {txSuccess} = await marketplace.editListedNft(orderId, sellFungible, convertedSellPrice, name, nft.contract_address_b32, nft.token_id)
+    if (txSuccess){
+      listingPrice = convertedSellPrice
+    }
   }
 
   function view() {
