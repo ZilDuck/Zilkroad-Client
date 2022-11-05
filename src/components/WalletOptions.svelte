@@ -1,11 +1,12 @@
 <script lang="ts">
+  import { goto } from '$app/navigation'
   import Token from '$components/Token.svelte'
   import ViewWallet from '$icons/ViewWallet.svelte'
   import DisconnectWallet from '$icons/DisconnectWallet.svelte'
   import Zil from '$icons/Zil.svelte'
   import wallet from '$store/wallet'
   import TokenSwap from '$components/TokenSwap.svelte'
-  import TransactionList from "../lib/TransactionList/index.svelte";
+  import TransactionList from '../lib/TransactionList/index.svelte'
 
   let showTokenSwap = false
   export let data = []
@@ -14,8 +15,13 @@
     showTokenSwap = !showTokenSwap
   }
 
+  function routeToPage(route: string, replaceState: boolean) {
+    goto(`/${route}`, { replaceState })
+  }
+
   function disconnectWallet() {
     wallet.disconnect()
+    routeToPage('', true)
   }
 </script>
 
@@ -25,7 +31,11 @@
   <div class="wallet-options-header flex justify-between items-center border-b-[1px] border-zilkroad-gray-border pb-5">
     <h6 class="font-medium">Options</h6>
     <div class="wallet-options-header-user flex">
-      <img src="https://i.pickadummy.com/index.php?imgsize=25x25&cache={data}" alt="Wallet avatar" class="mr-[10px] rounded-full " />
+      <img
+        src="https://i.pickadummy.com/index.php?imgsize=25x25&cache={data}"
+        alt="Wallet avatar"
+        class="mr-[10px] rounded-full "
+      />
       <p>{data}</p>
     </div>
   </div>
