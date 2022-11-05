@@ -3,7 +3,7 @@
 
   export let data: NftActivity[]
 
-  const headers = ['Event', 'Date', 'Wallet', 'Price']
+  const headers = ['Event', 'Date', 'Seller', 'Buyer', 'Price']
 </script>
 
 <div class="max-w-screen-xl mx-auto space-y-10">
@@ -19,7 +19,7 @@
       <tbody>
       {#if data.length > 0}
         {#each data as row}
-          <NftActivityRow event={row.activity} date={row.unixtime} wallet={row.contract} price={row.price} priceSymbol={row.price_symbol}/>
+          <NftActivityRow event={row.activity} date={row.unixtime} seller={row.seller} buyer={row.buyer} price={row.price} priceSymbol={row.price_symbol}/>
         {/each}
       {:else}
         <tr>
