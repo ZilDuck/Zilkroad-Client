@@ -47,8 +47,8 @@
       </p>
     </div>
   </div>
-  <div class="grid grid-cols-4 lg:flex lg:ml-auto">
-    <div class="my-5 mr-0 pr-5 pl-5 border-r-[1px] border-gray-600">
+  <div class="grid grid-cols-4 lg:flex lg:ml-auto lg:w-[50%]">
+    <div class="my-5 mr-0 pr-5 pl-5 border-r-[1px] border-gray-600 lg:w-[25%]">
       <p class="text-zilkroad-text-light">Listed</p>
       <p class="">{collection.listed || 0}/{collection.minted}</p>
     </div>
@@ -58,15 +58,15 @@
       <p class="">{collection.floor || 0} ZIL</p>
     </div> 
     -->
-    <div class="m-5 mr-0 pr-5 border-r-[1px] border-gray-600">
+    <div class="m-5 mr-0 pr-5 border-r-[1px] border-gray-600 lg:w-[25%]">
       <p class="text-zilkroad-text-light">Volume</p>
       <p class="">${collection.volume || 0} USD</p>
     </div>
-    <div class="m-5 mr-0 pr-5 border-r-[1px] border-gray-600">
+    <div class="m-5 mr-0 pr-5 border-r-[1px] border-gray-600 lg:w-[25%]">
       <p class="text-zilkroad-text-light">Royalty USD</p>
       <p class="">${collection.royalty_usd || 0}</p>
     </div>
-    <div class="m-5 mr-0 pr-5">
+    <div class="m-5 mr-0 pr-5 lg:w-[25%]">
       <p class="text-zilkroad-text-light">Royalty %</p>
       <p class="">{collection.royalty || 0}%</p>
     </div>

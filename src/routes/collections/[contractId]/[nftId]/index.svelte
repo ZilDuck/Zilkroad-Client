@@ -98,7 +98,12 @@
 
   async function list() {
     const convertedSellPrice = convertWithDecimals($marketplace.approvedFungibles, sellFungible, sellPrice)
-    const {txSuccess} = await marketplace.listNft(nft.contract_address_b16, nft.token_id, sellFungible, convertedSellPrice)
+    const { txSuccess } = await marketplace.listNft(
+      nft.contract_address_b16,
+      nft.token_id,
+      sellFungible,
+      convertedSellPrice
+    )
     if (txSuccess) {
       nft = getNftData(nft.contract_address_b32, nft.token_id)
     }
@@ -106,7 +111,7 @@
 
   async function edit() {
     const convertedSellPrice = convertWithDecimals($marketplace.approvedFungibles, sellFungible, sellPrice)
-    const {txSuccess} = await marketplace.editListedNft(
+    const { txSuccess } = await marketplace.editListedNft(
       orderId,
       sellFungible,
       convertedSellPrice,
@@ -114,7 +119,7 @@
       nft.contract_address_b32,
       nft.token_id
     )
-    if (txSuccess){
+    if (txSuccess) {
       listingPrice = convertedSellPrice
     }
   }
@@ -124,7 +129,14 @@
   }
 
   async function buy() {
-    const { txSuccess } = marketplace.buyNft(buyFungible, listingPrice, orderId, name, nft.contract_address_b32, nft.token_id)
+    const { txSuccess } = marketplace.buyNft(
+      buyFungible,
+      listingPrice,
+      orderId,
+      name,
+      nft.contract_address_b32,
+      nft.token_id
+    )
     if (txSuccess) {
       nft = getNftData(nft.contract_address_b32, nft.token_id)
     }
@@ -166,9 +178,9 @@
   const handleImageError = (image) => {
     image.target.src = nftPlaceholder
   }
-  
+
   async function getNftData(contractId, nftId) {
-   nft = await fetch(`/collections/${contractId}/${nftId}.json`)
+    nft = await fetch(`/collections/${contractId}/${nftId}.json`)
   }
 </script>
 
