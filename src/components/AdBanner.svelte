@@ -40,7 +40,7 @@
       style="background-image: url('{background}')"
     />
     {#if loaded}
-      <div class="absolute top-0 left-0 w-full h-full bg-[rgba(0,0,0,0.2)]" />
+      <div class="absolute top-0 left-0 w-full h-full bg-[rgba(0,0,0,0.4)]" />
       <div class="relative z-10 flex flex-col space-y-5">
         <h1 class="text-4xl font-medium">{adtitle}</h1>
         <p class="max-w-xl font-light text-white">{description}</p>
