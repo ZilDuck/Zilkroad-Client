@@ -106,6 +106,7 @@
     )
     if (txSuccess) {
       nft = getNftData(nft.contract_address_b32, nft.token_id)
+      closeModal()
     }
   }
 
@@ -121,6 +122,7 @@
     )
     if (txSuccess) {
       listingPrice = convertedSellPrice
+      closeModal()
     }
   }
 
@@ -139,6 +141,7 @@
     )
     if (txSuccess) {
       nft = getNftData(nft.contract_address_b32, nft.token_id)
+      closeModal()
     }
   }
 
