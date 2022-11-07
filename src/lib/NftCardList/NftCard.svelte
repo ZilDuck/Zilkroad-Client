@@ -96,7 +96,10 @@
 
   async function list() {
     const convertedSellPrice = convertWithDecimals($marketplace.approvedFungibles, sellFungible, sellPrice)
-    await marketplace.listNft(nft.contract_address_b16, nft.token_id, sellFungible, convertedSellPrice)
+    const {txSuccess} = await marketplace.listNft(nft.contract_address_b16, nft.token_id, sellFungible, convertedSellPrice)
+    if (txSuccess){
+      closeSidebar()
+    }
   }
 
   function delist() {
@@ -109,6 +112,7 @@
     const {txSuccess} = await marketplace.editListedNft(orderId, sellFungible, convertedSellPrice, name, nft.contract_address_b32, nft.token_id)
     if (txSuccess){
       listingPrice = convertedSellPrice
+      closeSidebar()
     }
   }
 
@@ -124,7 +128,10 @@
 
   async function buy() {
     open = false
-    await marketplace.buyNft(buyFungible, listingPrice, orderId, name, nft.contract_address_b32, nft.token_id)
+    const {txSuccess} = await marketplace.buyNft(buyFungible, listingPrice, orderId, name, nft.contract_address_b32, nft.token_id)
+    if (txSuccess){
+      closeSidebar()
+    }
   }
 
   function openBurnModal() {
