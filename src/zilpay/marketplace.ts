@@ -41,10 +41,10 @@ export const userList = async (
   )
 }
 
-export const userEditListing: (orderId: string, fungible: string, sellPrice: string, params?: Partial<TxParams>) => Promise<Transaction> = async (
+export const userEditListing: (orderId: string, fungible: string, sellPrice: number, params?: Partial<TxParams>) => Promise<Transaction> = async (
   orderId: string,
   fungible: string,
-  sellPrice: string,
+  sellPrice: number,
   params: Partial<TxParams> = {}
 ) => {
   const { call } = contract(marketplaceAddress)
