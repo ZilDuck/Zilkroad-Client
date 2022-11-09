@@ -186,7 +186,7 @@
               <p class="text-white mr-[10px] items-center">Share to</p>
               <TwitterShare text={collection.name ?? collection.contract_name} url={currentPage} via="zilkroad_dex" />
             </div>
-            <ReportCollection />
+            <ReportCollection {contractId} />
           </div>
         </div>
       </div>
