@@ -161,14 +161,14 @@
         loading="eager"
       />
     </div>
-    {#if verified}
-      <div class="flex items-start mt-5">
-        <Checkmark className="mr-[10px]" />
+      <div class="flex items-start mt-4">
+        {#if verified}
+          <Checkmark className="mr-[10px]" />
+        {/if}
         <h1 class="text-lg font-medium">
           {name}
         </h1>
       </div>
-    {/if}
   </a>
   <a href="/collections/{nft.contract_address_b32}" class="mb-1">
     <h2 class="font-light text-zilkroad-gray-lighter">
