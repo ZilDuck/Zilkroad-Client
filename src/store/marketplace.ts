@@ -52,7 +52,10 @@ const createMarketplaceStore = () => {
   const listNft = async (nftContract: string, tokenId: string, fungible: string, sellPrice: number) => {
     const nonce = await wallet.getNonce()
     let txSuccess = false
-
+    if (sellPrice <= 0) {
+      toast.add({ message: 'Listing Price Must Be More Than 0', type: 'error' })
+      return { txSuccess }
+    }
     const listTx = <Transaction> await userList(nftContract, tokenId, fungible, sellPrice, {
       nonce: nonce + 2
     }).catch((error) => {
@@ -179,14 +182,17 @@ const createMarketplaceStore = () => {
   const editListedNft = async (
     orderId: string,
     fungible: string,
-    sellPrice: string,
+    sellPrice: number,
     name: string,
     nftContract: string,
     tokenId: string
   ) => {
     const nonce = await wallet.getNonce()
     let txSuccess = false
-
+    if (sellPrice <= 0) {
+      toast.add({ message: 'Listing Price Must Be More Than 0', type: 'error' })
+      return { txSuccess }
+    }
     const editTx = await userEditListing(orderId, fungible, sellPrice, {
       nonce: nonce + 2
     }).catch((error) => {
