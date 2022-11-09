@@ -53,18 +53,14 @@
 
 <script>
   import SvelteSeo from "svelte-seo";
-  import Header from '$components/Header.svelte'
   import Detail from '$components/Detail.svelte'
   import ShapeImage from '$components/ShapeImage.svelte'
   import Checkmark from '$components/icons/Checkmark.svelte'
-  import Report from '$components/icons/Report.svelte'
   import NftCardList from '../../../lib/NftCardList/index.svelte'
   import Pagination from '../../../components/Pagination.svelte'
   import TwitterShare from '../../../components/TwitterShare.svelte'
   import { page } from '$app/stores'
   import { cdnBaseUrl } from '../../../lib/cdn'
-  import { toast } from '$store/toast'
-  import wallet from '$store/wallet'
 
   import Discord from '$icons/social/Discord.svelte'
   import Twitter from '$icons/social/Twitter.svelte'
@@ -72,6 +68,7 @@
   import Website from '$icons/social/Website.svelte'
   import AdBanner from '../../../components/AdBanner.svelte'
   import ContractActivityTable from '../../../lib/ContractActivityTable/index.svelte'
+  import ReportCollection from "../../../components/ReportCollection.svelte";
 
   export let collection = {}
   export let nfts = []
@@ -105,18 +102,7 @@
     nfts = collectionNfts.nfts
     currentPage = page
   }
-
-  async function reportCollection() {
-    const user = $wallet.bech32 ?? '<no-user>'
-    await fetch(`/collections/${contractId}/report.json?user=${user}`)
-      .catch((error) => {
-        console.log(error)
-        toast.add({ message: 'Issue with reporting collection, please try again later', type: 'error' })
-      })
-      .then((r) => {
-        toast.add({ message: 'Collection reported, this will be reviewed by the Zilkroad Team', type: 'success' })
-      })
-  }
+  
 </script>
 <SvelteSeo
   title="Zilkroad : Collection"
@@ -200,10 +186,7 @@
               <p class="text-white mr-[10px] items-center">Share to</p>
               <TwitterShare text={collection.name ?? collection.contract_name} url={currentPage} via="zilkroad_dex" />
             </div>
-            <button class="flex items-center">
-              <p class="text-[#D8A270] mr-[10px]" on:click={reportCollection}>Report collection</p>
-              <Report />
-            </button>
+            <ReportCollection />
           </div>
         </div>
       </div>
