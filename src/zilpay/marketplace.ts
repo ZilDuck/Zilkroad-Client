@@ -34,7 +34,7 @@ export const userList = async (
       {
         vname: 'sell_price',
         type: 'Uint128',
-        value: sellPrice.toString()
+        value: sellPrice
       }
     ],
     params
