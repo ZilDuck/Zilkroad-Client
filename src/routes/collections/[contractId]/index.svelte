@@ -69,6 +69,7 @@
   import AdBanner from '../../../components/AdBanner.svelte'
   import ContractActivityTable from '../../../lib/ContractActivityTable/index.svelte'
   import ReportCollection from "../../../components/ReportCollection.svelte";
+  import ScamBanner from "../../../components/ScamBanner.svelte"
 
   export let collection = {}
   export let nfts = []
@@ -174,6 +175,10 @@
         {metadata.description ?? collection.contract_symbol ?? 'No description'}
       </p>
 
+      {#if collection.excluded}
+        <ScamBanner />
+      {/if}
+
       <div class="bg-zilkroad-gray-dark mt-5 rounded-lg">
         <div class="inline-grid grid-flow-col auto-cols-max gap-5 rounded-lg p-5">
           <Detail description="Items listed" value="{listed_tokens} / {collection.nfts_minted}" border="right" />
@@ -186,7 +191,9 @@
               <p class="text-white mr-[10px] items-center">Share to</p>
               <TwitterShare text={collection.name ?? collection.contract_name} url={currentPage} via="zilkroad_dex" />
             </div>
+            {#if !collection.excluded}
             <ReportCollection {contractId} />
+            {/if}
           </div>
         </div>
       </div>
@@ -205,8 +212,10 @@
   <div class="w-full flex justify-center mt-20">
     <Pagination numPages={pagination.total_pages} {currentPage} className="mx-auto" on:pageChange={handlePageChange} />
   </div>
+  {#if !collection.excluded}
   <div class="mb-20">
     <ContractActivityTable bind:data={activity_data} />
   </div>
+  {/if}
   <AdBanner className="md:mx-auto max-w-screen-xl" />
 </main>
