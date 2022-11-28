@@ -14,8 +14,8 @@
 <tr>
   <td>{event}</td>
   <td>{formattedDate}</td>
-  <td><a class="underline contract" href="/wallets/{seller}">{seller}</a></td>
-  <td><a class="underline contract" href="/wallets/{buyer}">{buyer}</a></td>
+  <td><a class="underline contract" href="/wallet/{seller}">{seller}</a></td>
+  <td><a class="underline contract" href="/wallet/{buyer}">{buyer}</a></td>
   <td><div class="flex items-center">
     <img
       src="/images/tokens/{priceSymbol.toUpperCase()}.png"
