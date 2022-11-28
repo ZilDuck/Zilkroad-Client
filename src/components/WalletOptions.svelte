@@ -32,7 +32,7 @@
     <h6 class="font-medium">Options</h6>
     <div class="wallet-options-header-user flex">
       <img
-        src="https://i.pickadummy.com/index.php?imgsize=25x25&cache={data}"
+        src="https://i.pickadummy.com/index.php?imgsize=25x25&cache={$wallet.base16}"
         alt="Wallet avatar"
         class="mr-[10px] rounded-full "
       />

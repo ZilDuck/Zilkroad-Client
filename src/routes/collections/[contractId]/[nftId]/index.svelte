@@ -255,7 +255,9 @@
       </div>
 
       <div class="flex items-center mt-5 space-x-2 ">
-        <div class="w-10 h-10 rounded-full bg-zilkroad-gray-light" />
+        <img src="https://i.pickadummy.com/index.php?imgsize=25x25&cache={nft.owner_address_b16}"
+        alt="Wallet avatar"
+        class="rounded-full" />
         <h3 class="break-all text-white">
           {#if userWalletIsOwner}
             Owned by you
