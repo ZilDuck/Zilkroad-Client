@@ -56,6 +56,7 @@
   import Detail from '$components/Detail.svelte'
   import ShapeImage from '$components/ShapeImage.svelte'
   import Checkmark from '$components/icons/Checkmark.svelte'
+  import Chart from '$components/Chart.svelte'
   import NftCardList from '../../../lib/NftCardList/index.svelte'
   import Pagination from '../../../components/Pagination.svelte'
   import TwitterShare from '../../../components/TwitterShare.svelte'
@@ -69,6 +70,7 @@
   import AdBanner from '../../../components/AdBanner.svelte'
   import ContractActivityTable from '../../../lib/ContractActivityTable/index.svelte'
   import ReportCollection from "../../../components/ReportCollection.svelte";
+  import Collections from "../../../components/icons/Collections.svelte"
 
   export let collection = {}
   export let nfts = []
@@ -89,6 +91,7 @@
   export let royalty_percentage = collection.royalty_bps ? max_royalty_bps / collection.royalty_bps : 0
   export let listed_tokens = collection.stats?.listed_tokens
   export let sales_volume = collection.stats?.volume
+  export let graph_data = collection.volume_over_time ?? []
 
   const image_uri = `${cdnBaseUrl}${collection.contract_address_b16}?optimizer=image&width=650`
 
@@ -205,8 +208,15 @@
   <div class="w-full flex justify-center mt-20">
     <Pagination numPages={pagination.total_pages} {currentPage} className="mx-auto" on:pageChange={handlePageChange} />
   </div>
+  <div class="mt-20">
+    <h2 class="text-xl font-semibold mb-5">Price history</h2>
+    <Chart bind:data={graph_data} />
+  </div>
   <div class="mb-20">
     <ContractActivityTable bind:data={activity_data} />
   </div>
+
   <AdBanner className="md:mx-auto max-w-screen-xl" />
+
+  
 </main>

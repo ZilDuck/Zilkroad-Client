@@ -10,6 +10,7 @@
 
   if (data) {
     data.forEach((row) => {
+      console.log(`converting ${JSON.stringify(row)} into time`)
       rows.push({
         time: new Date(Number(row.unixtime)).toDateString(),
         value: row.price
@@ -58,17 +59,12 @@
     lineSeries.setData(rows)
 
     chart.timeScale().setVisibleRange({ //this is not properly tested - elt
-      from: data[1],
+      from: data[0],
       to: data[data.length - 1],
     });
   })
 
-  function resizeChart() {
-    chart.resize(chartElement.clientWidth, chartElement.clientHeight, true)
-  }
 </script>
-
-<svelte:window on:resize={resizeChart} />
 
 <div class="rounded-lg min-h-[272px] p-10 flex flex-col justify-center border border-zilkroad-gray-dark">
 
