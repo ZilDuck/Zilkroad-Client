@@ -32,9 +32,14 @@ const createWalletStore = () => {
     const network = wallet.net
 
     const [getBalanceResponse, userBalancesResponse] = await Promise.all([
-      blockchain.getBalance(base16) as Promise<{ result: { nonce: number, balance: string } }>,
+      blockchain.getBalance(base16).catch(() => 0) as Promise<{ result: { nonce: number, balance: string } }>,
       fetch(`/wallet/${base16}/balances.json`).then(async response => response.json()).catch((error) => console.log(error))
     ])
+
+    if (getBalanceResponse === 0) {
+      await disconnect()
+      return
+    }
 
     document.cookie = Cookie.serialize('userAddress', base16, { path: '' })
     document.cookie = Cookie.serialize('userAddress', base16, { path: '/wallet' })
