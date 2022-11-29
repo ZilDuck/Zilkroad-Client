@@ -2,7 +2,8 @@ import type { Writable } from 'svelte/store'
 import { browser } from '$app/env'
 import { writable } from 'svelte/store'
 import * as Cookie from 'cookie'
-import * as api from '../lib/api.js'
+import { variables } from '../lib/variables'
+import { toast } from './toast'
 
 
 type Awaited<T> = T extends PromiseLike<infer U> ? U : T
@@ -32,9 +33,16 @@ const createWalletStore = () => {
     const network = wallet.net
 
     const [getBalanceResponse, userBalancesResponse] = await Promise.all([
-      blockchain.getBalance(base16) as Promise<{ result: { nonce: number, balance: string } }>,
-      fetch(`/wallet/${base16}/balances.json`).then(async response => response.json()).catch((error) => console.log(error))
+      blockchain.getBalance(base16).catch(() => 0) as Promise<{ result: { nonce: number, balance: string } }>,
+      await fetch(`/wallet/${base16}/balances.json`).then(async response => await response.json()).catch((error) => console.log(error))
     ])
+
+    compareWalletAndSiteNetwork(network, variables.network)
+
+    if (getBalanceResponse === 0) {
+      await disconnect()
+      return
+    }
 
     document.cookie = Cookie.serialize('userAddress', base16, { path: '' })
     document.cookie = Cookie.serialize('userAddress', base16, { path: '/wallet' })
@@ -102,6 +110,12 @@ const createWalletStore = () => {
       nonce = wallet.nonce
     })()
     return nonce
+  }
+
+  const compareWalletAndSiteNetwork = (walletNetwork, siteNetwork) => {
+    if (walletNetwork !== siteNetwork) {
+      toast.add({ message: 'Wrong Network please use ' + siteNetwork, type: 'error' })
+    }
   }
 
   if (browser && window.zilPay && window.zilPay.wallet.isEnable && window.zilPay.wallet.isConnect) {
