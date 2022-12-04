@@ -36,6 +36,7 @@
   export let listingPrice = nft.token_price ? nft.token_price : 0
   export let priceSymbol = nft?.token_symbol ? nft?.token_symbol.toUpperCase() : 'WZIL'
   export let verified = nft.verified ?? false
+  export let excluded = nft.excluded ?? false
   export let royalty_bps = nft.royalty_bps ?? 0
 
   if (nft.listing) {
@@ -231,12 +232,15 @@
             </li>
           {/if}
           {#if orderId}
+            {#if !excluded}
             <li class="flex items-center space-x-5 cursor-pointer" on:click={() => openSidebar('edit')}>
               <Pencil />
               <button>Edit listing</button>
             </li>
+            {/if}
           {/if}
           {#if !orderId}
+            {#if !excluded}
             <li class="flex items-center space-x-5 align-middle cursor-pointer" on:click={() => openSidebar('sell')}>
               <MoneyBill />
               <button>Sell</button>
@@ -245,6 +249,7 @@
               <Transfer />
               <button>Transfer</button>
             </li>
+            {/if}
             <li class="flex items-center space-x-5 align-middle cursor-pointer" on:click={openBurnModal}>
               <Burn />
               <button>Burn</button>
