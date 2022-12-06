@@ -54,6 +54,7 @@
   import EditSidebar from '../../../../components/sidebars/EditSidebar.svelte'
   import BuySidebar from '../../../../components/sidebars/BuySidebar.svelte'
   import { variables } from '../../../../lib/variables'
+  import ScamBanner from '../../../../components/ScamBanner.svelte'
 
   export let nft
   export let collection
@@ -68,6 +69,8 @@
 
   export let sales = nft.sales_count ?? 0
   export let volume = nft.sales_volume ?? 0
+
+  export let excluded = nft.excluded ?? false
 
   const nftDescription = nft.desc ? nft.desc : `This is an NFT for ${nft.collection_name}.`
 
@@ -236,6 +239,10 @@
         {nft.contract_symbol}
       </p>
 
+      {#if excluded}
+      <ScamBanner />
+      {/if}
+
       <div class="grid grid-flow-col auto-cols-max gap-5 mt-5 rounded-lg bg-zilkroad-gray-dark p-5">
         {#if listingPrice !== 0}
           <Detail
@@ -280,7 +287,7 @@
         </div>
       {/if}
       {#if userWalletIsOwner}
-        {#if !nft.listing}
+        {#if !nft.listing && !excluded}
           <div in:fade class="flex items-center space-x-2">
             <Button on:click={() => openModal('list')} className="w-full mt-14 lg:mt-5 lg:w-auto ">Sell this NFT</Button
             >
@@ -289,10 +296,13 @@
         {#if nft.listing}
           <div in:fade>
             <Button on:click={delist} className="w-full mt-14 lg:mt-5 lg:w-auto ">Delist</Button>
+            {#if !excluded}
             <Button on:click={() => openModal('edit')} className="w-full mt-14 lg:mt-5 lg:w-auto ">Edit</Button>
+            {/if}
           </div>
         {/if}
       {/if}
+      {#if !excluded}
       <div class="my-20">
         <h2 class="text-xl font-semibold mb-5">History</h2>
         <NftActivityTable bind:data={nftActivity} />
@@ -301,6 +311,7 @@
         <h2 class="text-xl font-semibold mb-5">Price history</h2>
         <Chart bind:data={graphData} />
       </div>
+      {/if}
     </div>
     <div class="nft-container lg:col-start-2 max-w-full md:max-w-[496px] w-full">
       <div class="sticky top-[40px] self-auto">
@@ -326,6 +337,7 @@
 
   <div class="w-full h-[1px] bg-zilkroad-gray-darker my-20 lg:hidden" />
 
+  {#if !excluded}
   <h4 class="lg:max-w-screen-xl lg:mx-auto text-2xl font-medium lg:col-span-2 lg:row-start-3 lg:mt-36 mb-10">
     Other listings in {nft.contract_name}
   </h4>
@@ -340,6 +352,7 @@
       <img src="/icons/Outline/General/Umbrella.svg" alt="No sales history" class="fill-white max-w-[24px] mb-[10px]" />
       <p class="text-[14px]">Well, this is awkward. No one else is selling an NFT in this collection!</p>
     </div>
+  {/if}
   {/if}
   <SideModal bind:show={listSidebarOpen}>
     <SellSidebar

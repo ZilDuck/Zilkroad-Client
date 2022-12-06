@@ -24,13 +24,13 @@ describe('Wallet-Activity page returns 200 when requested', () => {
 
 describe('An NFT collection page returns 200 when requested', () => {
   it('passes', () => {
-    cy.visit(`http://localhost:3000/collections/zil1khsh4n3sp7zravh6xkwq755fffy4fg0404ghxe`)
+    cy.visit(`http://localhost:3000/collections/zil1whwpm8gywvp7c5dhs7rf63qrf6pc5ahdgudn55`)
   })
 })
 
 describe('A Single NFT page returns 200 when requested', () => {
   it('passes', () => {
-    cy.visit(`http://localhost:3000/collections/zil1khsh4n3sp7zravh6xkwq755fffy4fg0404ghxe/1`)
+    cy.visit(`http://localhost:3000/collections/zil1whwpm8gywvp7c5dhs7rf63qrf6pc5ahdgudn55/1`)
   })
 })
 
