@@ -56,14 +56,14 @@
     </ul>
   </div>
   <div class="wallet-options-currencies pt-5 pb-8 border-b-[1px] border-zilkroad-gray-border grid grid-cols-2 gap-5">
-    <Token tokenType="ZIL" valueUsd={$wallet.balances.zil_usd_amount} value={$wallet.balances.zil_amount} />
-    <Token tokenType="wZIL" valueUsd={$wallet.balances.wzil_usd_amount} value={$wallet.balances.wzil_amount} />
-    <Token tokenType="XSGD" valueUsd={$wallet.balances.xsgd_usd_amount} value={$wallet.balances.xsgd_amount} />
-    <Token tokenType="zUSDT" valueUsd={$wallet.balances.zusdt_usd_amount} value={$wallet.balances.zusdt_amount} />
-    <Token tokenType="zWBTC" valueUsd={$wallet.balances.zwbtc_usd_amount} value={$wallet.balances.zwbtc_amount} />
-    <Token tokenType="zETH" valueUsd={$wallet.balances.zeth_usd_amount} value={$wallet.balances.zeth_amount} />
-    <Token tokenType="GZIL" valueUsd={$wallet.balances.gzil_usd_amount} value={$wallet.balances.gzil_amount} />
-    <Token tokenType="DUCK" valueUsd={$wallet.balances.duck_usd_amount} value={$wallet.balances.duck_amount} />
+    <Token tokenType="ZIL" valueUsd={$wallet.balances?.zil_usd_amount} value={$wallet.balances?.zil_amount} />
+    <Token tokenType="wZIL" valueUsd={$wallet.balances?.wzil_usd_amount} value={$wallet.balances?.wzil_amount} />
+    <Token tokenType="XSGD" valueUsd={$wallet.balances?.xsgd_usd_amount} value={$wallet.balances?.xsgd_amount} />
+    <Token tokenType="zUSDT" valueUsd={$wallet.balances?.zusdt_usd_amount} value={$wallet.balances?.zusdt_amount} />
+    <Token tokenType="zWBTC" valueUsd={$wallet.balances?.zwbtc_usd_amount} value={$wallet.balances?.zwbtc_amount} />
+    <Token tokenType="zETH" valueUsd={$wallet.balances?.zeth_usd_amount} value={$wallet.balances?.zeth_amount} />
+    <Token tokenType="GZIL" valueUsd={$wallet.balances?.gzil_usd_amount} value={$wallet.balances?.gzil_amount} />
+    <Token tokenType="DUCK" valueUsd={$wallet.balances?.duck_usd_amount} value={$wallet.balances?.duck_amount} />
   </div>
   <div class="wallet-options-convert-button pt-5">
     {#if showTokenSwap}
