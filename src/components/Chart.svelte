@@ -10,18 +10,14 @@
 
   if (data) {
     data.forEach((row) => {
-      console.log(`converting ${JSON.stringify(row)} into time`)
-      rows.push({
-        time: new Date(Number(row.unixtime)).toDateString(),
-        value: row.price
-      })
+      console.log({ time: Date.parse(new Date(Number(row.unixtime)).toDateString()) / 1000, value: parseFloat(row.price.toString()) })
+      rows.push({ time:  Date.parse(new Date(Number(row.unixtime)).toDateString()) / 1000, value: parseFloat(row.price.toString()) })
     })
   }
 
   onMount(() => {
     chart = createChart(chartElement, {
-      width: '519',
-      height: '350',
+
       layout: {
         backgroundColor: 'rgba(0, 0, 0, 1)',
         textColor: '#d1d4dc'
@@ -40,16 +36,21 @@
       },
       rightPriceScale: {
         borderVisible: false,
-        visible: false
+        visible: false,
+        scaleMargins: {
+            top: 0.1,
+            bottom: 0.1,
+        },
       },
       timeScale: {
-        borderVisible: true
+        borderVisible: true,
+        
       },
       crosshair: {
         horzLine: {
           visible: true
         }
-      }
+      },
     })
     const lineSeries = chart.addLineSeries({
       color: 'rgba(255, 255, 255, 1)',
@@ -62,6 +63,8 @@
       from: data[0],
       to: data[data.length - 1],
     });
+
+    chart.timeScale().fitContent();
   })
 
 </script>
