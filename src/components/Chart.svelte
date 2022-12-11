@@ -17,7 +17,8 @@
 
   onMount(() => {
     chart = createChart(chartElement, {
-
+      height: 500,
+      width: 500,
       layout: {
         backgroundColor: 'rgba(0, 0, 0, 1)',
         textColor: '#d1d4dc'
@@ -65,6 +66,12 @@
     });
 
     chart.timeScale().fitContent();
+
+    new ResizeObserver(entries => {
+      if (entries.length === 0 || entries[0].target !== chartElement) { return; }
+      const newRect = entries[0].contentRect;
+      chart.applyOptions({ height: newRect.height, width: newRect.width });
+    }).observe(chartElement);
   })
 
 </script>

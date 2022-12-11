@@ -114,7 +114,7 @@ const createWalletStore = () => {
 
   const compareWalletAndSiteNetwork = (walletNetwork, siteNetwork) => {
     if (walletNetwork !== siteNetwork) {
-      toast.add({ message: 'Wrong Network please use ' + siteNetwork, type: 'error' })
+      toast.add({ message: 'Zilpay is set to ' + walletNetwork + ' - please use ' + siteNetwork, type: 'error' })
     }
   }
 
