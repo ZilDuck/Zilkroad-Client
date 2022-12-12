@@ -55,6 +55,7 @@
   import SideModal from '$components/SideModal.svelte'
   import { page } from '$app/stores'
   import ShapeImage from '$components/ShapeImage.svelte'
+  import { replaceStateWithQuery } from "../../../lib/query-mutator";
 
   let currentOwnedPage = 1
   let currentListingsPage = 1
@@ -86,10 +87,14 @@
     showModal = !showModal
   }
 
-  export let currentPage = $page.url.searchParams.get('page') ?? 1
+  let currentPage = $page.url.searchParams.get('page') ?? 1
 
   async function handleOwnedPageChange(event) {
     const page = event.detail.currentPage
+    pagination.page = page
+    replaceStateWithQuery({
+      'page': page,
+    });
     let walletNfts = await fetch(`/wallet/${walletId}/nfts.json?page=${page}`)
       .catch((error) => {
         console.log(error)
@@ -181,9 +186,9 @@
   <div class="flex flex-col max-w-screen-xl mx-auto space-y-10 text-white">
     <h2 class="text-2xl font-medium">{pronoun} NFTs</h2>
     <NftCardList nfts={ownedNfts} />
-    {#if listedNfts.length > 0}
+    {#if nfts.length > 0}
       <Pagination
-        bind:currentPage={pagination.page}
+        currentPage={currentPage}
         numPages={pagination?.total_pages}
         className="mx-auto"
         on:pageChange={handleOwnedPageChange}
