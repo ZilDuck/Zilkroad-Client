@@ -1,0 +1,29 @@
+env:
+  network: mainnet
+  # REPLACE
+  nftMarketplaceAddress: "0xad43392d1750771e58931801ddc274e5984660b4"
+  # REPLACE
+  wzilAddress: "0x864895d52504c388A345eF6cd9C800DBBD0eF92A"
+  # REPLACE
+  cdnBase: https://zildexr-testnet.b-cdn.net/
+  taxAmount: "200"
+  maxRoyaltyBps: "10000"
+  
+namespace: zilkroad-mainnet
+
+image:
+  app:
+    pullSecret: aws-registry
+
+ingress:
+  host: vagina.zilkroad.io
+
+replicas: 2
+
+# filebeat requirements
+logPath: /app/logs
+
+elasticSearch:
+  hosts:       https://search.zildexr.com:443
+  username:    elastic
+  password:    gyXGCRTvHuNjLKEXQUH98kggRLEfH6rP
