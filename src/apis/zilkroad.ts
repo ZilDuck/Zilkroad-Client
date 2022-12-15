@@ -150,6 +150,15 @@ export const zilkroad = (fetch: (info: RequestInfo, init?: RequestInit) => Promi
     return await response.json() as { [key: string]: Fungible }
   }
 
+  const getAppVariables = async () => {
+    if (typeof location === 'undefined') {
+      return {}
+    }
+    const base = location.origin
+    const response = await fetch(`${base}/app/variables.json`)
+    return await response.json() as { [key: string] }
+  }
+
   return {
     getListings,
     getFeaturedListings,
@@ -168,6 +177,7 @@ export const zilkroad = (fetch: (info: RequestInfo, init?: RequestInit) => Promi
     getVerifiedContracts,
     getUserActivity,
     getContractActivity,
-    getApprovedFungibles
+    getApprovedFungibles,
+    getAppVariables
   }
 }
