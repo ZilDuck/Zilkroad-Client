@@ -11,7 +11,6 @@ RUN npm install
 
 # Copy over rest of the project files
 COPY . .
-COPY .env.local.example .env.local
 
 RUN npm run build
 
