@@ -1,7 +1,7 @@
 <script lang="ts">
 
   import type { Transaction } from '$store/transaction'
-  import marketplace from "$store/marketplace";
+  import variables from "$store/variables";
 
   export let item: Transaction
 
@@ -23,7 +23,7 @@
   <div class="text-white">
     <h6 class="capitalize">{@html item.status}</h6>
     {@html item.message}
-    <p><a target="_blank" href="{viewblockURL}/0x{item.tx.ID}?network={$marketplace.appVariables.network}">View on viewblock</a></p>
+    <p><a target="_blank" href="{viewblockURL}/0x{item.tx.ID}?network={$variables.network}">View on viewblock</a></p>
   </div>
   {#if item.type === 'success' || item.type === 'failed'}
     <div

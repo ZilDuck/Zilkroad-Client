@@ -1,6 +1,6 @@
 <script>
   import TokenPrice from "../../components/TokenPrice.svelte";
-  import marketplace from "$store/marketplace";
+  import variables from "$store/variables";
 
   export let eventType = '-'
   export let date = '-'
@@ -23,7 +23,7 @@
     {eventType}
   </td>  
   <td>
-    <a class="underline" href="{viewblockURL}/{txHash}?network={$marketplace.appVariables.network}">{date}</a>
+    <a class="underline" href="{viewblockURL}/{txHash}?network={$variables.network}">{date}</a>
   </td>  
   <td>
     <a class="underline" href="/collections/{nftContract}/{tokenId}">{tokenId}</a>
