@@ -1,5 +1,6 @@
 <script>
   import TokenPrice from "../../components/TokenPrice.svelte";
+  import variables from "$store/variables";
 
   export let eventType = '-'
   export let date = '-'
@@ -10,7 +11,6 @@
   export let royalty
   export let output
   export let taxAmount
-  export let network = 'testnet'
   export let txHash = ''
   const viewblockURL = 'https://viewblock.io/zilliqa/tx'
 
@@ -23,7 +23,7 @@
     {eventType}
   </td>  
   <td>
-    <a class="underline" href="{viewblockURL}/{txHash}?network={network}">{date}</a>
+    <a class="underline" href="{viewblockURL}/{txHash}?network={$variables.network}">{date}</a>
   </td>  
   <td>
     <a class="underline" href="/collections/{nftContract}/{tokenId}">{tokenId}</a>

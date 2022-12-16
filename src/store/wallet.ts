@@ -2,7 +2,6 @@ import type { Writable } from 'svelte/store'
 import { browser } from '$app/env'
 import { writable } from 'svelte/store'
 import * as Cookie from 'cookie'
-import { variables } from '../lib/variables'
 import { toast } from './toast'
 
 
@@ -32,9 +31,10 @@ const createWalletStore = () => {
     const { base16, bech32 } = wallet.defaultAccount
     const network = wallet.net
 
-    const [getBalanceResponse, userBalancesResponse] = await Promise.all([
+    const [getBalanceResponse, userBalancesResponse, variables] = await Promise.all([
       blockchain.getBalance(base16).catch(() => 0) as Promise<{ result: { nonce: number, balance: string } }>,
-      await fetch(`/wallet/${base16}/balances.json`).then(async response => await response.json()).catch((error) => console.log(error))
+      await fetch(`/wallet/${base16}/balances.json`).then(async response => await response.json()).catch((error) => console.log(error)),
+      await fetch('/app/variables.json').then(async response => await response.json()).catch((error) => console.log(error))
     ])
 
     compareWalletAndSiteNetwork(network, variables.network)
