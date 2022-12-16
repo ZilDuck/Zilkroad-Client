@@ -1,13 +1,11 @@
 <script lang="ts">
 
   import type { Transaction } from '$store/transaction'
-  import { variables } from "../variables";
+  import marketplace from "$store/marketplace";
 
   export let item: Transaction
 
   const viewblockURL = 'https://viewblock.io/zilliqa/tx'
-  export const { network } = variables
-
 
   function close() {
     item.remove()
@@ -25,7 +23,7 @@
   <div class="text-white">
     <h6 class="capitalize">{@html item.status}</h6>
     {@html item.message}
-    <p><a target="_blank" href="{viewblockURL}/0x{item.tx.ID}?network={network}">View on viewblock</a></p>
+    <p><a target="_blank" href="{viewblockURL}/0x{item.tx.ID}?network={$marketplace.appVariables.network}">View on viewblock</a></p>
   </div>
   {#if item.type === 'success' || item.type === 'failed'}
     <div

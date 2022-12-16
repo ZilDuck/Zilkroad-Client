@@ -13,10 +13,11 @@ import type { Transaction } from '@zilliqa-js/account'
 export type Marketplace = {
   verifiedContracts: string[]
   approvedFungibles: Fungible[]
+  appVariables: string[]
 }
 
 const createMarketplaceStore = () => {
-  const { subscribe, update }: Writable<Marketplace> = writable({ verifiedContracts: [], approvedFungibles: [] })
+  const { subscribe, update }: Writable<Marketplace> = writable({ verifiedContracts: [], approvedFungibles: [], appVariables: [] })
   const api = zilkroad(fetch)
 
   const approveNftSpender = async (nftContract: string, tokenId: string) => {
@@ -253,6 +254,10 @@ const createMarketplaceStore = () => {
 
   api.getApprovedFungibles().then((approvedFungibles) => {
     update((m) => ({ ...m, approvedFungibles }))
+  })
+
+  api.getAppVariables().then((appVariables) => {
+    update((m) => ({ ...m, appVariables }))
   })
 
   return {
