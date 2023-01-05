@@ -8,8 +8,8 @@ on:
   workflow_dispatch:
 
 env:
-  AWS_REGION: eu-west-1
-  ECR_REPOSITORY: zilkroad-private
+  AWS_REGION: us-east-1
+  ECR_REPOSITORY: zilkroad
   CONTAINER_NAME: client
 
 jobs:
