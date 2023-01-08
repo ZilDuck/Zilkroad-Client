@@ -309,7 +309,9 @@
       </div>
       <div class="mt-20">
         <h2 class="text-xl font-semibold mb-5">Price history</h2>
+        {#if !graphData}
         <Chart bind:data={graphData} />
+       {/if}
       </div>
       {/if}
     </div>

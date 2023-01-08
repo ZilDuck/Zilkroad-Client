@@ -219,7 +219,9 @@
   {#if !collection.excluded}
   <div class="mt-20">
     <h2 class="text-xl font-semibold mb-5">Price history</h2>
-    <Chart bind:data={graph_data} />
+    {#if !graph_data}
+     <Chart bind:data={graph_data} />
+    {/if}
   </div>
   <div class="mb-20">
     <ContractActivityTable bind:data={activity_data} />

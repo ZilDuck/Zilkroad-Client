@@ -23,7 +23,7 @@
 
   export let final_price = 0
 
-  let fungibles = $marketplace.approvedFungibles.filter((fungible) => fungible.fungible_address !== '')
+  let fungibles = $marketplace.approvedFungibles.filter((fungible) => fungible.fungible_name !== 'NULL')
   let fungiblesSelect = fungibles.map((fungible) => {
     return {
       value: fungible.fungible_address,
