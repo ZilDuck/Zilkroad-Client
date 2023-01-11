@@ -25,7 +25,7 @@ COPY --from=build /app/node_modules ./node_modules
 COPY package.json .
 
 # Just to be safe
-RUN rm .env.local .env.local.example
+RUN rm -f .env.local .env.local.example
 
 # Set the port env
 ENV PORT=3050
