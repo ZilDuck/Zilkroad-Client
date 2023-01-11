@@ -11,7 +11,6 @@ RUN npm install
 
 # Copy over rest of the project files
 COPY . .
-COPY .env.local.example .env.local
 
 RUN npm run build
 
@@ -24,6 +23,9 @@ WORKDIR /app
 COPY --from=build /app/build ./build
 COPY --from=build /app/node_modules ./node_modules
 COPY package.json .
+
+# Just to be safe
+RUN rm -f .env.local .env.local.example
 
 # Set the port env
 ENV PORT=3050
