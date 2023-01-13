@@ -38,11 +38,11 @@
   import Detail from '$components/Detail.svelte'
   import Big from 'big.js'
   import Button from '$components/Button.svelte'
-  import marketplace from '$store/marketplace'
+  import marketplace  from '$store/marketplace'
+  import variables  from '$store/variables'
   import Chart from '$components/Chart.svelte'
   import Checkmark from '$components/icons/Checkmark.svelte'
   import NftCardList from '../../../../lib/NftCardList/index.svelte'
-  import { cdnBaseUrl } from '../../../../lib/cdn'
   import wallet from '$store/wallet'
   import { fade } from 'svelte/transition'
   import ShapeImage from '$components/ShapeImage.svelte'
@@ -53,7 +53,6 @@
   import TokenPrice from '../../../../components/TokenPrice.svelte'
   import EditSidebar from '../../../../components/sidebars/EditSidebar.svelte'
   import BuySidebar from '../../../../components/sidebars/BuySidebar.svelte'
-  import { variables } from '../../../../lib/variables'
   import ScamBanner from '../../../../components/ScamBanner.svelte'
 
   export let nft
@@ -61,10 +60,10 @@
   export let listedNfts
   export let listing: SingleListing | false // i set it as string cuz undefined no work wtf
 
-  export let max_royalty_bps = Number(variables.maxRoyaltyBps)
+  export let max_royalty_bps = Number($variables.maxRoyaltyBps)
   export let royalty_bps = collection?.royalty_bps ?? 0
   export let royalty_percentage = Number((royalty_bps / max_royalty_bps) * 100).toFixed(2) ?? 0.0
-  export let tax_amount = Number(variables.taxAmount)
+  export let tax_amount = Number($variables.taxAmount)
   export let tax_percentage = Number((tax_amount / max_royalty_bps) * 100).toFixed(2) ?? 0.0
 
   export let sales = nft.sales_count ?? 0
@@ -81,7 +80,7 @@
     : '0'
 
   $: name = `${collection.contract_name} #${nft.token_id}`
-  $: imageSrc = `${cdnBaseUrl}${nft.contract_address_b16}/${nft.token_id}?&optimizer=image&width=650`
+  $: imageSrc = `${$variables.cdnBase}${nft.contract_address_b16}/${nft.token_id}?&optimizer=image&width=650`
   $: userWalletIsOwner = nft.owner_address_b32 == $wallet.bech32
 
   // marketplace meta

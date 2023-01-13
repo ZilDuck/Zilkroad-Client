@@ -1,10 +1,8 @@
 <script type="ts">
-  import { variables } from "../variables"
   import UserActivityRow from "./UserActivityRow.svelte";
   export let data: UserActivity[]
   let rows = []
 
-  export const { network } = variables
   const headers = ['Event', 'Date', 'NFT Token ID', 'NFT Contract', 'Price', 'NFT Royalty', 'Tax', 'Output']
   const viewblockURL = 'https://viewblock.io/zilliqa/tx'
 
