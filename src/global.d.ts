@@ -117,8 +117,8 @@ export declare global {
    }
 
    type SaleGraphPoint = {
-     unixtime: number;
-     price: number;
+     date: number;
+     max: number;
    }
 
    type NftMetadata = {

@@ -8,10 +8,12 @@
   let chartElement
   let chart
 
+  var line_data = []
+
   if (data) {
     data.forEach((row) => {
-      console.log({ time: Date.parse(new Date(Number(row.unixtime)).toDateString()) / 1000, value: parseFloat(row.price.toString()) })
-      rows.push({ time:  Date.parse(new Date(Number(row.unixtime)).toDateString()) / 1000, value: parseFloat(row.price.toString()) })
+      console.log(`line ${row.date} ${parseFloat(row.max)}`)
+      line_data.push({ time: row.date, value: row.max })
     })
   }
 
@@ -25,31 +27,28 @@
       },
       grid: {
         vertLines: {
-          visible: true
+          visible: false
         },
         horzLines: {
           color: 'rgba(48, 48, 48, 1)'
         }
       },
-      leftPriceScale: {
-        borderVisible: false,
-        visible: true
-      },
       rightPriceScale: {
-        borderVisible: false,
-        visible: false,
         scaleMargins: {
-            top: 0.1,
-            bottom: 0.1,
+          top: 0.75,
+          bottom: 0.05,
         },
+		    borderVisible: false,
       },
       timeScale: {
-        borderVisible: true,
-        
+        borderVisible: false,
       },
       crosshair: {
         horzLine: {
-          visible: true
+          visible: false
+        },
+        vertLine: {
+          visable: false
         }
       },
     })
@@ -58,7 +57,7 @@
       lineWidth: 1
     })
 
-    lineSeries.setData(rows)
+    lineSeries.setData(line_data)
 
     chart.timeScale().setVisibleRange({ //this is not properly tested - elt
       from: data[0],
