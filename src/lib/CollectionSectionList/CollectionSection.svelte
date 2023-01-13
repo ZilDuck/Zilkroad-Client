@@ -1,4 +1,6 @@
 <script>
+  import variables from '../../store/variables'
+
   export let collection = {
     contract_address_b16: 0,
     contract_address_b32: 0,
@@ -13,7 +15,6 @@
     count: 0
   }
 
-  export let cdnBaseUrl
 
   const max_royalty_bps = 10000
   collection.royalty = collection.royalty ? max_royalty_bps / collection.royalty : 0
@@ -34,7 +35,7 @@
 <div class="lg:flex lg:h-24 bg-gray-900 rounded-lg" on:mouseenter={enter} on:mouseleave={leave}>
   <div class="m-5 mb-0 lg:m-0 col-span-4 flex pb-5 lg:pb-0 border-b border-gray-600 lg:border-b-0">
     <img
-      src="{cdnBaseUrl}/{collection.contract_address_b16}?optimizer=image&width=800"
+      src="{$variables.cdnBase}/{collection.contract_address_b16}?optimizer=image&width=800"
       alt={collection.name}
       class="rounded-lg lg:rounded-r-none w-24 mt-5 lg:mt-0 object-cover border-gray-900 border"
       width="300"

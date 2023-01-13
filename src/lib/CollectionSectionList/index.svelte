@@ -1,10 +1,10 @@
 <script>
   import { session } from '$app/stores'
   import CollectionSection from './CollectionSection.svelte'
-  import { cdnBaseUrl } from '../../lib/cdn'
+  import variables from "../../store/variables";
   export let collections
 </script>
 
 {#each collections as collection}
-  <CollectionSection {collection} cdnBaseUrl={cdnBaseUrl} user={$session.user} />
+  <CollectionSection {collection} cdnBaseUrl={$variables.cdnBase} user={$session.user} />
 {/each}

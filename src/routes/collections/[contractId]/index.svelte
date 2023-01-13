@@ -61,7 +61,6 @@
   import Pagination from '../../../components/Pagination.svelte'
   import TwitterShare from '../../../components/TwitterShare.svelte'
   import { page } from '$app/stores'
-  import { cdnBaseUrl } from '../../../lib/cdn'
 
   import Discord from '$icons/social/Discord.svelte'
   import Twitter from '$icons/social/Twitter.svelte'
@@ -70,8 +69,8 @@
   import AdBanner from '../../../components/AdBanner.svelte'
   import ContractActivityTable from '../../../lib/ContractActivityTable/index.svelte'
   import ReportCollection from "../../../components/ReportCollection.svelte";
-  import Collections from "../../../components/icons/Collections.svelte"
   import ScamBanner from "../../../components/ScamBanner.svelte"
+  import variables from "$store/variables";
 
   export let collection = {}
   export let nfts = []
@@ -93,9 +92,7 @@
   export let listed_tokens = collection.stats?.listed_tokens
   export let sales_volume = collection.stats?.volume
   export let graph_data = collection.volume_over_time ?? []
-
-  const image_uri = `${cdnBaseUrl}${collection.contract_address_b16}?optimizer=image&width=650`
-
+  
   async function handlePageChange(event) {
     const page = event.detail.currentPage
     let collectionNfts = await fetch(`/collections/${contractId}/nfts.json?page=${page}`)
@@ -138,7 +135,7 @@
   <div class="max-w-screen-xl mx-5 xl:mx-auto xl:px-0 lg:grid lg:grid-cols-2 lg:grid-flow-col-dense w-full">
       <img
         class="w-full max-w-[600px] h-auto rounded-lg lg:col-start-2 ml-auto"
-        src={image_uri}
+        src={`${$variables.cdnBase}${collection.contract_address_b16}?optimizer=image&width=650`}
         alt="{collection.name ?? collection.contract_name} hero"
         data-cy="metadata-image"
       />
