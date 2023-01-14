@@ -30,7 +30,7 @@
                 alt="No sales history"
                 class="fill-white max-w-[24px] mb-[10px]"
               />
-              <p class="text-[14px]">There is no sale history for this NFT yet</p>
+              <p class="text-[14px]">There is no sales data for this NFT, yet...</p>
             </div>
           </td>
         </tr>
