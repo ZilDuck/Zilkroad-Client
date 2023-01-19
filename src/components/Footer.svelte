@@ -5,8 +5,7 @@
   import Twitter from './icons/Twitter.svelte'
   export let className = 'mt-28'
 
-  import { variables } from '../lib/variables.js'
-  export const { docsURL } = variables
+  import variables from "../store/variables";
   
   const thisYear = new Date().getFullYear()
 </script>
@@ -27,7 +26,7 @@
         <h2>Info</h2>
         <ul>
           <li>
-            <a href={docsURL}>Documentation</a>
+            <a href={$variables.docsUrl}>Documentation</a>
           </li>
           <li><a href={'/about-us'}>About us</a></li>
         </ul>

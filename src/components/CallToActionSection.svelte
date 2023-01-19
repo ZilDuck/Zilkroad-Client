@@ -1,7 +1,6 @@
 <script lang="ts">
   import LinkButton from '$components/LinkButton.svelte'
-  import { variables } from '../lib/variables.js'
-  export const { docsURL } = variables
+  import variables from "../store/variables";
   export let className = ''
   export let title = 'Feature your collection'
   export let description =
@@ -17,7 +16,7 @@
 >
   <h1 class="text-4xl font-medium">{title}</h1>
   <p class="max-w-lg font-light text-white">{description}</p>
-  <LinkButton className="w-min whitespace-nowrap" {docsURL}>
+  <LinkButton className="w-min whitespace-nowrap" src={$variables.docsUrl}>
     {buttonText}
   </LinkButton>
 </section>

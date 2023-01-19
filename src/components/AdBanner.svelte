@@ -1,9 +1,8 @@
 <script lang="ts">
   import LinkButton from '$components/LinkButton.svelte'
   import { onMount } from 'svelte'
-  import { variables } from '../lib/variables.js'
-  export const { docsURL } = variables
-  
+  import variables from "../store/variables";
+
   import SweepingGradient from './SweepingGradient.svelte'
   export let className = ''
   export let adtitle = 'Collection name'
@@ -47,7 +46,7 @@
         <h1 class="text-4xl font-medium">{adtitle}</h1>
         <p class="max-w-xl font-light text-white">{description}</p>
         <div class="flex items-center justify-start gap-5">
-          <LinkButton className="w-min whitespace-nowrap" url={docsUrl}>
+          <LinkButton className="w-min whitespace-nowrap" url={$variables.docsUrl}>
             {buttonText}
           </LinkButton>
           {#if contractAddress}

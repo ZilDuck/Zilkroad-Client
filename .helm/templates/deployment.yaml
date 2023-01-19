@@ -40,7 +40,7 @@ spec:
             - name: VITE_MAX_ROYALTY_BPS
               value: {{ .Values.env.maxRoyaltyBps | quote }}
             - name: VITE_DOCS_URL
-              value: {{ .Values.env.docsURL | quote }}
+              value: {{ .Values.env.docsUrl | quote }}
           resources:
             limits:
               cpu: {{ .Values.resources.limits.cpu | quote }}
