@@ -4,7 +4,7 @@
     export let className = ''
     export let textColor = 'text-zilkroad-gray-medium'
     export let dark = false
-    export let url = '/'
+    export let url = 'https://discord.gg/CJbgkYyPXB'
   </script>
   
   <a
