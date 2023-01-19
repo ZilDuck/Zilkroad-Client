@@ -9,6 +9,7 @@ type NetworkValues = {
   cdnBase: string;
   taxAmount: number;
   maxRoyaltyBps: number;
+  docsUrl: string;
 }
 
 const createNetworkValuesStore = () => {
@@ -18,7 +19,8 @@ const createNetworkValuesStore = () => {
     wzilAddress: '',
     cdnBase: '',
     taxAmount: 0,
-    maxRoyaltyBps: 0
+    maxRoyaltyBps: 0,
+    docsUrl: ''
   })
 
   const fetchNetworkValues = async () => {
