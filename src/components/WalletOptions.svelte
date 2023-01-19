@@ -30,6 +30,7 @@
 >
   <div class="wallet-options-header flex justify-between items-center border-b-[1px] border-zilkroad-gray-border pb-5">
     <h6 class="font-medium">Options</h6>
+    <a href="/wallet/{$wallet.bech32}">
     <div class="wallet-options-header-user flex">
       <img
         src="https://i.pickadummy.com/index.php?imgsize=25x25&cache={$wallet.base16}"
@@ -38,6 +39,7 @@
       />
       <p>{data}</p>
     </div>
+    </a>
   </div>
   <div class="wallet-options-menu py-5 border-b-[1px] border-zilkroad-gray-border">
     <ul>
