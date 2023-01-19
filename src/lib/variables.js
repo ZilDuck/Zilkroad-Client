@@ -6,5 +6,5 @@ export const variables = {
   cdnBaseUrl: import.meta.env.VITE_CDN_BASE_URL ?? process.env.VITE_CDN_BASE_URL,
   maxRoyaltyBps: import.meta.env.VITE_MAX_ROYALTY_BPS ?? process.env.VITE_MAX_ROYALTY_BPS,
   taxAmount: import.meta.env.VITE_TAX_AMOUNT ?? process.env.VITE_TAX_AMOUNT,
-  DocsUrl: import.meta.env.VITE_DOCS_URL ?? process.env.VITE_DOCS_URL
+  docsUrl: import.meta.env.VITE_DOCS_URL ?? process.env.VITE_DOCS_URL
 }

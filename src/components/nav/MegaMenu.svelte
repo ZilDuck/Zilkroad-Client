@@ -4,7 +4,7 @@
   import Launchpad from '$icons/Launchpad.svelte'
   import Collections from '$icons/Collections.svelte'
   import Docs from '$icons/Docs.svelte'
-  import { variables } from '../lib/variables.js'
+  import { variables } from '../../lib/variables.js'
   export const { docsURL } = variables
 </script>
 
