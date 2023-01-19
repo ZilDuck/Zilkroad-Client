@@ -5,6 +5,7 @@ env:
   cdnBase: https://zildexr-testnet.b-cdn.net/
   taxAmount: "200"
   maxRoyaltyBps: "10000"
+  docsUrl: 'https://docs-testnet.zilkroad.io/'
   
 namespace: zilkroad-testnet
 
