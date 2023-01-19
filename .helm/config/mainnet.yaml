@@ -5,6 +5,7 @@ env:
   cdnBase: https://cdn.zildexr.com/
   taxAmount: "200"
   maxRoyaltyBps: "10000"
+  docsURL: 'https://docs.zilkroad.io/'
   
 namespace: zilkroad-mainnet
 

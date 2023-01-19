@@ -1,13 +1,15 @@
 <script lang="ts">
   import LinkButton from '$components/LinkButton.svelte'
   import { onMount } from 'svelte'
+  import { variables } from '../lib/variables.js'
+  export const { docsURL } = variables
+  
   import SweepingGradient from './SweepingGradient.svelte'
   export let className = ''
   export let adtitle = 'Collection name'
   export let description = 'Enter your advert description here.'
   export let buttonText = 'Vist our link'
   export let background = '/images/ad-background.png'
-  export let url = 'https://docs-testnet.zilkroad.io/features/adverts'
   export let contractAddress
   export let advert
   let loaded = false
@@ -22,7 +24,7 @@
     if (advert?.advertise_start_unixtime >= 0) {
       adtitle = advert.adtitle
       description = advert.description
-      url = advert.advertise_uri
+      docsUrl = advert.advertise_uri
       contractAddress = advert.nonfungible_address
       background = advert.desktop_image_uri ?? advert.mobile_image_uri
     }
@@ -45,7 +47,7 @@
         <h1 class="text-4xl font-medium">{adtitle}</h1>
         <p class="max-w-xl font-light text-white">{description}</p>
         <div class="flex items-center justify-start gap-5">
-          <LinkButton className="w-min whitespace-nowrap" {url}>
+          <LinkButton className="w-min whitespace-nowrap" url={docsUrl}>
             {buttonText}
           </LinkButton>
           {#if contractAddress}
