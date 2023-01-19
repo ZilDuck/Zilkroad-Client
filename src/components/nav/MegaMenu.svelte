@@ -4,6 +4,8 @@
   import Launchpad from '$icons/Launchpad.svelte'
   import Collections from '$icons/Collections.svelte'
   import Docs from '$icons/Docs.svelte'
+  import { variables } from '../lib/variables.js'
+  export const { docsURL } = variables
 </script>
 
 <div
@@ -45,7 +47,7 @@
       </a> -->
 
       <a
-        href="https://docs-testnet.zilkroad.io"
+        href={docsURL}
         class="w-[224px] p-5 border border-solid border-zilkroad-gray-dark rounded-lg hover:bg-zilkroad-gray-dark"
       >
         <div class="flex items-center mb-3">
@@ -64,7 +66,7 @@
         featured tick and more by featuring your collection.
       </p>
       <a
-        href="https://docs-testnet.zilkroad.io/features/adverts"
+        href={docsURL}
         class="bg-white text-[#989898] px-5 rounded-xl h-12 inline-flex items-center self-start"
         >Feature your collection</a
       >
