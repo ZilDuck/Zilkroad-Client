@@ -6,6 +6,7 @@
   import {toast} from "../store/toast";
   import { convertWithDecimals } from "../lib/fungibles";
   import { onMount } from "svelte";
+  import variables from "$store/variables";
 
   let convertAmount
   let approvedFungibles
@@ -42,8 +43,10 @@
   }
 
   async function convert() {
+    console.log('convert amount', convertAmount)
+    console.log('approvedFungibles', approvedFungibles)
     const convertedConvertAmount = convertWithDecimals(approvedFungibles, 'WZIL', convertAmount)
-    let convertTransactions = zilToWZil ? await wrapZil(convertedConvertAmount) : await unwrapZil(convertedConvertAmount)
+    let convertTransactions = zilToWZil ? await wrapZil(convertedConvertAmount, $variables.wzilAddress) : await unwrapZil(convertedConvertAmount, $variables.wzilAddress)
     if (convertTransactions){
       toast.add({ message: 'Transaction Pending', type: 'info' })
       await pollTx(convertTransactions)

@@ -1,8 +1,8 @@
 import type { TxParams } from '@zilliqa-js/account'
 import { contract } from './contract'
-import { marketplaceAddress } from './marketplace'
 
 export const setSpender = async (
+  marketplaceAddress: string,
   nftContract: string,
   tokenId: string,
   params: Partial<TxParams> = {}
@@ -68,6 +68,7 @@ export const transferFrom = async (
 }
 
 export const hasSpender = async (
+  marketplaceAddress: string,
   nftContract: string,
   tokenId: string
 ) => {

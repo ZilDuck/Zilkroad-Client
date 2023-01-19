@@ -3,6 +3,7 @@
   import { fly } from 'svelte/transition'
   import SvgLoader from '$components/SvgLoader.svelte'
   import marketplace from '$store/marketplace'
+  import variables from '$store/marketplace'
   import { hasSpender } from '../../zilpay/nonfungible'
   import { onMount } from 'svelte'
   import { transaction } from '$store/transaction'
@@ -29,7 +30,7 @@
   let spenderButtonText = 'Approve'
   let nftHasSpender = false
   onMount(async () => {
-    nftHasSpender = await hasSpender(tokenContract, tokenID)
+    nftHasSpender = await hasSpender($variables.marketplaceAddress, tokenContract, tokenID)
     if (nftHasSpender) {
       spenderButtonText = 'Approved'
     }

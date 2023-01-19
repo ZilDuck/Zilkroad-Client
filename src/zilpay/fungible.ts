@@ -1,8 +1,8 @@
 import type { TxParams } from '@zilliqa-js/account'
 import { contract } from './contract'
-import { marketplaceAddress } from './marketplace'
 
 export const increaseAllowance = async (
+  marketplaceAddress: string,
   fungibleContract: string,
   amount: string,
   params: Partial<TxParams> = {}

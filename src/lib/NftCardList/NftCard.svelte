@@ -92,12 +92,13 @@
   }
 
   async function approve() {
-    await marketplace.approveNftSpender(nft.contract_address_b16, nft.token_id)
+    await marketplace.approveNftSpender($variables.nftMarketplaceAddress, nft.contract_address_b16, nft.token_id)
   }
 
   async function list() {
+    console.log('variables', $variables)
     const convertedSellPrice = convertWithDecimals($marketplace.approvedFungibles, sellFungible, sellPrice)
-    const {txSuccess} = await marketplace.listNft(nft.contract_address_b16, nft.token_id, sellFungible, convertedSellPrice)
+    const {txSuccess} = await marketplace.listNft($variables.nftMarketplaceAddress, nft.contract_address_b16, nft.token_id, sellFungible, convertedSellPrice)
     if (txSuccess){
       closeSidebar()
     }
@@ -105,12 +106,12 @@
 
   function delist() {
     open = false
-    marketplace.delistNft(orderId)
+    marketplace.delistNft($variables.nftMarketplaceAddress, orderId)
   }
 
   async function edit() {
     const convertedSellPrice = convertWithDecimals($marketplace.approvedFungibles, sellFungible, sellPrice)
-    const {txSuccess} = await marketplace.editListedNft(orderId, sellFungible, convertedSellPrice, name, nft.contract_address_b32, nft.token_id)
+    const {txSuccess} = await marketplace.editListedNft($variables.nftMarketplaceAddress, orderId, sellFungible, convertedSellPrice, name, nft.contract_address_b32, nft.token_id)
     if (txSuccess){
       listingPrice = convertedSellPrice
       closeSidebar()
@@ -124,7 +125,7 @@
 
   async function increaseAllowance() {
     open = false
-    await marketplace.increaseFungibleAllowance(buyFungible, listingPrice, nft.contract_address_b32, nft.token_id)
+    await marketplace.increaseFungibleAllowance($variables.nftMarketplaceAddress, buyFungible, listingPrice, nft.contract_address_b32, nft.token_id)
   }
 
   async function buy() {

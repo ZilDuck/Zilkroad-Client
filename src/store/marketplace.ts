@@ -19,10 +19,10 @@ const createMarketplaceStore = () => {
   const { subscribe, update }: Writable<Marketplace> = writable({ verifiedContracts: [], approvedFungibles: [] })
   const api = zilkroad(fetch)
 
-  const approveNftSpender = async (nftContract: string, tokenId: string) => {
+  const approveNftSpender = async (marketplaceAddress: string, nftContract: string, tokenId: string) => {
     const nonce = await wallet.getNonce()
 
-    const spenderTx = await setSpender(nftContract, tokenId, { nonce: nonce + 1 }).catch((error) => {
+    const spenderTx = await setSpender(marketplaceAddress, nftContract, tokenId, { nonce: nonce + 1 }).catch((error) => {
       console.log(error)
       toast.add({ message: 'User rejected spender set', type: 'error' })
     })
@@ -49,14 +49,14 @@ const createMarketplaceStore = () => {
     return { spenderTx }
   }
 
-  const listNft = async (nftContract: string, tokenId: string, fungible: string, sellPrice: string) => {
+  const listNft = async (marketplaceAddress: string, nftContract: string, tokenId: string, fungible: string, sellPrice: string) => {
     const nonce = await wallet.getNonce()
     let txSuccess = false
     if (sellPrice === '0') {
       toast.add({ message: 'Listing Price Can\'t be 0', type: 'error' })
       return { txSuccess }
     }
-    const listTx = <Transaction> await userList(nftContract, tokenId, fungible, sellPrice, {
+    const listTx = <Transaction> await userList(marketplaceAddress, nftContract, tokenId, fungible, sellPrice, {
       nonce: nonce + 2
     }).catch((error) => {
       console.log(error)
@@ -87,9 +87,9 @@ const createMarketplaceStore = () => {
     return { listTx, txSuccess }
   }
 
-  const delistNft = async (orderId: string) => {
+  const delistNft = async (marketplaceAddress: string, orderId: string) => {
     const nonce = await wallet.getNonce()
-    const listTx = await userReturn(orderId, { nonce: nonce + 1 }).catch((error) => {
+    const listTx = await userReturn(marketplaceAddress, orderId, { nonce: nonce + 1 }).catch((error) => {
       console.log(error)
       toast.add({ message: 'User rejected delisting', type: 'error' })
     })
@@ -98,11 +98,11 @@ const createMarketplaceStore = () => {
     return { listTx }
   }
 
-  const increaseFungibleAllowance = async (fungibleAddress: string, listingPrice: string, nftContract: string, tokenId: string) => {
+  const increaseFungibleAllowance = async (marketplaceAddress: string, fungibleAddress: string, listingPrice: string, nftContract: string, tokenId: string) => {
     const nonce = await wallet.getNonce()
     let userCancelled = false
 
-    const increaseTx = await increaseAllowance(fungibleAddress, listingPrice, { nonce: nonce + 1 }).catch((error) => {
+    const increaseTx = await increaseAllowance(marketplaceAddress, fungibleAddress, listingPrice, { nonce: nonce + 1 }).catch((error) => {
       console.log(error)
       toast.add({ message: 'User rejected allowance increase', type: 'error' })
       userCancelled = true
@@ -136,6 +136,7 @@ const createMarketplaceStore = () => {
   }
 
   const buyNft = async (
+    marketplaceAddress: string,
     fungibleAddress: string,
     listingPrice: string,
     listingId: string,
@@ -147,7 +148,7 @@ const createMarketplaceStore = () => {
     let userCancelled = false
     let txSuccess = false
 
-    const buyTx = await userBuy(listingId, { nonce: nonce + 2 }).catch((error) => {
+    const buyTx = await userBuy(marketplaceAddress, listingId, { nonce: nonce + 2 }).catch((error) => {
       console.log(error)
       toast.add({ message: 'User rejected buy', type: 'error' })
       userCancelled = true
@@ -180,6 +181,7 @@ const createMarketplaceStore = () => {
   }
 
   const editListedNft = async (
+    marketplaceAddress: string,
     orderId: string,
     fungible: string,
     sellPrice: number,
@@ -193,7 +195,7 @@ const createMarketplaceStore = () => {
       toast.add({ message: 'Listing Price Must Be More Than 0', type: 'error' })
       return { txSuccess }
     }
-    const editTx = await userEditListing(orderId, fungible, sellPrice, {
+    const editTx = await userEditListing(marketplaceAddress, orderId, fungible, sellPrice, {
       nonce: nonce + 2
     }).catch((error) => {
       console.log(error)

@@ -1,5 +1,3 @@
-import { variables } from './variables.js'
-
 export function clickOutside(node) {
   const handleClick = (event) => {
     if (node && !node.contains(event.target) && !event.defaultPrevented) {

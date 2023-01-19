@@ -80,7 +80,7 @@
     : '0'
 
   $: name = `${collection.contract_name} #${nft.token_id}`
-  $: imageSrc = `${$variables.cdnBase}${nft.contract_address_b16}/${nft.token_id}?&optimizer=image&width=650`
+  $: imageSrc = `${nft.contract_address_b16}/${nft.token_id}?&optimizer=image&width=650`
   $: userWalletIsOwner = nft.owner_address_b32 == $wallet.bech32
 
   // marketplace meta
@@ -95,7 +95,7 @@
   export let verified = nft.verified ? nft.verified : false
 
   async function approve() {
-    await marketplace.approveNftSpender(nft.contract_address_b16, nft.token_id)
+    await marketplace.approveNftSpender($variables.nftMarketplaceAddress, nft.contract_address_b16, nft.token_id)
   }
 
   async function list() {
@@ -115,6 +115,7 @@
   async function edit() {
     const convertedSellPrice = convertWithDecimals($marketplace.approvedFungibles, sellFungible, sellPrice)
     const { txSuccess } = await marketplace.editListedNft(
+      $variables.nftMarketplaceAddress,
       orderId,
       sellFungible,
       convertedSellPrice,
@@ -129,11 +130,12 @@
   }
 
   async function increaseAllowance() {
-    await marketplace.increaseFungibleAllowance(buyFungible, listingPrice, nft.contract_address_b32, nft.token_id)
+    await marketplace.increaseFungibleAllowance($variables.nftMarketplaceAddress, buyFungible, listingPrice, nft.contract_address_b32, nft.token_id)
   }
 
   async function buy() {
     const { txSuccess } = marketplace.buyNft(
+      $variables.nftMarketplaceAddress,
       buyFungible,
       listingPrice,
       orderId,
@@ -148,7 +150,7 @@
   }
 
   function delist() {
-    marketplace.delistNft(orderId)
+    marketplace.delistNft($variables.nftMarketplaceAddress, orderId)
   }
 
   let listSidebarOpen = false
@@ -319,10 +321,10 @@
         <img
           class="w-full h-auto rounded-lg bg-zilkroad-gray-dark"
           alt={name}
-          src={imageSrc.toLowerCase()}
+          src={$variables.cdnBase + '/' + imageSrc.toLowerCase()}
           on:error={handleImageError}
         />
-        {#if nft.token_metadata.attributes}
+        {#if nft.token_metadata?.attributes}
           <ul class="flex flex-wrap gap-5 mt-10 lg:col-start-2">
             {#each nft.token_metadata.attributes as attribute}
               <li class="py-3 px-[10px] bg-zilkroad-gray-dark rounded-lg">

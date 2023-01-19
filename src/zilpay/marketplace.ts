@@ -1,11 +1,9 @@
 import type { TxParams } from '@zilliqa-js/account'
 import { contract } from './contract'
-import { variables } from '../lib/variables.js'
 import type { Transaction } from '@zilliqa-js/account'
 
-export const { marketplaceAddress } = variables
-
 export const userList = async (
+  marketplaceAddress: string,
   nftContract: string,
   tokenId: string,
   fungible: string,
@@ -41,7 +39,8 @@ export const userList = async (
   )
 }
 
-export const userEditListing: (orderId: string, fungible: string, sellPrice: number, params?: Partial<TxParams>) => Promise<Transaction> = async (
+export const userEditListing: (marketplaceAddress: string, orderId: string, fungible: string, sellPrice: number, params?: Partial<TxParams>) => Promise<Transaction> = async (
+  marketplaceAddress: string,
   orderId: string,
   fungible: string,
   sellPrice: number,
@@ -71,7 +70,7 @@ export const userEditListing: (orderId: string, fungible: string, sellPrice: num
   )
 }
 
-export const userReturn = async (orderId: string, params: Partial<TxParams> = {}) => {
+export const userReturn = async (marketplaceAddress: string, orderId: string, params: Partial<TxParams> = {}) => {
   const { call } = contract(marketplaceAddress)
   return await call(
     'UserReturn',
@@ -86,7 +85,7 @@ export const userReturn = async (orderId: string, params: Partial<TxParams> = {}
   )
 }
 
-export const userBuy = async (orderId: string, params: Partial<TxParams> = {}) => {
+export const userBuy = async (marketplaceAddress: string, orderId: string, params: Partial<TxParams> = {}) => {
   const { call } = contract(marketplaceAddress)
   return await call(
     'UserBuy',
@@ -101,7 +100,7 @@ export const userBuy = async (orderId: string, params: Partial<TxParams> = {}) =
   )
 }
 
-export const getListing = async (orderId: string) => {
+export const getListing = async (marketplaceAddress: string, orderId: string) => {
   const { getSubstate } = contract(marketplaceAddress)
   const orderState = (await getSubstate('listing_map', [orderId])) as
     | {
