@@ -1,13 +1,12 @@
 <script lang="ts">
   import LinkButton from '$components/LinkButton.svelte'
-
+  import variables from "../store/variables";
   export let className = ''
   export let title = 'Feature your collection'
   export let description =
     'Make your collection stand out by becoming a featured collection on Zilkroad. You will get featured banners, the featured tick and more by featuring your collection.'
   export let buttonText = 'Feature your collection'
   export let backgroundImage = '/images/launchpad.png'
-  export let url = 'https://docs-testnet.zilkroad.io/features/adverts'
   const background = backgroundImage !== '' ? backgroundImage : 'images/launchpad.jpg'
 </script>
 
@@ -17,7 +16,7 @@
 >
   <h1 class="text-4xl font-medium">{title}</h1>
   <p class="max-w-lg font-light text-white">{description}</p>
-  <LinkButton className="w-min whitespace-nowrap" {url}>
+  <LinkButton className="w-min whitespace-nowrap" src={$variables.docsUrl}>
     {buttonText}
   </LinkButton>
 </section>
