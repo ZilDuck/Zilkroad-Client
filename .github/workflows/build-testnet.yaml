@@ -42,14 +42,14 @@ jobs:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           ENVIRONMENT: testnet
           BUILD_ARGS: |
-            API_ENDPOINT=${{ from_yaml(file('./.helm/config/testnet.yaml')).env.apiEndpoint }}
-            BLOCK_NETWORK=${{ from_yaml(file('./.helm/config/testnet.yaml')).env.network }}
-            MARKETPLACE_ADDRESS=${{ from_yaml(file('./.helm/config/testnet.yaml')).env.nftMarketplaceAddress }}
-            WZIL_ADDRESS=${{ from_yaml(file('./.helm/config/testnet.yaml')).env.wzilAddress }}
-            TAX_AMOUNT=${{ from_yaml(file('./.helm/config/testnet.yaml')).env.cdnBase }}
-            MAX_ROYALTY_BPS=${{ from_yaml(file('./.helm/config/testnet.yaml')).env.taxAmount }}
-            CDN_BASE_URL=${{ from_yaml(file('./.helm/config/testnet.yaml')).env.maxRoyaltyBps }}
-            DOCS_URL=${{ from_yaml(file('./.helm/config/testnet.yaml')).env.docsUrl }}
+            API_ENDPOINT="https://testnet-public-api.zilkroad.io"
+            BLOCK_NETWORK=testnet
+            MARKETPLACE_ADDRESS="0xad43392d1750771e58931801ddc274e5984660b4"
+            WZIL_ADDRESS="0x864895d52504c388A345eF6cd9C800DBBD0eF92A"
+            TAX_AMOUNT=https://zildexr-testnet.b-cdn.net/
+            MAX_ROYALTY_BPS="200"
+            CDN_BASE_URL="10000"
+            DOCS_URL="https://docs-testnet.zilkroad.io/"
         run: |
           export IMAGE_TAG= $ECR_REGISTRY/$ECR_REPOSITORY/$CONTAINER_NAME::$(date +%s)
           docker build \
