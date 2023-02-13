@@ -1,0 +1,66 @@
+name: Build Testnet
+
+on:
+  workflow_dispatch:
+
+env:
+  AWS_REGION: us-east-1
+  ECR_REPOSITORY: zilkroad
+  CONTAINER_NAME: client-testnet
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: hadolint/hadolint-action@v1.5.0
+        with:
+          dockerfile: Dockerfile
+          failure-threshold: error
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+
+      - name: Build, tag, and push image to Amazon ECR
+        id: build-image
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ENVIRONMENT: testnet
+          BUILD_ARGS: |
+            API_ENDPOINT=${{ from_yaml(file('./.helm/config/testnet.yaml')).env.apiEndpoint }}
+            BLOCK_NETWORK=${{ from_yaml(file('./.helm/config/testnet.yaml')).env.network }}
+            MARKETPLACE_ADDRESS=${{ from_yaml(file('./.helm/config/testnet.yaml')).env.nftMarketplaceAddress }}
+            WZIL_ADDRESS=${{ from_yaml(file('./.helm/config/testnet.yaml')).env.wzilAddress }}
+            TAX_AMOUNT=${{ from_yaml(file('./.helm/config/testnet.yaml')).env.cdnBase }}
+            MAX_ROYALTY_BPS=${{ from_yaml(file('./.helm/config/testnet.yaml')).env.taxAmount }}
+            CDN_BASE_URL=${{ from_yaml(file('./.helm/config/testnet.yaml')).env.maxRoyaltyBps }}
+            DOCS_URL=${{ from_yaml(file('./.helm/config/testnet.yaml')).env.docsUrl }}
+        run: |
+          export IMAGE_TAG= $ECR_REGISTRY/$ECR_REPOSITORY/$CONTAINER_NAME::$(date +%s)
+          docker build \
+          --build-arg API_ENDPOINT=$API_ENDPOINT \
+          --build-arg BLOCK_NETWORK=$BLOCK_NETWORK \
+          --build-arg MARKETPLACE_ADDRESS=$MARKETPLACE_ADDRESS \
+          --build-arg WZIL_ADDRESS=$WZIL_ADDRESS \
+          --build-arg TAX_AMOUNT=$TAX_AMOUNT \
+          --build-arg MAX_ROYALTY_BPS=$MAX_ROYALTY_BPS \
+          --build-arg CDN_BASE_URL=$CDN_BASE_URL \
+          --build-arg DOCS_URL=$DOCS_URL \
+          -t $IMAGE_TAG .
+          docker push $IMAGE_TAG
+          echo "::set-output name=image::$IMAGE_TAG"
