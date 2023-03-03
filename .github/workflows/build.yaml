@@ -69,7 +69,7 @@ jobs:
           --build-arg BLOCK_NETWORK="testnet" \
           --build-arg MARKETPLACE_ADDRESS="0xad43392d1750771e58931801ddc274e5984660b4" \
           --build-arg WZIL_ADDRESS="0x864895d52504c388A345eF6cd9C800DBBD0eF92A" \
-          --build-arg TAX_AMOUNT="200 \
+          --build-arg TAX_AMOUNT="200" \
           --build-arg MAX_ROYALTY_BPS="10000" \
           --build-arg CDN_BASE_URL="https://zildexr-testnet.b-cdn.net/" \
           --build-arg DOCS_URL="https://docs-testnet.zilkroad.io/" \
