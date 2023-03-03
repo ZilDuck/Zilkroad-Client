@@ -56,15 +56,6 @@ jobs:
         run: |
           [[ "${{ github.event_name }}" = "pull_request" ]] && echo "::set-output name=tag::${{ steps.semVars.outputs.patch }}-$(git rev-parse --short HEAD)" || true
           [[ "${{ github.event_name }}" = "push" ]] && echo "::set-output name=tag::${{ steps.semVars.outputs.patch }}" || true
-
-      - name: Build, tag, and push image to Amazon ECR
-        id: build-image
-        env:
-          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-        run: |
-          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY/$CONTAINER_NAME:${{ steps.commitTag.outputs.tag }} .
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY/$CONTAINER_NAME:${{ steps.commitTag.outputs.tag }}
-          echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY/$CONTAINER_NAME:${{ steps.commitTag.outputs.tag }}"
           
       - name: Beta Build, tag, and push image to Amazon ECR
         id: build-image-beta
