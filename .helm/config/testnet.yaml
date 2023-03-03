@@ -12,6 +12,7 @@ namespace: zilkroad-testnet
 
 image:
   app:
+    url: 981130112916.dkr.ecr.us-east-1.amazonaws.com/zilkroad/client-testnet
     pullSecret: aws-registry
 
 ingress:
