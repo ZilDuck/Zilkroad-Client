@@ -12,6 +12,7 @@ namespace: zilkroad-mainnet
 
 image:
   app:
+    url: 981130112916.dkr.ecr.us-east-1.amazonaws.com/zilkroad/client-mainnet
     pullSecret: aws-registry
 
 ingress:
