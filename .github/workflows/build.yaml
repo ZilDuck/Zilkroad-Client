@@ -81,7 +81,7 @@ jobs:
             CDN_BASE_URL="10000"
             DOCS_URL="https://docs-testnet.zilkroad.io/"
         run: |
-          export IMAGE_TAG= $ECR_REGISTRY/$ECR_REPOSITORY/$CONTAINER_NAMETestnet::${{ steps.commitTag.outputs.tag }}
+          export IMAGE_TAG= $ECR_REGISTRY/$ECR_REPOSITORY/$CONTAINER_NAMETestnet:${{ steps.commitTag.outputs.tag }}
           docker build \
           --build-arg API_ENDPOINT=$API_ENDPOINT \
           --build-arg BLOCK_NETWORK=$BLOCK_NETWORK \
