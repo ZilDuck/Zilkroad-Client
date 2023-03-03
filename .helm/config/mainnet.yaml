@@ -15,7 +15,7 @@ image:
     pullSecret: aws-registry
 
 ingress:
-  host: smoke.zilkroad.io
+  host: zilkroad.io
 
 replicas: 2
 
