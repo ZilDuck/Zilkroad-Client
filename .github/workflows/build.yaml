@@ -66,7 +66,7 @@ jobs:
           docker push $ECR_REGISTRY/$ECR_REPOSITORY/$CONTAINER_NAME:${{ steps.commitTag.outputs.tag }}
           echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY/$CONTAINER_NAME:${{ steps.commitTag.outputs.tag }}"
           
-      - name: Testnet Build, tag, and push image to Amazon ECR
+      - name: Beta Build, tag, and push image to Amazon ECR
         id: build-image-beta
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
@@ -124,7 +124,7 @@ jobs:
           docker push $IMAGE_TAG
           echo "::set-output name=image::$IMAGE_TAG"
           
-      - name: Testnet Build, tag, and push image to Amazon ECR
+      - name: Mainnet Build, tag, and push image to Amazon ECR
         id: build-image-mainnet
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
