@@ -67,6 +67,35 @@ jobs:
           echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY/$CONTAINER_NAME:${{ steps.commitTag.outputs.tag }}"
           
       - name: Testnet Build, tag, and push image to Amazon ECR
+        id: build-image-beta
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ENVIRONMENT: beta
+          BUILD_ARGS: |
+            API_ENDPOINT="https://staging-public-api.zilkroad.io"
+            BLOCK_NETWORK=testnet
+            MARKETPLACE_ADDRESS="0xad43392d1750771e58931801ddc274e5984660b4"
+            WZIL_ADDRESS="0x864895d52504c388A345eF6cd9C800DBBD0eF92A"
+            TAX_AMOUNT="200"
+            MAX_ROYALTY_BPS="10000"
+            CDN_BASE_URL="https://zildexr-testnet.b-cdn.net/"
+            DOCS_URL="https://docs-testnet.zilkroad.io/"
+        run: |
+          export IMAGE_TAG=$ECR_REGISTRY/$ECR_REPOSITORY/$CONTAINER_NAME-beta:${{ steps.commitTag.outputs.tag }}
+          docker build \
+          --build-arg API_ENDPOINT=$API_ENDPOINT \
+          --build-arg BLOCK_NETWORK=$BLOCK_NETWORK \
+          --build-arg MARKETPLACE_ADDRESS=$MARKETPLACE_ADDRESS \
+          --build-arg WZIL_ADDRESS=$WZIL_ADDRESS \
+          --build-arg TAX_AMOUNT=$TAX_AMOUNT \
+          --build-arg MAX_ROYALTY_BPS=$MAX_ROYALTY_BPS \
+          --build-arg CDN_BASE_URL=$CDN_BASE_URL \
+          --build-arg DOCS_URL=$DOCS_URL \
+          -t $IMAGE_TAG .
+          docker push $IMAGE_TAG
+          echo "::set-output name=image::$IMAGE_TAG"
+          
+      - name: Testnet Build, tag, and push image to Amazon ECR
         id: build-image-testnet
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
@@ -76,9 +105,9 @@ jobs:
             BLOCK_NETWORK=testnet
             MARKETPLACE_ADDRESS="0xad43392d1750771e58931801ddc274e5984660b4"
             WZIL_ADDRESS="0x864895d52504c388A345eF6cd9C800DBBD0eF92A"
-            TAX_AMOUNT=https://zildexr-testnet.b-cdn.net/
-            MAX_ROYALTY_BPS="200"
-            CDN_BASE_URL="10000"
+            TAX_AMOUNT="200"
+            MAX_ROYALTY_BPS="10000"
+            CDN_BASE_URL="https://zildexr-testnet.b-cdn.net/"
             DOCS_URL="https://docs-testnet.zilkroad.io/"
         run: |
           export IMAGE_TAG=$ECR_REGISTRY/$ECR_REPOSITORY/$CONTAINER_NAME-testnet:${{ steps.commitTag.outputs.tag }}
@@ -94,7 +123,36 @@ jobs:
           -t $IMAGE_TAG .
           docker push $IMAGE_TAG
           echo "::set-output name=image::$IMAGE_TAG"
-
+          
+      - name: Testnet Build, tag, and push image to Amazon ECR
+        id: build-image-mainnet
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ENVIRONMENT: mainnet
+          BUILD_ARGS: |
+            API_ENDPOINT="https://mainnet-public-api.zilkroad.io"
+            BLOCK_NETWORK=mainnet
+            MARKETPLACE_ADDRESS="0x70b1f9e6a4d00baaf6972957f3b6a9f6c9f631b6"
+            WZIL_ADDRESS="0x4306f921c982766810cf342775fd79aa2d0d0e24"
+            TAX_AMOUNT="200"
+            MAX_ROYALTY_BPS="10000"
+            CDN_BASE_URL="https://cdn.zildexr.com/"
+            DOCS_URL="https://docs-testnet.zilkroad.io/"
+        run: |
+          export IMAGE_TAG=$ECR_REGISTRY/$ECR_REPOSITORY/$CONTAINER_NAME-mainnet:${{ steps.commitTag.outputs.tag }}
+          docker build \
+          --build-arg API_ENDPOINT=$API_ENDPOINT \
+          --build-arg BLOCK_NETWORK=$BLOCK_NETWORK \
+          --build-arg MARKETPLACE_ADDRESS=$MARKETPLACE_ADDRESS \
+          --build-arg WZIL_ADDRESS=$WZIL_ADDRESS \
+          --build-arg TAX_AMOUNT=$TAX_AMOUNT \
+          --build-arg MAX_ROYALTY_BPS=$MAX_ROYALTY_BPS \
+          --build-arg CDN_BASE_URL=$CDN_BASE_URL \
+          --build-arg DOCS_URL=$DOCS_URL \
+          -t $IMAGE_TAG .
+          docker push $IMAGE_TAG
+          echo "::set-output name=image::$IMAGE_TAG"
+          
       - name: Create tag
         uses: actions/github-script@v5
         with:
