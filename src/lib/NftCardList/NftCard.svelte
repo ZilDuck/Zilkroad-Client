@@ -4,7 +4,6 @@
   import { clickOutside } from '$lib/listeners'
   import wallet from '$store/wallet'
   import marketplace from '$store/marketplace'
-  import variables from '$store/variables'
   import Checkmark from '../../components/icons/Checkmark.svelte'
   import MagnifiyingGlass from '../../components/icons/MagnifiyingGlass.svelte'
   import Trash from '../../components/icons/Trash.svelte'
@@ -22,11 +21,12 @@
   import TransferModal from '../../components/modals/TransferModal.svelte'
   import EditSidebar from '../../components/sidebars/EditSidebar.svelte'
   import { convertWithDecimals } from '../fungibles.js'
+  import { cdnBaseUrl } from "../cdn.js";
 
   export let nft
 
   $: userWalletIsOwner = (nft?.current_owner || nft?.owner_address_b16) === $wallet.base16
-  $: imageSrc = `${$variables.cdnBase}/${nft.contract_address_b16}/${nft.token_id}?&optimizer=image&height=400&width=400&aspect_ratio=1:1`
+  $: imageSrc = `${cdnBaseUrl}/${nft.contract_address_b16}/${nft.token_id}?&optimizer=image&height=400&width=400&aspect_ratio=1:1`
   $: name = nft.name ?? nft.symbol + ' #' + nft.token_id
 
   export let sellPrice = 0 // replace with floor price as default?
