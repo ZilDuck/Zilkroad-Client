@@ -322,15 +322,17 @@
           src={imageSrc.toLowerCase()}
           on:error={handleImageError}
         />
-        {#if nft.token_metadata.attributes}
-          <ul class="flex flex-wrap gap-5 mt-10 lg:col-start-2">
-            {#each nft.token_metadata.attributes as attribute}
-              <li class="py-3 px-[10px] bg-zilkroad-gray-dark rounded-lg">
-                <span>{attribute.trait_type}: </span>
-                <span class="text-zilkroad-gray-lighter">{attribute.value}</span>
-              </li>
-            {/each}
-          </ul>
+        {#if nft.token_metadata}
+          {#if nft.token_metadata.attributes}
+            <ul class="flex flex-wrap gap-5 mt-10 lg:col-start-2">
+              {#each nft.token_metadata.attributes as attribute}
+                <li class="py-3 px-[10px] bg-zilkroad-gray-dark rounded-lg">
+                  <span>{attribute.trait_type}: </span>
+                  <span class="text-zilkroad-gray-lighter">{attribute.value}</span>
+                </li>
+              {/each}
+            </ul>
+          {/if}
         {/if}
       </div>
     </div>
