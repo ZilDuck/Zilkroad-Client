@@ -17,11 +17,6 @@ replicas:
 ingress:
   host: dev.zilkroad.io
 
-env:
-  viteApiEndpoint: "http://public-api:5000"
-  nftMarketplaceAddress: "0x0000000000000000000000000000000000000000"
-  wzilAddress: "0x0000000000000000000000000000000000000000"
-
 resources:
   limits:
     cpu: 0.1

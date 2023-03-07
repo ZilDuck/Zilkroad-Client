@@ -7,7 +7,7 @@ WORKDIR /app
 # Copy over `package.json` and lock files to optimize the build process
 COPY ["package.json", "package-lock.json*", "npm-shrinkwrap.json*", "./"]
 # Install Node modules
-RUN npm install 
+RUN npm install --no-optional
 
 # Copy over rest of the project files
 COPY . .
@@ -29,14 +29,14 @@ ENV ZILKROAD_TAX_AMOUNT=$TAX_AMOUNT
 ENV ZILKROAD_MAX_ROYALTY_BPS=$MAX_ROYALTY_BPS
 ENV ZILKROAD_CDN_BASE_URL=$CDN_BASE_URL
 ENV ZILKROAD_DOCS_URL=$DOCS_URL
-RUN echo "VITE_ZILKROAD_API_ENDPOINT=$ZILKROAD_API_ENDPOINT" > .env \
-    && echo "VITE_ZILKROAD_BLOCK_NETWORK=$ZILKROAD_BLOCK_NETWORK"  >> .env \
-    && echo "VITE_ZILKROAD_MARKETPLACE_ADDRESS=$ZILKROAD_MARKETPLACE_ADDRESS"  >> .env \
-    && echo "VITE_ZILKROAD_WZIL_ADDRESS=$ZILKROAD_WZIL_ADDRESS"  >> .env \
-    && echo "VITE_ZILKROAD_TAX_AMOUNT=$ZILKROAD_TAX_AMOUNT"  >> .env \
-    && echo "VITE_ZILKROAD_MAX_ROYALTY_BPS=$ZILKROAD_MAX_ROYALTY_BPS"  >> .env \
-    && echo "VITE_ZILKROAD_CDN_BASE_URL=$ZILKROAD_CDN_BASE_URL"  >> .env \
-    && echo "VITE_ZILKROAD_DOCS_URL=$ZILKROAD_DOCS_URL"  >> .env
+RUN echo "VITE_API_ENDPOINT=$ZILKROAD_API_ENDPOINT" > .env \
+    && echo "VITE_BLOCK_NETWORK=$ZILKROAD_BLOCK_NETWORK"  >> .env \
+    && echo "VITE_MARKETPLACE_ADDRESS=$ZILKROAD_MARKETPLACE_ADDRESS"  >> .env \
+    && echo "VITE_WZIL_ADDRESS=$ZILKROAD_WZIL_ADDRESS"  >> .env \
+    && echo "VITE_TAX_AMOUNT=$ZILKROAD_TAX_AMOUNT"  >> .env \
+    && echo "VITE_MAX_ROYALTY_BPS=$ZILKROAD_MAX_ROYALTY_BPS"  >> .env \
+    && echo "VITE_CDN_BASE_URL=$ZILKROAD_CDN_BASE_URL"  >> .env \
+    && echo "VITE_DOCS_URL=$ZILKROAD_DOCS_URL"  >> .env
 
 # Just to be safe
 RUN rm -f .env.local .env.local.example
