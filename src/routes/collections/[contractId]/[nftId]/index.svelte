@@ -54,6 +54,7 @@
   import EditSidebar from '../../../../components/sidebars/EditSidebar.svelte'
   import BuySidebar from '../../../../components/sidebars/BuySidebar.svelte'
   import ScamBanner from '../../../../components/ScamBanner.svelte'
+  import { cdnBaseUrl } from "../../../../lib/cdn";
 
   export let nft
   export let collection
@@ -80,7 +81,7 @@
     : '0'
 
   $: name = `${collection.contract_name} #${nft.token_id}`
-  $: imageSrc = `${$variables.cdnBase}${nft.contract_address_b16}/${nft.token_id}?&optimizer=image&width=650`
+  $: imageSrc = `${cdnBaseUrl}/${nft.contract_address_b16}/${nft.token_id}?&optimizer=image&width=650`
   $: userWalletIsOwner = nft.owner_address_b32 == $wallet.bech32
 
   // marketplace meta
@@ -322,15 +323,17 @@
           src={imageSrc.toLowerCase()}
           on:error={handleImageError}
         />
-        {#if nft.token_metadata.attributes}
-          <ul class="flex flex-wrap gap-5 mt-10 lg:col-start-2">
-            {#each nft.token_metadata.attributes as attribute}
-              <li class="py-3 px-[10px] bg-zilkroad-gray-dark rounded-lg">
-                <span>{attribute.trait_type}: </span>
-                <span class="text-zilkroad-gray-lighter">{attribute.value}</span>
-              </li>
-            {/each}
-          </ul>
+        {#if nft.token_metadata}
+          {#if nft.token_metadata.attributes}
+            <ul class="flex flex-wrap gap-5 mt-10 lg:col-start-2">
+              {#each nft.token_metadata.attributes as attribute}
+                <li class="py-3 px-[10px] bg-zilkroad-gray-dark rounded-lg">
+                  <span>{attribute.trait_type}: </span>
+                  <span class="text-zilkroad-gray-lighter">{attribute.value}</span>
+                </li>
+              {/each}
+            </ul>
+          {/if}
         {/if}
       </div>
     </div>
